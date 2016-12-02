@@ -1,0 +1,1 @@
+plink -ssh -P 22 -pw raspberry pi@192.168.1.200: cd Shared; rm -r touchcarpi/main/*

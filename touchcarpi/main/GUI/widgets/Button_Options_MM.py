@@ -1,4 +1,4 @@
-# *************************************************************************************************************
+#*************************************************************************************************************
 #  ________  ________  ___  ___  ________  ___  ___  ________  ________  ________  ________  ___
 # |\___   ___\\   __  \|\  \|\  \|\   ____\|\  \|\  \|\   ____\|\   __  \|\   __  \|\   __  \|\  \
 # \|___ \  \_\ \  \|\  \ \  \\\  \ \  \___|\ \  \\\  \ \  \___|\ \  \|\  \ \  \|\  \ \  \|\  \ \  \
@@ -9,21 +9,21 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: __main.py__
-#   Description: Main class of the project. It creates and loads the GUIController object.
+#   Class name: Button_Options_MM.py
+#   Description: Concrete class of the "Options" button from the Main Menu. This class is a
+#   factory method of a PicButton.
 # *************************************************************************************************************
 
-# Import from the GUIController class
-from GUI.GUIController import GUIController
+from PyQt5.QtGui import *
+from .PicButton import PicButton
 
-# *************************************************************************************************************
-# main()
-#
-# Main method of the program. It creates a GUIController object and initialize it.
-# *************************************************************************************************************
-def main():
-    controller = GUIController()
-    controller.initialize()
+class Button_Options_MM():
 
-if __name__ == '__main__':
-    main()
+        def onClick(self):
+            print("Testing on click")
+
+        def createButton(self, label, sizeX, sizeY):
+            button = PicButton(QPixmap("btn1.png"), QPixmap("btn1.png"), QPixmap("btn2.png"), "Hello world", sizeX, sizeY, self.onClick())
+
+            return button
+

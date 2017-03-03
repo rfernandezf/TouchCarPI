@@ -19,14 +19,20 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from .widgets.Button_Options_MM import Button_Options_MM
+from .widgets.CustomLabel import CustomLabel
 
+# Esto iría dentro del builder concreto del menú principal (PRRRRRRIIINSIPAL JABIBU)
 def buttonP():
-    button = Button_Options_MM()
-    button2 = button.createButton("Hello world", 147, 59)
+    button = Button_Options_MM().createButton(147, 59)
+    label = CustomLabel().createLabel("Polla", Qt.AlignCenter)
+
 
     grid = QGridLayout()
     grid.setSpacing(10)
-    grid.addWidget(button2, 0, 1)
+
+
+    grid.addWidget(button, 0, 1)
+    grid.addWidget(label, 0, 1)
 
 
     return grid

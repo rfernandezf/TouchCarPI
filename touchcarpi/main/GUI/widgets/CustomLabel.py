@@ -9,20 +9,19 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: Button_Options_MM.py
-#   Description: Concrete class of the "Options" button from the Main Menu. This class is a
-#   factory method of a PicButton.
+#   Class name: CustomLabel.py
+#   Description: This class creates a custom text label.
 # *************************************************************************************************************
 
-from PyQt5.QtGui import *
-from .PicButton import PicButton
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 
-class Button_Options_MM():
+class CustomLabel():
 
-        def onClick(self):
-            print("Testing on click")
+    def createLabel(self, text, align):
+        label = QLabel()
+        label.setText(text)
+        label.setAttribute(Qt.WA_TransparentForMouseEvents)
+        label.setAlignment(align)
 
-        def createButton(self, sizeX, sizeY):
-            button = PicButton(QPixmap("btn1.png"), QPixmap("btn1.png"), QPixmap("btn2.png"), sizeX, sizeY, self.onClick)
-
-            return button
+        return label

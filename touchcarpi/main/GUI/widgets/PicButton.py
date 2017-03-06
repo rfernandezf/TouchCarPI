@@ -21,17 +21,18 @@ from PyQt5.QtWidgets import *
 
 class PicButton(QAbstractButton):
 
-    def __init__(self, pixmap, pixmap_hover, pixmap_pressed, sizeX, sizeY, onClick, parent=None):
+    def __init__(self, pixmap, pixmap_pressed, sizeX, sizeY, onClick, parent=None):
         super(PicButton, self).__init__(parent)
         self.sizeX = sizeX
         self.sizeY = sizeY
         self.onClick = onClick
         self.pixmap = pixmap
-        self.pixmap_hover = pixmap_hover
+        self.pixmap_hover = pixmap
         self.pixmap_pressed = pixmap_pressed
         self.pressed.connect(self.update)
         self.released.connect(self.update)
         self.clicked.connect(self.onClick)
+        self.setText("Hello world")
 
 
 

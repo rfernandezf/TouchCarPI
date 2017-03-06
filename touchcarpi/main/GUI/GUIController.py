@@ -19,23 +19,41 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from .widgets.Button_Options_MM import Button_Options_MM
+from .widgets.Button_POff_MM import Button_POff_MM
+from .widgets.Button_Music_MM import Button_Music_MM
 from .widgets.CustomLabel import CustomLabel
 
 # Esto iría dentro del builder concreto del menú principal (PRRRRRRIIINSIPAL JABIBU)
 def buttonP():
-    button = Button_Options_MM().createButton(147, 59)
+    optionsButton = Button_Options_MM().createButton(344, 96)
+    poffButton = Button_POff_MM().createButton(344, 96)
     label = CustomLabel().createLabel("Polla", Qt.AlignCenter)
+    musicMenuButton = Button_Music_MM().createButton(97, 97)
+
+    vbox = QVBoxLayout()
+    vbox.addWidget(label)
+    vbox.addStretch()
+    vbox.addStretch()
+    vbox.addStretch()
+    hMenuBox = QHBoxLayout()
+    hMenuBox.addStretch()
+    hMenuBox.addWidget(musicMenuButton)
+    hMenuBox.addStretch()
+    vbox.addLayout(hMenuBox)
+    vbox.addStretch()
 
 
-    grid = QGridLayout()
-    grid.setSpacing(10)
 
 
-    grid.addWidget(button, 0, 1)
-    grid.addWidget(label, 0, 1)
+    hbox = QHBoxLayout()
 
+    hbox.addWidget(optionsButton)
 
-    return grid
+    hbox.addStretch()
+    hbox.addWidget(poffButton)
+    vbox.addLayout(hbox)
+
+    return vbox
 
 
 
@@ -70,7 +88,7 @@ class GUIController:
                 # using current pixmap after n-resizes would get really blurry image
                 # pixmap = item.pixmap()
                 pixmap = self.origPixmap
-                pixmap = pixmap.scaled(size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                pixmap = pixmap.scaled(size, Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
                 self.centerOn(1.0, 1.0)
                 item.setPixmap(pixmap)
 
@@ -78,7 +96,7 @@ class GUIController:
 
         app = QApplication(sys.argv)
 
-        pic = QPixmap('pic2.jpg')
+        pic = QPixmap('themes\default\img\\background_mm.jpg')
         grview = ImageView(origPixmap=pic)
 
         scene = QGraphicsScene()

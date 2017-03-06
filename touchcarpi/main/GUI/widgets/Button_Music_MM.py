@@ -23,6 +23,6 @@ class Button_Music_MM():
             print("Change to the select audio file menu")
 
         def createButton(self, sizeX, sizeY):
-            button = PicButton(QPixmap("themes\default\img\music_mm.png"), QPixmap("themes\default\img\music_mm_pressed.png"), sizeX, sizeY, self.onClick)
+            button = PicButton(QPixmap("themes/default/img/music_mm.png"), QPixmap("themes/default/img/music_mm_pressed.png"), sizeX, sizeY, "", self.onClick)
 
             return button

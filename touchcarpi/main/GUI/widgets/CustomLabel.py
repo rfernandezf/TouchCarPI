@@ -15,6 +15,8 @@
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+
 
 class CustomLabel():
 
@@ -23,5 +25,9 @@ class CustomLabel():
         label.setText(text)
         label.setAttribute(Qt.WA_TransparentForMouseEvents)
         label.setAlignment(align)
+        font = QFont('Myriada', 13)
+        font.setBold(True)
+        label.setStyleSheet("color: rgb(255, 255, 255);")
+        label.setFont(font)
 
         return label

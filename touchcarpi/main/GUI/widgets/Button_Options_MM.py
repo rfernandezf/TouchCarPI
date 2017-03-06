@@ -23,6 +23,6 @@ class Button_Options_MM():
             print("Testing on click")
 
         def createButton(self, sizeX, sizeY):
-            button = PicButton(QPixmap("themes\default\img\options_mm.png"), QPixmap("themes\default\img\options_mm_pressed.png"), sizeX, sizeY, self.onClick)
+            button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Opciones", self.onClick)
 
             return button

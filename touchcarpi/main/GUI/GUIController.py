@@ -27,11 +27,11 @@ from .widgets.CustomLabel import CustomLabel
 def buttonP():
     optionsButton = Button_Options_MM().createButton(344, 96)
     poffButton = Button_POff_MM().createButton(344, 96)
-    label = CustomLabel().createLabel("Polla", Qt.AlignCenter)
+    musicMenuLabel = CustomLabel().createLabel("Música", Qt.AlignCenter)
     musicMenuButton = Button_Music_MM().createButton(97, 97)
 
     vbox = QVBoxLayout()
-    vbox.addWidget(label)
+
     vbox.addStretch()
     vbox.addStretch()
     vbox.addStretch()
@@ -40,6 +40,7 @@ def buttonP():
     hMenuBox.addWidget(musicMenuButton)
     hMenuBox.addStretch()
     vbox.addLayout(hMenuBox)
+    vbox.addWidget(musicMenuLabel)
     vbox.addStretch()
 
 
@@ -96,7 +97,7 @@ class GUIController:
 
         app = QApplication(sys.argv)
 
-        pic = QPixmap('themes\default\img\\background_mm.jpg')
+        pic = QPixmap('themes/default/img/background_mm.jpg')
         grview = ImageView(origPixmap=pic)
 
         scene = QGraphicsScene()

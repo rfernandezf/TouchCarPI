@@ -21,7 +21,7 @@ from PyQt5.QtWidgets import *
 
 class PicButton(QAbstractButton):
 
-    def __init__(self, pixmap, pixmap_pressed, sizeX, sizeY, onClick, parent=None):
+    def __init__(self, pixmap, pixmap_pressed, sizeX, sizeY, text, onClick, parent=None):
         super(PicButton, self).__init__(parent)
         self.sizeX = sizeX
         self.sizeY = sizeY
@@ -32,8 +32,11 @@ class PicButton(QAbstractButton):
         self.pressed.connect(self.update)
         self.released.connect(self.update)
         self.clicked.connect(self.onClick)
-        self.setText("Hello world")
-
+        self.setText(text)
+        font = QFont('Myriada', 20)
+        font.setBold(True)
+        self.setStyleSheet("color: rgb(255, 255, 255);")
+        self.setFont(font)
 
 
     def paintEvent(self, event):
@@ -43,6 +46,7 @@ class PicButton(QAbstractButton):
 
         painter = QPainter(self)
         painter.drawPixmap(event.rect(), pix)
+        painter.drawText(event.rect(), Qt.AlignCenter, self.text())
 
 
     def enterEvent(self, event):

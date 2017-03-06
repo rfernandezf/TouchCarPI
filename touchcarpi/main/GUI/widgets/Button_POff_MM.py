@@ -23,6 +23,6 @@ class Button_POff_MM():
             exit(0)
 
         def createButton(self, sizeX, sizeY):
-            button = PicButton(QPixmap("themes\default\img\options_mm.png"), QPixmap("themes\default\img\options_mm_pressed.png"), sizeX, sizeY, self.onClick)
+            button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Apagar", self.onClick)
 
             return button

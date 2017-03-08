@@ -19,10 +19,14 @@ from .PicButton import PicButton
 
 class Button_Music_MM():
 
-        def onClick(self):
-            print("Change to the select audio file menu")
+    def __init__(self, controller):
+        self.controller = controller
 
-        def createButton(self, sizeX, sizeY):
-            button = PicButton(QPixmap("themes/default/img/music_mm.png"), QPixmap("themes/default/img/music_mm_pressed.png"), sizeX, sizeY, "", self.onClick)
+    def onClick(self):
+        self.controller.changeToMenu("SelectAudioMenu")
+        pass
 
-            return button
+    def createButton(self, sizeX, sizeY):
+        button = PicButton(QPixmap("themes/default/img/music_mm.png"), QPixmap("themes/default/img/music_mm_pressed.png"), sizeX, sizeY, "", self.onClick)
+
+        return button

@@ -9,20 +9,23 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: Button_Options_MM.py
-#   Description: Concrete class of the "Options" button from the Main Menu. This class is a
+#   Class name: Button_Back_SAM.py
+#   Description: Concrete class of the "Back" button from the Select Audio Menu. This class is a
 #   factory method of a PicButton.
 # *************************************************************************************************************
 
 from PyQt5.QtGui import *
 from .PicButton import PicButton
 
-class Button_Options_MM():
+class Button_Back_SAM():
 
-        def onClick(self):
-            print("Testing on click")
+    def __init__(self, controller):
+        self.controller = controller
 
-        def createButton(self, sizeX, sizeY):
-            button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Opciones", self.onClick)
+    def onClick(self):
+        self.controller.changeToMenu("MainMenu")
 
-            return button
+    def createButton(self, sizeX, sizeY):
+        button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Atrás", self.onClick)
+
+        return button

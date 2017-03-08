@@ -15,107 +15,36 @@
 # *************************************************************************************************************
 
 import sys
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
+
 from PyQt5.QtWidgets import *
-from .widgets.Button_Options_MM import Button_Options_MM
-from .widgets.Button_POff_MM import Button_POff_MM
-from .widgets.Button_Music_MM import Button_Music_MM
-from .widgets.CustomLabel import CustomLabel
 
-# Esto iría dentro del builder concreto del menú principal (PRRRRRRIIINSIPAL JABIBU)
-def buttonP():
-    optionsButton = Button_Options_MM().createButton(344, 96)
-    poffButton = Button_POff_MM().createButton(344, 96)
-    musicMenuLabel = CustomLabel().createLabel("Música", Qt.AlignCenter)
-    musicMenuButton = Button_Music_MM().createButton(97, 97)
-
-    vbox = QVBoxLayout()
-
-    vbox.addStretch()
-    vbox.addStretch()
-    vbox.addStretch()
-    hMenuBox = QHBoxLayout()
-    hMenuBox.addStretch()
-    hMenuBox.addWidget(musicMenuButton)
-    hMenuBox.addStretch()
-    vbox.addLayout(hMenuBox)
-    vbox.addWidget(musicMenuLabel)
-    vbox.addStretch()
+from .MainWindow import MainWindow
+from .menu.MainMenu import MainMenu
+from .menu.SelectAudioMenu import SelectAudioMenu
 
 
-
-
-    hbox = QHBoxLayout()
-
-    hbox.addWidget(optionsButton)
-
-    hbox.addStretch()
-    hbox.addWidget(poffButton)
-    vbox.addLayout(hbox)
-
-    return vbox
-
-
-
-class GUIController:
-
-    def __init__(self):
-        pass
+class GUIController(object):
 
     def initialize(self):
-        class ImageView(QGraphicsView):
-            def __init__(self, parent=None, origPixmap=None):
-                """
-                QGraphicsView that will show an image scaled to the current widget size
-                using events
-                """
-                super(ImageView, self).__init__(parent)
-                self.origPixmap = origPixmap
-                QMetaObject.connectSlotsByName(self)
-                self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-                self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-
-
-                self.setLayout(buttonP())
-
-            def resizeEvent(self, event):
-                """
-                Handle the resize event.
-                """
-                size = event.size()
-                item = self.items()[0]
-
-                # using current pixmap after n-resizes would get really blurry image
-                # pixmap = item.pixmap()
-                pixmap = self.origPixmap
-                pixmap = pixmap.scaled(size, Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
-                self.centerOn(1.0, 1.0)
-                item.setPixmap(pixmap)
-
-
-
         app = QApplication(sys.argv)
 
-        pic = QPixmap('themes/default/img/background_mm.jpg')
-        grview = ImageView(origPixmap=pic)
-
-        scene = QGraphicsScene()
-        scene.addPixmap(pic)
-
-
-
-
-        grview.setScene(scene)
-        grview.showFullScreen()
-
-
+        mainWindow = MainWindow()
+        self.centralWidget = QStackedWidget()
+        mainWindow.setCentralWidget(self.centralWidget)
+        self.mainMenuWidget = MainMenu(self)
+        self.selectAudioMenuWidget = SelectAudioMenu(self)
+        self.centralWidget.addWidget(self.selectAudioMenuWidget)
+        self.centralWidget.addWidget(self.mainMenuWidget)
+        self.centralWidget.setCurrentWidget(self.mainMenuWidget)
 
         sys.exit(app.exec_())
-
 
     def run(self):
         pass
 
     def changeToMenu(self, menuname):
-        pass
+        if (menuname == "MainMenu"):
+            self.centralWidget.setCurrentWidget(self.mainMenuWidget)
+        elif (menuname == "SelectAudioMenu"):
+            self.centralWidget.setCurrentWidget(self.selectAudioMenuWidget)
+

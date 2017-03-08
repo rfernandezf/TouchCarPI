@@ -1,4 +1,4 @@
-# *************************************************************************************************************
+#*************************************************************************************************************
 #  ________  ________  ___  ___  ________  ___  ___  ________  ________  ________  ________  ___
 # |\___   ___\\   __  \|\  \|\  \|\   ____\|\  \|\  \|\   ____\|\   __  \|\   __  \|\   __  \|\  \
 # \|___ \  \_\ \  \|\  \ \  \\\  \ \  \___|\ \  \\\  \ \  \___|\ \  \|\  \ \  \|\  \ \  \|\  \ \  \
@@ -9,22 +9,21 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: __main.py__
-#   Description: Main class of the project. It creates and loads the GUIController object.
+#   Class name: MainWindow.py
+#   Description: This class creates the MainWindow object, it creates the main window of the app where all
+#   the stuff is drawn.
 # *************************************************************************************************************
 
-# Import from the GUIController class
-from GUI.GUIController import GUIController
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 
-# *************************************************************************************************************
-# main()
-#
-# Main method of the program. It creates a GUIController object and initialize it.
-# *************************************************************************************************************
-def main():
-    global controller
-    controller = GUIController()
-    controller.initialize()
+class MainWindow(QMainWindow):
+    def __init__(self, parent=None, origPixmap=None):
+        super(MainWindow, self).__init__(parent)
 
-if __name__ == '__main__':
-    main()
+        palette = QPalette()
+        palette.setBrush(QPalette.Background, QBrush(QPixmap('themes/default/img/background_mm.jpg')))
+
+        self.setPalette(palette)
+        self.setWindowTitle("TouchCarPi")
+        self.showFullScreen()

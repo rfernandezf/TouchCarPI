@@ -5,40 +5,54 @@ from.AudioStatus import AudioStatus
 
 class AudioFile:
 
-    def __init__(self):
-        self.path = ""
-        self.savedSecond = 0
-        self.status = AudioStatus.NOFILE
-        self.audioFileObject = None
+    class __AudioFile:
+        def __init__(self):
+            self.path = ""
+            self.savedSecond = 0
+            self.status = AudioStatus.NOFILE
+            self.audioFileObject = None
 
-    def playAudio(self, path):
-        self.path = path
-        if(self.status == AudioStatus.NOFILE):
-            self.audioFileObject = self.__selectAudioType(self.path)
-            self.audioFileObject.playAudio(self.path)
-            self.status = AudioStatus.PLAYING
+        def playAudio(self, path):
+            self.path = path
+            if (self.status == AudioStatus.NOFILE):
+                self.audioFileObject = self.__selectAudioType(self.path)
+                self.audioFileObject.playAudio(self.path)
+                self.status = AudioStatus.PLAYING
 
-        elif (self.status == AudioStatus.PLAYING):
+            elif (self.status == AudioStatus.PLAYING):
+                self.audioFileObject.stopAudio()
+                self.audioFileObject = self.__selectAudioType(self.path)
+                self.audioFileObject.playAudio(self.path)
+
+        def pauseAudio(self):
+            self.audioFileObject.pauseAudio()
+
+        def reanudeAudio(self, savedSecond):
+            self.audioFileObject.reanudeAudio(savedSecond)
+
+        def stopAudio(self):
+            self.status = AudioStatus.NOFILE
             self.audioFileObject.stopAudio()
-            self.audioFileObject = self.__selectAudioType(self.path)
-            self.audioFileObject.playAudio(self.path)
+            self.audioFileObject = None
 
-    def pauseAudio(self):
-        self.audioFileObject.pauseAudio()
+        def getPath(self):
+            return self.path
 
-    def reanudeAudio(self, savedSecond):
-        self.audioFileObject.reanudeAudio(savedSecond)
+        def __selectAudioType(self, path):
+            if (self.path.endswith(".mp3")):
+                audioType = AudioFileMP3()
 
-    def stopAudio(self):
-        self.status = AudioStatus.NOFILE
-        self.audioFileObject.stopAudio()
-        self.audioFileObject = None
+            return audioType
 
-    def getPath(self):
-        return self.path
+        def __str__(self):
+            return repr(self) + self.val
 
-    def __selectAudioType(self, path):
-        if (self.path.endswith(".mp3")):
-            audioType = AudioFileMP3()
+    instance = None
 
-        return audioType
+    def __init__(self):
+        if not AudioFile.instance:
+            AudioFile.instance = AudioFile.__AudioFile()
+
+    def __getattr__(self, name):
+        return getattr(self.instance, name)
+

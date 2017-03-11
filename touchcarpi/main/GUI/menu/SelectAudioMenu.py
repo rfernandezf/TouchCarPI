@@ -12,17 +12,44 @@
 #   Class name: SelectAudioMenu.py
 #   Description: This class creates a custom widget with the Select Audio Menu elements and layout.
 # *************************************************************************************************************
+import os
 
 from PyQt5.QtWidgets import *
 
-from touchcarpi.main.GUI.widgets.buttons.Button_Music_MM import Button_Music_MM
-from touchcarpi.main.GUI.widgets.buttons.Button_Back_SAM import Button_Back_SAM
+from ..widgets.buttons.Button_Back_SAM import Button_Back_SAM
+from ..widgets.CustomListWidget import CustomListItemWidget
+
 
 class SelectAudioMenu(QWidget):
-    def __init__(self, controller, parent=None):
+    def __init__(self, controller, db, parent=None):
         super(SelectAudioMenu, self).__init__(parent)
+        self.controller = controller
+        self.db = db
+        backButton = Button_Back_SAM(self.controller).createButton(344, 96)
 
-        backButton = Button_Back_SAM(controller).createButton(344, 96)
+        #Pasar todo esto a una clase A PARTE
+        selectAudioListWidget = QListWidget()
+        selectAudioListWidget.itemClicked.connect(self.item_click)
+
+        (fileName, pathFiles) = self.db.getAudioDB()
+        self.itemsDict = {}
+
+        for i in range(0, len(fileName)):
+
+            customListItemWidget = CustomListItemWidget()
+            customListItemWidget.setTextUp(fileName[i])
+            customListItemWidget.setTextDown('test')
+            customListItemWidget.setIcon('music_mm.png')
+            customListItemWidget.setPath(pathFiles[i])
+
+            item = QListWidgetItem()
+            item.setSizeHint(customListItemWidget.sizeHint())
+
+            selectAudioListWidget.addItem(item)
+            selectAudioListWidget.setItemWidget(item, customListItemWidget)
+            self.itemsDict[str(item)] = customListItemWidget
+
+
 
         vbox = QVBoxLayout()
 
@@ -31,7 +58,7 @@ class SelectAudioMenu(QWidget):
         vbox.addStretch()
         hMenuBox = QHBoxLayout()
         hMenuBox.addStretch()
-
+        hMenuBox.addWidget(selectAudioListWidget)
         hMenuBox.addStretch()
         vbox.addLayout(hMenuBox)
 
@@ -46,3 +73,11 @@ class SelectAudioMenu(QWidget):
         vbox.addLayout(hbox)
 
         self.setLayout(vbox)
+
+    def item_click(self, item):
+        print(str(self.itemsDict[str(item)].getPath()))
+        #Set the track selected for playing it
+        self.db.setSelection(self.db.getIndexByPath(self.itemsDict[str(item)].getPath()))
+        #Switch to PlayAudioMenu
+        self.controller.changeToMenu("PlayAudioMenu")
+

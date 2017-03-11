@@ -18,9 +18,12 @@ import sys
 
 from PyQt5.QtWidgets import *
 
+from DB.RAM_DB import RAM_DB
 from .MainWindow import MainWindow
 from .menu.MainMenu import MainMenu
+from .menu.PlayAudioMenu import PlayAudioMenu
 from .menu.SelectAudioMenu import SelectAudioMenu
+
 
 
 class GUIController(object):
@@ -31,11 +34,14 @@ class GUIController(object):
         mainWindow = MainWindow()
         self.centralWidget = QStackedWidget()
         mainWindow.setCentralWidget(self.centralWidget)
-        self.mainMenuWidget = MainMenu(self)
-        self.selectAudioMenuWidget = SelectAudioMenu(self)
-        self.centralWidget.addWidget(self.selectAudioMenuWidget)
+        self.db = RAM_DB()
+        self.mainMenuWidget = MainMenu(self, self.db)
+
+
         self.centralWidget.addWidget(self.mainMenuWidget)
         self.centralWidget.setCurrentWidget(self.mainMenuWidget)
+
+
 
         sys.exit(app.exec_())
 
@@ -46,5 +52,11 @@ class GUIController(object):
         if (menuname == "MainMenu"):
             self.centralWidget.setCurrentWidget(self.mainMenuWidget)
         elif (menuname == "SelectAudioMenu"):
+            self.selectAudioMenuWidget = SelectAudioMenu(self, self.db)
+            self.centralWidget.addWidget(self.selectAudioMenuWidget)
             self.centralWidget.setCurrentWidget(self.selectAudioMenuWidget)
+        elif (menuname == "PlayAudioMenu"):
+            self.playAudioMenuWidget = PlayAudioMenu(self, self.db)
+            self.centralWidget.addWidget(self.playAudioMenuWidget)
+            self.centralWidget.setCurrentWidget(self.playAudioMenuWidget)
 

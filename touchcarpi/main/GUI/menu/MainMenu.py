@@ -23,7 +23,7 @@ from ..widgets.buttons.Button_Options_MM import Button_Options_MM
 from ..widgets.CustomLabel import CustomLabel
 
 class MainMenu(QWidget):
-    def __init__(self, controller, parent=None):
+    def __init__(self, controller, db, parent=None):
         super(MainMenu, self).__init__(parent)
 
         optionsButton = Button_Options_MM(controller).createButton(344, 96)

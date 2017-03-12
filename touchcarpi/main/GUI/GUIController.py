@@ -23,7 +23,7 @@ from .MainWindow import MainWindow
 from .menu.MainMenu import MainMenu
 from .menu.PlayAudioMenu import PlayAudioMenu
 from .menu.SelectAudioMenu import SelectAudioMenu
-
+from model.AudioController import AudioController
 
 
 class GUIController(object):
@@ -37,9 +37,23 @@ class GUIController(object):
         self.db = RAM_DB()
         self.mainMenuWidget = MainMenu(self, self.db)
 
+        ###################################################################################
+        # APPLYING THE OBSERVER PATTERN :)
+        ###################################################################################
+        self.audioController = AudioController()
+
+        self.playAudioMenuWidget = PlayAudioMenu(self, self.db)
+        self.audioController.register(self.playAudioMenuWidget)
+        self.centralWidget.addWidget(self.playAudioMenuWidget)
+
+        ###################################################################################
+
+        self.selectAudioMenuWidget = SelectAudioMenu(self, self.db)
+        self.centralWidget.addWidget(self.selectAudioMenuWidget)
 
         self.centralWidget.addWidget(self.mainMenuWidget)
         self.centralWidget.setCurrentWidget(self.mainMenuWidget)
+
 
 
 
@@ -52,11 +66,7 @@ class GUIController(object):
         if (menuname == "MainMenu"):
             self.centralWidget.setCurrentWidget(self.mainMenuWidget)
         elif (menuname == "SelectAudioMenu"):
-            self.selectAudioMenuWidget = SelectAudioMenu(self, self.db)
-            self.centralWidget.addWidget(self.selectAudioMenuWidget)
             self.centralWidget.setCurrentWidget(self.selectAudioMenuWidget)
         elif (menuname == "PlayAudioMenu"):
-            self.playAudioMenuWidget = PlayAudioMenu(self, self.db)
-            self.centralWidget.addWidget(self.playAudioMenuWidget)
             self.centralWidget.setCurrentWidget(self.playAudioMenuWidget)
 

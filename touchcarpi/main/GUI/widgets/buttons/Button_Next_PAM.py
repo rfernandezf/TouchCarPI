@@ -9,36 +9,25 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: AudioFileMP3.py
-#   Description: It plays MP3 files using the VLC lib.
+#   Class name: Button_Next_PAM.py
+#   Description: Concrete class of the "Next" button from the Play Audio Menu. This class is a
+#   factory method of a PicButton.
 # *************************************************************************************************************
 
-from . import vlc
+from PyQt5.QtGui import *
+from .PicButton import PicButton
+from model.AudioController import AudioController
 
-class AudioFileMP3:
+class Button_Next_PAM():
 
-    def __init__(self):
-        self.path = ""
+    def __init__(self, controller):
+        self.controller = controller
 
-    def playAudio(self, path):
-        self.path = path
-        print("file:///" + self.path)
-        self.audioObject = vlc.MediaPlayer(self.path)
-        self.event_manager = self.audioObject.event_manager()
-        self.audioObject.play()
-        self.event_manager.event_attach(vlc.EventType.MediaPlayerEndReached, self.trackEnded)
+    def onClick(self):
+        audioController = AudioController()
+        audioController.nextTrack()
 
-    def pauseAudio(self):
-        pass
+    def createButton(self, sizeX, sizeY):
+        button = PicButton(QPixmap("themes/default/img/next_pam.png"), QPixmap("themes/default/img/next_pam_pressed.png"), sizeX, sizeY, "", self.onClick)
 
-    def reanudeAudio(self, savedSecond):
-        pass
-
-    def stopAudio(self):
-        self.audioObject.stop()
-
-    def getPath(self):
-        return self.path
-
-    def trackEnded(self, args):
-        pass
+        return button

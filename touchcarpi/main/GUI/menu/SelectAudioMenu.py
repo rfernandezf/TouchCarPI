@@ -18,6 +18,7 @@ from PyQt5.QtWidgets import *
 
 from ..widgets.buttons.Button_Back_SAM import Button_Back_SAM
 from ..widgets.CustomListWidget import CustomListItemWidget
+from model.AudioController import AudioController
 
 
 class SelectAudioMenu(QWidget):
@@ -27,7 +28,7 @@ class SelectAudioMenu(QWidget):
         self.db = db
         backButton = Button_Back_SAM(self.controller).createButton(344, 96)
 
-        #Pasar todo esto a una clase A PARTE
+        #Pasar esto a una clase A PARTE
         selectAudioListWidget = QListWidget()
         selectAudioListWidget.itemClicked.connect(self.item_click)
 
@@ -78,6 +79,9 @@ class SelectAudioMenu(QWidget):
         print(str(self.itemsDict[str(item)].getPath()))
         #Set the track selected for playing it
         self.db.setSelection(self.db.getIndexByPath(self.itemsDict[str(item)].getPath()))
+        #Call to audioController for load the new audio file...
+        audioController = AudioController()
+        audioController.loadAudio()
         #Switch to PlayAudioMenu
         self.controller.changeToMenu("PlayAudioMenu")
 

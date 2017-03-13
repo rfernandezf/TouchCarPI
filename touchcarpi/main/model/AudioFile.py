@@ -27,20 +27,21 @@ class AudioFile:
             self.status = AudioStatus.NOFILE
             self.audioFileObject = None
             self.db = RAM_DB()
+            self.audioType = None
             (self.fileName, self.pathFiles) = self.db.getAudioDB()
 
 
         def playAudio(self, path):
             self.path = path
             if (self.status == AudioStatus.NOFILE):
-                self.audioFileObject = self.__selectAudioType(self.path)
+                self.audioFileObject = self.getAudioType()
                 self.audioFileObject.playAudio(self.path)
                 self.status = AudioStatus.PLAYING
 
 
             elif (self.status == AudioStatus.PLAYING):
                 self.audioFileObject.stopAudio()
-                self.audioFileObject = self.__selectAudioType(self.path)
+                self.audioFileObject = self.getAudioType()
                 self.audioFileObject.playAudio(self.path)
 
         def pauseAudio(self):
@@ -52,16 +53,16 @@ class AudioFile:
         def stopAudio(self):
             self.status = AudioStatus.NOFILE
             self.audioFileObject.stopAudio()
-            self.audioFileObject = None
 
         def getPath(self):
             return self.path
 
-        def __selectAudioType(self, path):
-            if (self.path.endswith(".mp3")):
-                audioType = AudioFileVLC()
+        def setAudioType(self, type, libraryObject):
+            if (type == "MP3"):
+                self.audioType = AudioFileVLC(libraryObject)
 
-            return audioType
+        def getAudioType(self):
+            return self.audioType
 
 
         def getStatus(self):

@@ -81,6 +81,8 @@ class PlayAudioMenu(QWidget):
     def updateView(self, *args, arg1):
         if(args[0] == "NewFile"):
             self.testLabel.setText(arg1)
+            self.playButton.hide()
+            self.pauseButton.show()
 
         elif (args[0] == "AudioPaused"):
             self.playButton.show()

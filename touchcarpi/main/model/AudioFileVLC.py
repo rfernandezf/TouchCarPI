@@ -17,17 +17,15 @@ from . import vlc
 
 class AudioFileVLC:
 
-    def __init__(self):
+    def __init__(self, vlcObject):
         self.path = ""
+        self.audioObject = vlcObject
 
     def playAudio(self, path):
         self.path = path
         print("file:///" + self.path)
 
-        self.audioObject = vlc.MediaPlayer(self.path)
-        self.event_manager = self.audioObject.event_manager()
         self.audioObject.play()
-        self.event_manager.event_attach(vlc.EventType.MediaPlayerEndReached, self.trackEnded)
 
     def pauseAudio(self):
         self.audioObject.pause()
@@ -40,6 +38,3 @@ class AudioFileVLC:
 
     def getPath(self):
         return self.path
-
-    def trackEnded(self, args):
-        pass

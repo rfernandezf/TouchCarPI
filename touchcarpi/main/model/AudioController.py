@@ -29,8 +29,7 @@ class AudioController:
             (self.fileName, self.pathFiles) = self.db.getAudioDB()
             self.path = self.pathFiles[self.db.getSelection()]
             self.audioObject = AudioFile()
-            if(self.audioObject.getStatus() == AudioStatus.NOFILE):
-                self.audioObject.playAudio(self.path)
+
             self.observers = []
 
         ###############################################################################
@@ -64,7 +63,7 @@ class AudioController:
             else:
                 self.audioObject.stopAudio()
                 self.audioObject.playAudio(self.path)
-            self.update_observers(self.path, test = "HW")
+            self.update_observers("NewFile", arg1 = self.path)
 
         def nextTrack(self):
             self.audioObject.stopAudio()
@@ -73,6 +72,22 @@ class AudioController:
             else:
                 self.db.setSelection(0)
             self.loadAudio()
+
+        def previousTrack(self):
+            self.audioObject.stopAudio()
+            if (self.db.getSelection()-1 >=  0):
+                self.db.setSelection(self.db.getSelection()-1)
+            else:
+                self.db.setSelection(len(self.pathFiles)-1)
+            self.loadAudio()
+
+        def pause(self):
+            self.audioObject.pauseAudio()
+            self.update_observers("AudioPaused", arg1=None)
+
+        def resume(self):
+            self.audioObject.resumeAudio(0)
+            self.update_observers("AudioResumed", arg1=None)
 
 
         def __str__(self):

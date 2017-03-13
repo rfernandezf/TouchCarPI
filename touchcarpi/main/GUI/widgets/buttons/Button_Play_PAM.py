@@ -16,6 +16,7 @@
 
 from PyQt5.QtGui import *
 from .PicButton import PicButton
+from model.AudioController import AudioController
 
 class Button_Play_PAM():
 
@@ -23,7 +24,8 @@ class Button_Play_PAM():
         self.controller = controller
 
     def onClick(self):
-        print("REPRODUCE")
+        audioController = AudioController()
+        audioController.resume()
 
     def createButton(self, sizeX, sizeY):
         button = PicButton(QPixmap("themes/default/img/play_pam.png"), QPixmap("themes/default/img/play_pam_pressed.png"), sizeX, sizeY, "", self.onClick)

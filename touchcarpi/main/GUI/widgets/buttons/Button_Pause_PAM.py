@@ -16,6 +16,7 @@
 
 from PyQt5.QtGui import *
 from .PicButton import PicButton
+from model.AudioController import AudioController
 
 class Button_Pause_PAM():
 
@@ -23,7 +24,8 @@ class Button_Pause_PAM():
         self.controller = controller
 
     def onClick(self):
-        print("PAUSA")
+        audioController = AudioController()
+        audioController.pause()
 
     def createButton(self, sizeX, sizeY):
         button = PicButton(QPixmap("themes/default/img/pause_pam.png"), QPixmap("themes/default/img/pause_pam_pressed.png"), sizeX, sizeY, "", self.onClick)

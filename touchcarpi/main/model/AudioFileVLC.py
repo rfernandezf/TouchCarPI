@@ -9,13 +9,13 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: AudioFileMP3.py
-#   Description: It plays MP3 files using the VLC lib.
+#   Class name: AudioFileVLC.py
+#   Description: It plays MP3/WAV files using the VLC lib.
 # *************************************************************************************************************
 
 from . import vlc
 
-class AudioFileMP3:
+class AudioFileVLC:
 
     def __init__(self):
         self.path = ""
@@ -23,16 +23,17 @@ class AudioFileMP3:
     def playAudio(self, path):
         self.path = path
         print("file:///" + self.path)
+
         self.audioObject = vlc.MediaPlayer(self.path)
         self.event_manager = self.audioObject.event_manager()
         self.audioObject.play()
         self.event_manager.event_attach(vlc.EventType.MediaPlayerEndReached, self.trackEnded)
 
     def pauseAudio(self):
-        pass
+        self.audioObject.pause()
 
-    def reanudeAudio(self, savedSecond):
-        pass
+    def resumeAudio(self, savedSecond):
+        self.audioObject.play()
 
     def stopAudio(self):
         self.audioObject.stop()

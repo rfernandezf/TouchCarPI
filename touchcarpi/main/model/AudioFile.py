@@ -14,7 +14,7 @@
 #   and calls to the appropiate concrete class according to what type of audio file is.
 # *************************************************************************************************************
 
-from .AudioFileMP3 import AudioFileMP3
+from .AudioFileVLC import AudioFileVLC
 from .AudioStatus import AudioStatus
 from DB.RAM_DB import RAM_DB
 
@@ -46,8 +46,8 @@ class AudioFile:
         def pauseAudio(self):
             self.audioFileObject.pauseAudio()
 
-        def reanudeAudio(self, savedSecond):
-            self.audioFileObject.reanudeAudio(savedSecond)
+        def resumeAudio(self, savedSecond):
+            self.audioFileObject.resumeAudio(savedSecond)
 
         def stopAudio(self):
             self.status = AudioStatus.NOFILE
@@ -59,7 +59,7 @@ class AudioFile:
 
         def __selectAudioType(self, path):
             if (self.path.endswith(".mp3")):
-                audioType = AudioFileMP3()
+                audioType = AudioFileVLC()
 
             return audioType
 

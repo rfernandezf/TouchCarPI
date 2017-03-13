@@ -32,15 +32,15 @@ class PlayAudioMenu(QWidget):
 
     @abstractmethod
     def update(self, *args, **kwargs):
-        self.updateView(*args)
+        self.updateView(*args, **kwargs)
 
     def __init__(self, controller, db, parent=None):
         super(PlayAudioMenu, self).__init__(parent)
         self.controller = controller
         self.db = db
         backButton = Button_Back_PAM(self.controller).createButton(344, 96)
-        playButton = Button_Play_PAM(self.controller).createButton(50, 50)
-        pauseButton = Button_Pause_PAM(self.controller).createButton(50, 50)
+        self.playButton = Button_Play_PAM(self.controller).createButton(50, 50)
+        self.pauseButton = Button_Pause_PAM(self.controller).createButton(50, 50)
         nextButton = Button_Next_PAM(self.controller).createButton(50, 50)
         (self.fileName, self.pathFiles) = self.db.getAudioDB()
         path = self.pathFiles[self.db.getSelection()]
@@ -55,9 +55,12 @@ class PlayAudioMenu(QWidget):
         hMenuBox = QHBoxLayout()
         hMenuBox.addStretch()
         if (audioObject.getStatus() == AudioStatus.PAUSED):
-            hMenuBox.addWidget(playButton)
+            self.pauseButton.hide()
         else:
-            hMenuBox.addWidget(pauseButton)
+            self.playButton.hide()
+
+        hMenuBox.addWidget(self.playButton)
+        hMenuBox.addWidget(self.pauseButton)
         hMenuBox.addWidget(nextButton)
         hMenuBox.addWidget(self.testLabel)
         hMenuBox.addStretch()
@@ -75,5 +78,14 @@ class PlayAudioMenu(QWidget):
 
         self.setLayout(vbox)
 
-    def updateView(self, *args):
-        self.testLabel.setText(args[0])
+    def updateView(self, *args, arg1):
+        if(args[0] == "NewFile"):
+            self.testLabel.setText(arg1)
+
+        elif (args[0] == "AudioPaused"):
+            self.playButton.show()
+            self.pauseButton.hide()
+
+        elif (args[0] == "AudioResumed"):
+            self.playButton.hide()
+            self.pauseButton.show()

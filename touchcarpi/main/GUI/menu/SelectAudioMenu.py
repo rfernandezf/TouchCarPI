@@ -14,6 +14,7 @@
 # *************************************************************************************************************
 import os
 
+from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
 from ..widgets.buttons.Button_Back_SAM import Button_Back_SAM
@@ -31,7 +32,7 @@ class SelectAudioMenu(QWidget):
         #Pasar esto a una clase A PARTE
         selectAudioListWidget = QListWidget()
         selectAudioListWidget.itemClicked.connect(self.item_click)
-
+        selectAudioListWidget.setMinimumSize(QSize(600, 300))
         (fileName, pathFiles) = self.db.getAudioDB()
         self.itemsDict = {}
 
@@ -58,6 +59,7 @@ class SelectAudioMenu(QWidget):
         vbox.addStretch()
         vbox.addStretch()
         hMenuBox = QHBoxLayout()
+        hMenuBox.addStretch()
         hMenuBox.addStretch()
         hMenuBox.addWidget(selectAudioListWidget)
         hMenuBox.addStretch()

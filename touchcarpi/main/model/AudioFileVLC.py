@@ -14,27 +14,52 @@
 # *************************************************************************************************************
 
 from . import vlc
+from DB.RAM_DB import RAM_DB
 
 class AudioFileVLC:
 
-    def __init__(self, vlcObject):
+    def __init__(self, notifyAudioController):
         self.path = ""
-        self.audioObject = vlcObject
+        self.vlcInstance = vlc.Instance()
+        self.mediaList = self.vlcInstance.media_list_new()
+        self.listMediaPlayer = self.vlcInstance.media_list_player_new()
+        self.db = RAM_DB()
+        (self.fileName, self.pathFiles) = self.db.getAudioDB()
+        self.notifyAudioController = notifyAudioController
+
+        #This boolean avoid to notify of unnecesary changes to the AudioController, works as a flag
+        self.avoidNotify = False
+
+        #For the VLC Event handler
+        self.vlc_events = self.listMediaPlayer.event_manager()
+        self.vlc_events.event_attach(vlc.EventType.MediaListPlayerNextItemSet, self.nextItem, 1)
+
+        for i in range(0, len(self.pathFiles)):
+            self.mediaList.insert_media(self.vlcInstance.media_new(self.pathFiles[i]), i)
+
+        self.listMediaPlayer.set_media_list(self.mediaList)
+
 
     def playAudio(self, path):
         self.path = path
         print("file:///" + self.path)
-
-        self.audioObject.play()
+        self.avoidNotify = True
+        self.listMediaPlayer.play_item_at_index(self.db.getSelection())
 
     def pauseAudio(self):
-        self.audioObject.pause()
+        self.listMediaPlayer.pause()
 
     def resumeAudio(self, savedSecond):
-        self.audioObject.play()
+        self.listMediaPlayer.play()
 
     def stopAudio(self):
-        self.audioObject.stop()
+        self.listMediaPlayer.stop()
 
     def getPath(self):
         return self.path
+
+    def nextItem(self, *args, **kwds):
+        if (self.avoidNotify == False):
+            self.notifyAudioController("nextTrack")
+        else:
+            self.avoidNotify = False

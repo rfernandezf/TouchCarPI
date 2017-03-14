@@ -21,27 +21,27 @@ from DB.RAM_DB import RAM_DB
 class AudioFile:
 
     class __AudioFile:
-        def __init__(self):
+        def __init__(self, notifyAudioController):
             self.path = ""
             self.savedSecond = 0
             self.status = AudioStatus.NOFILE
             self.audioFileObject = None
             self.db = RAM_DB()
-            self.audioType = None
+            self.notifyAudioController = notifyAudioController
             (self.fileName, self.pathFiles) = self.db.getAudioDB()
 
 
         def playAudio(self, path):
             self.path = path
             if (self.status == AudioStatus.NOFILE):
-                self.audioFileObject = self.getAudioType()
+                self.audioFileObject = self.__selectAudioType(self.path)
                 self.audioFileObject.playAudio(self.path)
                 self.status = AudioStatus.PLAYING
 
 
             elif (self.status == AudioStatus.PLAYING):
                 self.audioFileObject.stopAudio()
-                self.audioFileObject = self.getAudioType()
+                self.audioFileObject = self.__selectAudioType(self.path)
                 self.audioFileObject.playAudio(self.path)
 
         def pauseAudio(self):
@@ -57,12 +57,11 @@ class AudioFile:
         def getPath(self):
             return self.path
 
-        def setAudioType(self, type, libraryObject):
-            if (type == "MP3"):
-                self.audioType = AudioFileVLC(libraryObject)
+        def __selectAudioType(self, path):
+            if (self.path.endswith(".mp3")):
+                audioType = AudioFileVLC(self.notifyAudioController)
 
-        def getAudioType(self):
-            return self.audioType
+            return audioType
 
 
         def getStatus(self):
@@ -75,9 +74,9 @@ class AudioFile:
 
     instance = None
 
-    def __init__(self):
+    def __init__(self, notifyAudioController):
         if not AudioFile.instance:
-            AudioFile.instance = AudioFile.__AudioFile()
+            AudioFile.instance = AudioFile.__AudioFile(notifyAudioController)
 
     def __getattr__(self, name):
         return getattr(self.instance, name)

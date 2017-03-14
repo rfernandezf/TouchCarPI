@@ -24,6 +24,7 @@ from ..widgets.buttons.Button_Back_PAM import Button_Back_PAM
 from ..widgets.buttons.Button_Play_PAM import Button_Play_PAM
 from ..widgets.buttons.Button_Pause_PAM import Button_Pause_PAM
 from ..widgets.buttons.Button_Next_PAM import Button_Next_PAM
+from ..widgets.buttons.Button_Previous_PAM import Button_Previous_PAM
 from abc import ABCMeta, abstractmethod
 
 
@@ -42,6 +43,7 @@ class PlayAudioMenu(QWidget):
         self.playButton = Button_Play_PAM(self.controller).createButton(50, 50)
         self.pauseButton = Button_Pause_PAM(self.controller).createButton(50, 50)
         nextButton = Button_Next_PAM(self.controller).createButton(50, 50)
+        previousButton = Button_Previous_PAM(self.controller).createButton(50, 50)
         (self.fileName, self.pathFiles) = self.db.getAudioDB()
         path = self.pathFiles[self.db.getSelection()]
         audioController = AudioController()
@@ -51,6 +53,7 @@ class PlayAudioMenu(QWidget):
 
         vbox.addStretch()
         vbox.addStretch()
+        vbox.addWidget(self.testLabel)
         vbox.addStretch()
         hMenuBox = QHBoxLayout()
         hMenuBox.addStretch()
@@ -58,11 +61,12 @@ class PlayAudioMenu(QWidget):
             self.pauseButton.hide()
         else:
             self.playButton.hide()
-
+        hMenuBox.addWidget(previousButton)
+        hMenuBox.addStretch()
         hMenuBox.addWidget(self.playButton)
         hMenuBox.addWidget(self.pauseButton)
+        hMenuBox.addStretch()
         hMenuBox.addWidget(nextButton)
-        hMenuBox.addWidget(self.testLabel)
         hMenuBox.addStretch()
         vbox.addLayout(hMenuBox)
 

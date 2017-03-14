@@ -17,7 +17,6 @@
 from model.AudioFile import AudioFile
 from model.AudioStatus import AudioStatus
 from DB.RAM_DB import RAM_DB
-from . import vlc
 
 
 class AudioController:
@@ -29,8 +28,7 @@ class AudioController:
             self.db = RAM_DB()
             (self.fileName, self.pathFiles) = self.db.getAudioDB()
             self.path = self.pathFiles[self.db.getSelection()]
-            self.audioObject = AudioFile()
-            self.vlcObject = None
+            self.audioObject = AudioFile(self.notifyController)
             self.observers = []
 
         ###############################################################################
@@ -59,13 +57,6 @@ class AudioController:
 
         def loadAudio(self):
             self.path = self.pathFiles[self.db.getSelection()]
-            print("SEL2: " + str(self.db.getSelection()))
-            self.vlcObject = None
-            self.vlcObject = vlc.MediaPlayer(self.path)
-            self.event_manager = None
-            self.event_manager = self.vlcObject.event_manager()
-            self.event_manager.event_attach(vlc.EventType.MediaPlayerEndReached, self.trackEnded)
-            self.__selectAudioType(self.path)
             if (self.audioObject.getStatus() == AudioStatus.NOFILE):
                 self.audioObject.playAudio(self.path)
             else:
@@ -75,11 +66,11 @@ class AudioController:
 
         def nextTrack(self):
             self.audioObject.stopAudio()
-            print("SEL1: " + str(self.db.getSelection()))
             if (self.db.getSelection()+1 < len(self.pathFiles)):
                 self.db.setSelection(self.db.getSelection()+1)
             else:
                 self.db.setSelection(0)
+
             self.loadAudio()
 
         def previousTrack(self):
@@ -90,6 +81,14 @@ class AudioController:
                 self.db.setSelection(len(self.pathFiles)-1)
             self.loadAudio()
 
+        def nextTrackEvent(self):
+            if (self.db.getSelection()+1 < len(self.pathFiles)):
+                self.db.setSelection(self.db.getSelection()+1)
+            else:
+                self.db.setSelection(0)
+            self.path = self.pathFiles[self.db.getSelection()]
+            self.update_observers("NewFile", arg1=self.path)
+
         def pause(self):
             self.audioObject.pauseAudio()
             self.update_observers("AudioPaused", arg1=None)
@@ -98,14 +97,9 @@ class AudioController:
             self.audioObject.resumeAudio(0)
             self.update_observers("AudioResumed", arg1=None)
 
-        def __selectAudioType(self, path):
-            if (self.path.endswith(".mp3")):
-                self.audioObject.setAudioType("MP3", self.vlcObject)
-
-        def trackEnded(self, args):
-            print("END")
-            self.event_manager.event_detach(vlc.EventType.MediaPlayerEndReached)
-            #self.nextTrack()
+        def notifyController(self, notify):
+            if (notify == "nextTrack"):
+                self.nextTrackEvent()
 
 
         def __str__(self):

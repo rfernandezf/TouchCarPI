@@ -9,8 +9,8 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: Button_Next_PAM.py
-#   Description: Concrete class of the "Next Track" button from the Play Audio Menu. This class is a
+#   Class name: Button_Previous_PAM.py
+#   Description: Concrete class of the "Previous Track" button from the Play Audio Menu. This class is a
 #   factory method of a PicButton.
 # *************************************************************************************************************
 
@@ -18,16 +18,16 @@ from PyQt5.QtGui import *
 from .PicButton import PicButton
 from model.AudioController import AudioController
 
-class Button_Next_PAM():
+class Button_Previous_PAM():
 
     def __init__(self, controller):
         self.controller = controller
 
     def onClick(self):
         audioController = AudioController()
-        audioController.nextTrack()
+        audioController.previousTrack()
 
     def createButton(self, sizeX, sizeY):
-        button = PicButton(QPixmap("themes/default/img/next_pam.png"), QPixmap("themes/default/img/next_pam_pressed.png"), sizeX, sizeY, "", self.onClick)
+        button = PicButton(QPixmap("themes/default/img/previous_pam.png"), QPixmap("themes/default/img/previous_pam_pressed.png"), sizeX, sizeY, "", self.onClick)
 
         return button

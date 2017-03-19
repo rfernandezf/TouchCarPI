@@ -19,6 +19,7 @@ from PyQt5.QtWidgets import *
 
 from model.AudioController import AudioController
 from model.AudioStatus import AudioStatus
+from ..widgets.TimeSlider import TimeSlider
 from ..widgets.CustomLabel import CustomLabel
 from ..widgets.buttons.Button_Back_PAM import Button_Back_PAM
 from ..widgets.buttons.Button_Play_PAM import Button_Play_PAM
@@ -49,11 +50,14 @@ class PlayAudioMenu(QWidget):
         audioController = AudioController()
         audioObject = audioController.getAudioObject()
         self.testLabel = CustomLabel().createLabel(path, Qt.AlignCenter)
+        self.timeSlider = TimeSlider()
+
         vbox = QVBoxLayout()
 
         vbox.addStretch()
         vbox.addStretch()
         vbox.addWidget(self.testLabel)
+        vbox.addWidget(self.timeSlider)
         vbox.addStretch()
         hMenuBox = QHBoxLayout()
         hMenuBox.addStretch()

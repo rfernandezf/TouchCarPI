@@ -13,22 +13,31 @@
 #   Description: It plays MP3/WAV files using the VLC lib.
 # *************************************************************************************************************
 
-from . import vlc
 from DB.RAM_DB import RAM_DB
+from control.threads.ThreadController import ThreadController
+from control.threads.ReproductionStatusThread import ReproductionStatusThread
+
+from . import vlc
+
 
 class AudioFileVLC:
 
     def __init__(self, notifyAudioController):
         self.path = ""
         self.vlcInstance = vlc.Instance()
+        self.mediaPlayer = self.vlcInstance.media_player_new()
         self.mediaList = self.vlcInstance.media_list_new()
         self.listMediaPlayer = self.vlcInstance.media_list_player_new()
+        self.listMediaPlayer.set_media_player(self.mediaPlayer)
         self.db = RAM_DB()
+        self.threadController = ThreadController()
         (self.fileName, self.pathFiles) = self.db.getAudioDB()
         self.notifyAudioController = notifyAudioController
 
         #This boolean avoid to notify of unnecesary changes to the AudioController, works as a flag
         self.avoidNotify = False
+
+        self.reproductionEnded = False
 
         #For the VLC Event handler
         self.vlc_events = self.listMediaPlayer.event_manager()
@@ -39,12 +48,17 @@ class AudioFileVLC:
 
         self.listMediaPlayer.set_media_list(self.mediaList)
 
+        self.reproductionStatusThread = ReproductionStatusThread(self.mediaPlayer, self.notifyAudioController)
+        self.threadController.setReproductionStatusThread(self.reproductionStatusThread)
+
 
     def playAudio(self, path):
         self.path = path
         print("file:///" + self.path)
         self.avoidNotify = True
         self.listMediaPlayer.play_item_at_index(self.db.getSelection())
+        self.reproductionStatusThread.start()
+
 
     def pauseAudio(self):
         self.listMediaPlayer.pause()
@@ -53,13 +67,20 @@ class AudioFileVLC:
         self.listMediaPlayer.play()
 
     def stopAudio(self):
+        self.reproductionStatusThread.stop()
         self.listMediaPlayer.stop()
 
     def getPath(self):
         return self.path
 
+    def getReproductionStatusThread(self):
+        return self.getReproductionStatusThread
+
     def nextItem(self, *args, **kwds):
         if (self.avoidNotify == False):
+            self.getReproductionStatusThread.stop()
             self.notifyAudioController("nextTrack")
         else:
             self.avoidNotify = False
+
+

@@ -50,13 +50,16 @@ class PlayAudioMenu(QWidget):
         audioController = AudioController()
         audioObject = audioController.getAudioObject()
         self.testLabel = CustomLabel().createLabel(path, Qt.AlignCenter)
-        self.timeSlider = TimeSlider()
+        self.timeLabel = CustomLabel().createLabel("00:00", Qt.AlignCenter)
+
+        self.timeSlider = TimeSlider(0, 100, 0)
 
         vbox = QVBoxLayout()
 
         vbox.addStretch()
         vbox.addStretch()
         vbox.addWidget(self.testLabel)
+        vbox.addWidget(self.timeLabel)
         vbox.addWidget(self.timeSlider)
         vbox.addStretch()
         hMenuBox = QHBoxLayout()
@@ -86,9 +89,10 @@ class PlayAudioMenu(QWidget):
 
         self.setLayout(vbox)
 
-    def updateView(self, *args, arg1):
+    def updateView(self, *args, arg1, arg2):
         if(args[0] == "NewFile"):
             self.testLabel.setText(arg1)
+            self.timeSlider.setMaximum(5)
             self.playButton.hide()
             self.pauseButton.show()
 
@@ -99,3 +103,19 @@ class PlayAudioMenu(QWidget):
         elif (args[0] == "AudioResumed"):
             self.playButton.hide()
             self.pauseButton.show()
+
+        elif (args[0] == "UpdateReproductionSecond"):
+            minutes = round((arg1 / 1000) / 60)
+            seconds = round((arg1 / 1000)) %60
+
+            if minutes < 10:
+                strMinutes = "0" + str(minutes)
+            else:
+                strMinutes = str(minutes)
+            if seconds < 10:
+                strSeconds = "0" + str(seconds)
+            else:
+                strSeconds = str(seconds)
+
+            self.timeLabel.setText(strMinutes + ":" + strSeconds)
+            self.timeSlider.setValue(round(arg1/1000))

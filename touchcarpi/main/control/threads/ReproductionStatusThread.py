@@ -9,29 +9,28 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: Button_Back_PAM.py
-#   Description: Concrete class of the "Back" button from the Play Audio Menu. This class is a
-#   factory method of a PicButton.
+#   Class name: ReproductionStatusThread.py
+#   Description: This class is a thread runnable class that polls the actual reproduction second.
 # *************************************************************************************************************
 
-from PyQt5.QtGui import *
-from .PicButton import PicButton
-from control.threads.ThreadController import ThreadController
+import threading
+import time
 
-class Button_Back_PAM():
+class ReproductionStatusThread (threading.Thread):
+    def __init__(self, mediaPlayer, notifyAudioController):
+        threading.Thread.__init__(self)
+        self.mediaPlayer = mediaPlayer
+        self.notifyAudioController = notifyAudioController
+        self._stop = threading.Event()
 
-    def __init__(self, controller):
-        self.controller = controller
-        self.threadController = ThreadController()
+    def stop(self):
+        self._stop.set()
 
-    def onClick(self):
-        reproductionStatusThread = self.threadController.getReproductionStatusThread()
-        if reproductionStatusThread != None:
-            reproductionStatusThread.stop()
-
-        self.controller.changeToMenu("SelectAudioMenu")
-
-    def createButton(self, sizeX, sizeY):
-        button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Atrás", self.onClick)
-
-        return button
+    def run(self):
+        print ("Starting " + self.name)
+        while self._stop.isSet() == False:
+            miliseconds = self.mediaPlayer.get_time()
+            print(self.mediaPlayer.get_length())
+            self.notifyAudioController("updateReproductionSecond", miliseconds)
+            time.sleep(0.100)
+        print ("Exiting " + self.name)

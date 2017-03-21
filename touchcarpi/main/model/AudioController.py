@@ -62,7 +62,7 @@ class AudioController:
             else:
                 self.audioObject.stopAudio()
                 self.audioObject.playAudio(self.path)
-            self.update_observers("NewFile", arg1 = self.path)
+            self.update_observers("NewFile", arg1 = self.path, arg2 = self.audioObject.getReproductionStatusThread)
 
         def nextTrack(self):
             self.audioObject.stopAudio()
@@ -87,19 +87,24 @@ class AudioController:
             else:
                 self.db.setSelection(0)
             self.path = self.pathFiles[self.db.getSelection()]
-            self.update_observers("NewFile", arg1=self.path)
+            self.update_observers("NewFile", arg1=self.path, arg2=None)
 
         def pause(self):
             self.audioObject.pauseAudio()
-            self.update_observers("AudioPaused", arg1=None)
+            self.update_observers("AudioPaused", arg1=None, arg2=None)
 
         def resume(self):
             self.audioObject.resumeAudio(0)
-            self.update_observers("AudioResumed", arg1=None)
+            self.update_observers("AudioResumed", arg1=None, arg2=None)
 
-        def notifyController(self, notify):
+        def updateReproductionSecondEvent(self, second):
+            self.update_observers("UpdateReproductionSecond", arg1=second, arg2=None)
+
+        def notifyController(self, notify, var = 0):
             if (notify == "nextTrack"):
                 self.nextTrackEvent()
+            elif (notify == "updateReproductionSecond"):
+                self.updateReproductionSecondEvent(var)
 
 
         def __str__(self):

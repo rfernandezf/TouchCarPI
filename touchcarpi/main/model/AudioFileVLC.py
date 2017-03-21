@@ -59,7 +59,6 @@ class AudioFileVLC:
         self.listMediaPlayer.play_item_at_index(self.db.getSelection())
         self.reproductionStatusThread.start()
 
-
     def pauseAudio(self):
         self.listMediaPlayer.pause()
 
@@ -73,12 +72,14 @@ class AudioFileVLC:
     def getPath(self):
         return self.path
 
-    def getReproductionStatusThread(self):
-        return self.getReproductionStatusThread
+
+    def getMetaData(self):
+        print("Aquí andamios")
+        return self.mediaPlayer.get_length()
 
     def nextItem(self, *args, **kwds):
         if (self.avoidNotify == False):
-            self.getReproductionStatusThread.stop()
+            #self.reproductionStatusThread.stop()
             self.notifyAudioController("nextTrack")
         else:
             self.avoidNotify = False

@@ -93,6 +93,7 @@ class PlayAudioMenu(QWidget):
         if(args[0] == "NewFile"):
             self.testLabel.setText(arg1)
             self.timeSlider.setMaximum(5)
+            print(arg2)
             self.playButton.hide()
             self.pauseButton.show()
 

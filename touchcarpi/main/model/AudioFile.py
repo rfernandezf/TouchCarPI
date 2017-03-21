@@ -57,9 +57,6 @@ class AudioFile:
         def getPath(self):
             return self.path
 
-        def getReproductionStatusThread(self):
-            return self.audioFileObject.getReproductionStatusThread
-
         def __selectAudioType(self, path):
             if (self.path.endswith(".mp3")):
                 audioType = AudioFileVLC(self.notifyAudioController)
@@ -69,6 +66,9 @@ class AudioFile:
 
         def getStatus(self):
             return self.status
+
+        def getMetaData(self):
+            return self.audioFileObject.getMetaData()
 
 
 

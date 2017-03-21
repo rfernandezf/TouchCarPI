@@ -32,4 +32,4 @@ class TimeSlider(QWidget):
 
     def valuechange(self):
         self.slideValue = self.slider.value()
-        print("He cambiado loko")
+        #print("He cambiado loko")

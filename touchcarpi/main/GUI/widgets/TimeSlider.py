@@ -3,12 +3,18 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 class TimeSlider(QWidget):
-    def __init__(self, minSize, maxSize, startOn, parent=None):
+    def __init__(self, minSize, maxSize, startOn, sliderValueChangedByUser, parent=None):
         super(TimeSlider, self).__init__(parent)
 
         self.minSize = minSize
         self.maxSize = maxSize
         self.slideValue = startOn
+        self.sliderValueChangedByUser = sliderValueChangedByUser
+        """
+        0 = Normal
+        1 = The user is moving the slider
+        """
+        self.sliderTouched = False
 
         layout = QVBoxLayout()
 
@@ -19,7 +25,8 @@ class TimeSlider(QWidget):
 
 
         layout.addWidget(self.slider)
-        self.slider.valueChanged.connect(self.valuechange)
+        self.slider.sliderPressed.connect(self.sliderPressed)
+        self.slider.sliderReleased.connect(self.sliderReleased)
         self.setLayout(layout)
 
     def setMaximum(self, maxSize):
@@ -27,9 +34,17 @@ class TimeSlider(QWidget):
         self.slider.setMaximum(self.maxSize)
 
     def setValue(self, value):
-        self.slideValue = value
-        self.slider.setValue(self.slideValue)
+        if(self.sliderTouched == False):
+            self.slideValue = value
+            self.slider.setValue(self.slideValue)
 
-    def valuechange(self):
+    def getValue(self):
+        return self.slideValue
+
+    def sliderPressed(self):
+        self.sliderTouched = True
+
+    def sliderReleased(self):
         self.slideValue = self.slider.value()
-        #print("He cambiado loko")
+        self.sliderValueChangedByUser()
+        self.sliderTouched = False

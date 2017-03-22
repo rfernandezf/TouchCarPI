@@ -47,14 +47,12 @@ class AudioFileVLC:
             self.mediaList.insert_media(self.vlcInstance.media_new(self.pathFiles[i]), i)
 
         self.listMediaPlayer.set_media_list(self.mediaList)
-
         self.reproductionStatusThread = ReproductionStatusThread(self.mediaPlayer, self.notifyAudioController)
         self.threadController.setReproductionStatusThread(self.reproductionStatusThread)
 
 
     def playAudio(self, path):
         self.path = path
-        print("file:///" + self.path)
         self.avoidNotify = True
         self.listMediaPlayer.play_item_at_index(self.db.getSelection())
         self.reproductionStatusThread.start()
@@ -62,7 +60,10 @@ class AudioFileVLC:
     def pauseAudio(self):
         self.listMediaPlayer.pause()
 
-    def resumeAudio(self, savedSecond):
+    def changeAudioSecond(self, second):
+        self.mediaPlayer.set_time(second)
+
+    def resumeAudio(self):
         self.listMediaPlayer.play()
 
     def stopAudio(self):
@@ -74,8 +75,44 @@ class AudioFileVLC:
 
 
     def getMetaData(self):
-        print("Aquí andamios")
-        return self.mediaPlayer.get_length()
+        """
+        libvlc_meta_Title
+        libvlc_meta_Artist
+        libvlc_meta_Genre
+        libvlc_meta_Copyright
+        libvlc_meta_Album
+        libvlc_meta_TrackNumber
+        libvlc_meta_Description
+        libvlc_meta_Rating
+        libvlc_meta_Date
+        libvlc_meta_Setting
+        libvlc_meta_URL
+        libvlc_meta_Language
+        libvlc_meta_NowPlaying
+        libvlc_meta_Publisher
+        libvlc_meta_EncodedBy
+        libvlc_meta_ArtworkURL
+        libvlc_meta_TrackID
+        libvlc_meta_TrackTotal
+        libvlc_meta_Director
+        libvlc_meta_Season
+        libvlc_meta_Episode
+        libvlc_meta_ShowName
+        libvlc_meta_Actors
+        libvlc_meta_AlbumArtist
+        libvlc_meta_DiscNumber
+        libvlc_meta_DiscTotal
+        """
+
+        self.media = self.mediaPlayer.get_media()
+        self.media.parse()
+
+        metaData = []
+        for i in range(0, 9):
+            metaData.append(self.media.get_meta(i))
+        metaData.append(self.media.get_duration())
+
+        return metaData
 
     def nextItem(self, *args, **kwds):
         if (self.avoidNotify == False):

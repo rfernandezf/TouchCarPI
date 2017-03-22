@@ -81,9 +81,9 @@ class SelectAudioMenu(QWidget):
         print(str(self.itemsDict[str(item)].getPath()))
         #Set the track selected for playing it
         self.db.setSelection(self.db.getIndexByPath(self.itemsDict[str(item)].getPath()))
+        #Switch to PlayAudioMenu
+        self.controller.changeToMenu("PlayAudioMenu")
         #Call to audioController for load the new audio file...
         audioController = AudioController()
         audioController.loadAudio()
-        #Switch to PlayAudioMenu
-        self.controller.changeToMenu("PlayAudioMenu")
 

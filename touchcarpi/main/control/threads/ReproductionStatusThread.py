@@ -27,9 +27,9 @@ class ReproductionStatusThread (threading.Thread):
         self._stop.set()
 
     def run(self):
-        print ("Starting " + self.name)
+        #print ("Starting " + self.name)
         while self._stop.isSet() == False:
             miliseconds = self.mediaPlayer.get_time()
             self.notifyAudioController("updateReproductionSecond", miliseconds)
             time.sleep(0.100)
-        print ("Exiting " + self.name)
+        #print ("Exiting " + self.name)

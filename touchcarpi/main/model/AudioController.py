@@ -62,7 +62,7 @@ class AudioController:
             else:
                 self.audioObject.stopAudio()
                 self.audioObject.playAudio(self.path)
-            self.update_observers("NewFile", arg1 = self.path, arg2 = self.audioObject.getMetaData())
+            self.update_observers("NewFile", arg1=self.path, arg2=self.audioObject.getMetaData())
 
         def nextTrack(self):
             self.audioObject.stopAudio()
@@ -94,8 +94,12 @@ class AudioController:
             self.update_observers("AudioPaused", arg1=None, arg2=None)
 
         def resume(self):
-            self.audioObject.resumeAudio(0)
+            self.audioObject.resumeAudio()
             self.update_observers("AudioResumed", arg1=None, arg2=None)
+
+        def changeAudioSecond(self, second):
+            self.audioObject.changeAudioSecond(second)
+
 
         def updateReproductionSecondEvent(self, second):
             self.update_observers("UpdateReproductionSecond", arg1=second, arg2=None)

@@ -2454,6 +2454,10 @@ class Media(_Ctype):
         '''
         return libvlc_media_parse_with_options(self, parse_flag, timeout)
 
+    def parse(self):
+
+        return libvlc_media_parse(self)
+
     
     def parse_stop(self):
         '''Stop the parsing of the media
@@ -5223,6 +5227,13 @@ def libvlc_media_parse_with_options(p_md, parse_flag, timeout):
         _Cfunction('libvlc_media_parse_with_options', ((1,), (1,), (1,),), None,
                     ctypes.c_int, Media, MediaParseFlag, ctypes.c_int)
     return f(p_md, parse_flag, timeout)
+
+def libvlc_media_parse(p_md):
+
+    f = _Cfunctions.get('libvlc_media_parse', None) or \
+        _Cfunction('libvlc_media_parse',  ((1,),), None,
+                    None, Media)
+    return f(p_md)
 
 def libvlc_media_parse_stop(p_md):
     '''Stop the parsing of the media

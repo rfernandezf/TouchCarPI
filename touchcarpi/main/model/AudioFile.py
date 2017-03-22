@@ -39,16 +39,23 @@ class AudioFile:
                 self.status = AudioStatus.PLAYING
 
 
-            elif (self.status == AudioStatus.PLAYING):
+            elif (self.status == AudioStatus.PLAYING or self.status == AudioStatus.PAUSED):
                 self.audioFileObject.stopAudio()
                 self.audioFileObject = self.__selectAudioType(self.path)
                 self.audioFileObject.playAudio(self.path)
 
         def pauseAudio(self):
             self.audioFileObject.pauseAudio()
+            self.status == AudioStatus.PAUSED
 
         def resumeAudio(self, savedSecond):
             self.audioFileObject.resumeAudio(savedSecond)
+
+        def resumeAudio(self):
+            self.audioFileObject.resumeAudio()
+
+        def changeAudioSecond(self, second):
+            self.audioFileObject.changeAudioSecond(second)
 
         def stopAudio(self):
             self.status = AudioStatus.NOFILE

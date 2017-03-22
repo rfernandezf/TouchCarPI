@@ -32,10 +32,6 @@ from abc import ABCMeta, abstractmethod
 class PlayAudioMenu(QWidget):
     __metaclass__ = ABCMeta
 
-    @abstractmethod
-    def update(self, *args, **kwargs):
-        self.updateView(*args, **kwargs)
-
     def __init__(self, controller, db, parent=None):
         super(PlayAudioMenu, self).__init__(parent)
         self.controller = controller
@@ -48,23 +44,28 @@ class PlayAudioMenu(QWidget):
         (self.fileName, self.pathFiles) = self.db.getAudioDB()
         path = self.pathFiles[self.db.getSelection()]
         audioController = AudioController()
-        audioObject = audioController.getAudioObject()
+        self.audioObject = audioController.getAudioObject()
         self.testLabel = CustomLabel().createLabel(path, Qt.AlignCenter)
-        self.timeLabel = CustomLabel().createLabel("00:00", Qt.AlignCenter)
+        self.actualTimeLabel = CustomLabel().createLabel("00:00", Qt.AlignCenter)
+        self.totalTimeLabel = CustomLabel().createLabel("00:00", Qt.AlignCenter)
 
-        self.timeSlider = TimeSlider(0, 100, 0)
+        self.timeSlider = TimeSlider(0, 100, 0, self.sliderValueChangedByUser)
 
         vbox = QVBoxLayout()
 
         vbox.addStretch()
         vbox.addStretch()
         vbox.addWidget(self.testLabel)
-        vbox.addWidget(self.timeLabel)
+        hbox2 = QHBoxLayout()
+        hbox2.addWidget(self.actualTimeLabel)
+        hbox2.addStretch()
+        hbox2.addWidget(self.totalTimeLabel)
+        vbox.addLayout(hbox2)
         vbox.addWidget(self.timeSlider)
         vbox.addStretch()
         hMenuBox = QHBoxLayout()
         hMenuBox.addStretch()
-        if (audioObject.getStatus() == AudioStatus.PAUSED):
+        if (self.audioObject.getStatus() == AudioStatus.PAUSED):
             self.pauseButton.hide()
         else:
             self.playButton.hide()
@@ -89,11 +90,35 @@ class PlayAudioMenu(QWidget):
 
         self.setLayout(vbox)
 
+    def sliderValueChangedByUser(self):
+        self.audioObject.changeAudioSecond(self.timeSlider.getValue())
+
+    @abstractmethod
+    def update(self, *args, **kwargs):
+        self.updateView(*args, **kwargs)
+
     def updateView(self, *args, arg1, arg2):
         if(args[0] == "NewFile"):
-            self.testLabel.setText(arg1)
-            self.timeSlider.setMaximum(5)
-            print(arg2)
+            minutes = round((arg2[9] // 1000.0) // 60.0)
+            seconds = round((arg2[9] // 1000.0) %60.0)
+
+            if minutes < 10:
+                strMinutes = "0" + str(minutes)
+            else:
+                strMinutes = str(minutes)
+            if seconds < 10:
+                strSeconds = "0" + str(seconds)
+            else:
+                strSeconds = str(seconds)
+
+            if arg2[1] == None:
+                titleText = "Artista desconocido" + " - " + arg2[0]
+            else:
+                titleText = arg2[1] + " - " + arg2[0]
+
+            self.testLabel.setText(titleText)
+            self.totalTimeLabel.setText(strMinutes + ":" + strSeconds)
+            self.timeSlider.setMaximum(arg2[9])
             self.playButton.hide()
             self.pauseButton.show()
 
@@ -106,8 +131,8 @@ class PlayAudioMenu(QWidget):
             self.pauseButton.show()
 
         elif (args[0] == "UpdateReproductionSecond"):
-            minutes = round((arg1 / 1000) / 60)
-            seconds = round((arg1 / 1000)) %60
+            minutes = round((arg1 // 1000) // 60)
+            seconds = round((arg1 // 1000)) %60
 
             if minutes < 10:
                 strMinutes = "0" + str(minutes)
@@ -118,5 +143,5 @@ class PlayAudioMenu(QWidget):
             else:
                 strSeconds = str(seconds)
 
-            self.timeLabel.setText(strMinutes + ":" + strSeconds)
-            self.timeSlider.setValue(round(arg1/1000))
+            self.actualTimeLabel.setText(strMinutes + ":" + strSeconds)
+            self.timeSlider.setValue(arg1)

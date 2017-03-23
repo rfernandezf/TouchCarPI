@@ -28,7 +28,7 @@ class AudioFile:
             self.audioFileObject = None
             self.db = RAM_DB()
             self.notifyAudioController = notifyAudioController
-            (self.fileName, self.pathFiles) = self.db.getAudioDB()
+            (self.fileName, self.pathFiles, self.metaDataList) = self.db.getAudioDB()
 
 
         def playAudio(self, path):
@@ -73,10 +73,6 @@ class AudioFile:
 
         def getStatus(self):
             return self.status
-
-        def getMetaData(self):
-            return self.audioFileObject.getMetaData()
-
 
 
         def __str__(self):

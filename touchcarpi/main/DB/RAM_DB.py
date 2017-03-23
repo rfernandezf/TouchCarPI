@@ -16,6 +16,8 @@
 
 import os
 
+from .MetaDataVLC import MetaDataVLC
+
 
 class RAM_DB:
 
@@ -32,9 +34,12 @@ class RAM_DB:
                         self.filesInFolder.append(x)
                         self.pathFiles.append(os.path.join(dirpath, x))
 
+            metaDataVLC = MetaDataVLC(self.pathFiles)
+            self.metaDataList = metaDataVLC.getMetaData()
+
 
         def getAudioDB(self):
-            return (self.filesInFolder, self.pathFiles)
+            return (self.filesInFolder, self.pathFiles, self.metaDataList)
 
         def setSelection(self, selectionIndex):
             self.selectionIndex = selectionIndex

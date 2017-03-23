@@ -29,15 +29,25 @@ class CustomListItemWidget (QWidget):
         self.textQVBoxLayout.addWidget(self.textDownQLabel)
         self.allQHBoxLayout  = QHBoxLayout()
         self.iconQLabel      = QLabel()
+        self.iconQLabel.setMaximumHeight(70)
+        self.iconQLabel.setMaximumWidth(70)
+
         self.allQHBoxLayout.addWidget(self.iconQLabel, 0)
         self.allQHBoxLayout.addLayout(self.textQVBoxLayout, 1)
         self.setLayout(self.allQHBoxLayout)
+
+        font1 = QFont('Myriada', 10)
+        font1.setBold(True)
+        font2 = QFont('Myriada', 9)
+        font2.setBold(True)
+        self.textUpQLabel.setFont(font1)
+        self.textDownQLabel.setFont(font2)
         # setStyleSheet
         self.textUpQLabel.setStyleSheet('''
-            color: rgb(0, 0, 255);
+            color: rgb(10, 0, 0);
         ''')
         self.textDownQLabel.setStyleSheet('''
-            color: rgb(255, 0, 0);
+            color: rgb(128, 128, 128);
         ''')
 
     def setTextUp (self, text):

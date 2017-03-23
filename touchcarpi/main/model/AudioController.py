@@ -26,7 +26,7 @@ class AudioController:
 
         def __init__(self):
             self.db = RAM_DB()
-            (self.fileName, self.pathFiles) = self.db.getAudioDB()
+            (self.fileName, self.pathFiles, self.metaDataList) = self.db.getAudioDB()
             self.path = self.pathFiles[self.db.getSelection()]
             self.audioObject = AudioFile(self.notifyController)
             self.observers = []
@@ -62,7 +62,7 @@ class AudioController:
             else:
                 self.audioObject.stopAudio()
                 self.audioObject.playAudio(self.path)
-            self.update_observers("NewFile", arg1=self.path, arg2=self.audioObject.getMetaData())
+            self.update_observers("NewFile", arg1=self.path, arg2=self.metaDataList[self.db.getSelection()])
 
         def nextTrack(self):
             self.audioObject.stopAudio()
@@ -87,7 +87,7 @@ class AudioController:
             else:
                 self.db.setSelection(0)
             self.path = self.pathFiles[self.db.getSelection()]
-            self.update_observers("NewFile", arg1=self.path, arg2=self.audioObject.getMetaData())
+            self.update_observers("NewFile", arg1=self.path, arg2=self.metaDataList[self.db.getSelection()])
 
         def pause(self):
             self.audioObject.pauseAudio()

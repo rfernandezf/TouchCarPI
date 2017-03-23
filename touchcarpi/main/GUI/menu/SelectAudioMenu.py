@@ -33,15 +33,19 @@ class SelectAudioMenu(QWidget):
         selectAudioListWidget = QListWidget()
         selectAudioListWidget.itemClicked.connect(self.item_click)
         selectAudioListWidget.setMinimumSize(QSize(600, 300))
-        (fileName, pathFiles) = self.db.getAudioDB()
+        (fileName, pathFiles, self.metaDataList) = self.db.getAudioDB()
         self.itemsDict = {}
 
         for i in range(0, len(fileName)):
 
             customListItemWidget = CustomListItemWidget()
-            customListItemWidget.setTextUp(fileName[i])
-            customListItemWidget.setTextDown('test')
-            customListItemWidget.setIcon('music_mm.png')
+            customListItemWidget.setTextUp(self.metaDataList[i][0])
+            if self.metaDataList[i][1] == None:
+                textDown = "Artista desconocido"
+            else:
+                textDown = self.metaDataList[i][1]
+            customListItemWidget.setTextDown(textDown)
+            customListItemWidget.setIcon("themes/default/img/headphones.png")
             customListItemWidget.setPath(pathFiles[i])
 
             item = QListWidgetItem()

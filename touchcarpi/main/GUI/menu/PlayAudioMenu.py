@@ -41,7 +41,7 @@ class PlayAudioMenu(QWidget):
         self.pauseButton = Button_Pause_PAM(self.controller).createButton(50, 50)
         nextButton = Button_Next_PAM(self.controller).createButton(50, 50)
         previousButton = Button_Previous_PAM(self.controller).createButton(50, 50)
-        (self.fileName, self.pathFiles) = self.db.getAudioDB()
+        (self.fileName, self.pathFiles, self.metaDataList) = self.db.getAudioDB()
         path = self.pathFiles[self.db.getSelection()]
         audioController = AudioController()
         self.audioObject = audioController.getAudioObject()
@@ -99,8 +99,8 @@ class PlayAudioMenu(QWidget):
 
     def updateView(self, *args, arg1, arg2):
         if(args[0] == "NewFile"):
-            minutes = round((arg2[9] // 1000.0) // 60.0)
-            seconds = round((arg2[9] // 1000.0) %60.0)
+            minutes = round((arg2[16] // 1000.0) // 60.0)
+            seconds = round((arg2[16] // 1000.0) %60.0)
 
             if minutes < 10:
                 strMinutes = "0" + str(minutes)
@@ -118,7 +118,7 @@ class PlayAudioMenu(QWidget):
 
             self.testLabel.setText(titleText)
             self.totalTimeLabel.setText(strMinutes + ":" + strSeconds)
-            self.timeSlider.setMaximum(arg2[9])
+            self.timeSlider.setMaximum(arg2[16])
             self.playButton.hide()
             self.pauseButton.show()
 

@@ -62,7 +62,11 @@ class AudioController:
             else:
                 self.audioObject.stopAudio()
                 self.audioObject.playAudio(self.path)
-            self.update_observers("NewFile", arg1=self.path, arg2=self.metaDataList[self.db.getSelection()])
+            self.update_observers("NewMetaData", arg1=self.path, arg2=self.metaDataList[self.db.getSelection()])
+
+        def startUpdateStatusThread(self):
+            self.audioObject.startUpdateStatusThread()
+            self.update_observers("NewMetaData", arg1=self.path, arg2=self.metaDataList[self.db.getSelection()])
 
         def nextTrack(self):
             self.audioObject.stopAudio()
@@ -87,7 +91,7 @@ class AudioController:
             else:
                 self.db.setSelection(0)
             self.path = self.pathFiles[self.db.getSelection()]
-            self.update_observers("NewFile", arg1=self.path, arg2=self.metaDataList[self.db.getSelection()])
+            self.update_observers("NewMetaData", arg1=self.path, arg2=self.metaDataList[self.db.getSelection()])
 
         def pause(self):
             self.audioObject.pauseAudio()
@@ -104,7 +108,8 @@ class AudioController:
         def updateReproductionSecondEvent(self, second):
             self.update_observers("UpdateReproductionSecond", arg1=second, arg2=None)
 
-
+        def getStatus(self):
+            return self.audioObject.getStatus()
 
         def notifyController(self, notify, var = 0):
             if (notify == "nextTrack"):

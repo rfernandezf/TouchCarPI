@@ -18,43 +18,27 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
 from ..widgets.buttons.Button_Back_SAM import Button_Back_SAM
-from ..widgets.CustomListWidget import CustomListItemWidget
+from ..widgets.buttons.Button_Resume_SAM import Button_Resume_SAM
+from DB.RAM_DB import RAM_DB
+from model.AudioStatus import AudioStatus
 from model.AudioController import AudioController
+from ..widgets.SelectAudioListWidget import SelectAudioListWidget
+from abc import ABCMeta, abstractmethod
 
 
 class SelectAudioMenu(QWidget):
+    __metaclass__ = ABCMeta
+
     def __init__(self, controller, db, parent=None):
         super(SelectAudioMenu, self).__init__(parent)
         self.controller = controller
-        self.db = db
-        backButton = Button_Back_SAM(self.controller).createButton(344, 96)
-
-        #Pasar esto a una clase A PARTE
-        selectAudioListWidget = QListWidget()
-        selectAudioListWidget.itemClicked.connect(self.item_click)
-        selectAudioListWidget.setMinimumSize(QSize(600, 300))
+        self.db = RAM_DB()
         (fileName, pathFiles, self.metaDataList) = self.db.getAudioDB()
-        self.itemsDict = {}
+        self.audioController = AudioController()
+        backButton = Button_Back_SAM(self.controller).createButton(344, 96)
+        self.resumeButton = Button_Resume_SAM(self.controller).createButton(344, 96)
 
-        for i in range(0, len(fileName)):
-
-            customListItemWidget = CustomListItemWidget()
-            customListItemWidget.setTextUp(self.metaDataList[i][0])
-            if self.metaDataList[i][1] == None:
-                textDown = "Artista desconocido"
-            else:
-                textDown = self.metaDataList[i][1]
-            customListItemWidget.setTextDown(textDown)
-            customListItemWidget.setIcon("themes/default/img/headphones.png")
-            customListItemWidget.setPath(pathFiles[i])
-
-            item = QListWidgetItem()
-            item.setSizeHint(customListItemWidget.sizeHint())
-
-            selectAudioListWidget.addItem(item)
-            selectAudioListWidget.setItemWidget(item, customListItemWidget)
-            self.itemsDict[str(item)] = customListItemWidget
-
+        selectAudioListWidget = SelectAudioListWidget(self.controller)
 
 
         vbox = QVBoxLayout()
@@ -77,17 +61,28 @@ class SelectAudioMenu(QWidget):
 
         hbox.addStretch()
 
+        hbox.addWidget(self.resumeButton)
+        if self.audioController.getStatus() == AudioStatus.NOFILE:
+            self.resumeButton.hide()
+        else:
+            if self.metaDataList[self.db.getSelection()][1] == None:
+                textDown = "Artista desconocido"
+            else:
+                textDown = self.metaDataList[self.db.getSelection()][1]
+            self.resumeButton.setText("Reproduciendo: " + textDown)
+
         vbox.addLayout(hbox)
 
         self.setLayout(vbox)
 
-    def item_click(self, item):
-        print(str(self.itemsDict[str(item)].getPath()))
-        #Set the track selected for playing it
-        self.db.setSelection(self.db.getIndexByPath(self.itemsDict[str(item)].getPath()))
-        #Switch to PlayAudioMenu
-        self.controller.changeToMenu("PlayAudioMenu")
-        #Call to audioController for load the new audio file...
-        audioController = AudioController()
-        audioController.loadAudio()
+    @abstractmethod
+    def update(self, *args, **kwargs):
+        self.updateView(*args, **kwargs)
 
+    def updateView(self, *args, arg1, arg2):
+        if (args[0] == "NewMetaData"):
+            if self.metaDataList[self.db.getSelection()][1] == None:
+                textDown = "Artista desconocido"
+            else:
+                textDown = self.metaDataList[self.db.getSelection()][1]
+            self.resumeButton.setText("Reproduciendo: " + textDown)

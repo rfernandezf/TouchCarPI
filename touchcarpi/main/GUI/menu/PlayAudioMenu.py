@@ -98,7 +98,7 @@ class PlayAudioMenu(QWidget):
         self.updateView(*args, **kwargs)
 
     def updateView(self, *args, arg1, arg2):
-        if(args[0] == "NewFile"):
+        if(args[0] == "NewMetaData"):
             minutes = round((arg2[16] // 1000.0) // 60.0)
             seconds = round((arg2[16] // 1000.0) %60.0)
 

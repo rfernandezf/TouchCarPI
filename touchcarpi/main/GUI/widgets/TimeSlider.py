@@ -11,8 +11,8 @@ class TimeSlider(QWidget):
         self.slideValue = startOn
         self.sliderValueChangedByUser = sliderValueChangedByUser
         """
-        0 = Normal
-        1 = The user is moving the slider
+        False = Normal
+        True = The user is moving the slider
         """
         self.sliderTouched = False
 

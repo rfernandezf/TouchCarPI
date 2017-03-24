@@ -61,6 +61,9 @@ class AudioFile:
             self.status = AudioStatus.NOFILE
             self.audioFileObject.stopAudio()
 
+        def startUpdateStatusThread(self):
+            self.audioFileObject.startUpdateStatusThread()
+
         def getPath(self):
             return self.path
 

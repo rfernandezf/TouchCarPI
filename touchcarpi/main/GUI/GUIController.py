@@ -52,6 +52,7 @@ class GUIController(object):
             self.centralWidget.setCurrentWidget(self.mainMenuWidget)
         elif (menuname == "SelectAudioMenu"):
             self.selectAudioMenuWidget = SelectAudioMenu(self, self.db)
+            self.audioController.register(self.selectAudioMenuWidget)
             self.centralWidget.addWidget(self.selectAudioMenuWidget)
             self.centralWidget.setCurrentWidget(self.selectAudioMenuWidget)
         elif (menuname == "PlayAudioMenu"):

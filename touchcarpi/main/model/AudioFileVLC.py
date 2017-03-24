@@ -47,15 +47,18 @@ class AudioFileVLC:
             self.mediaList.insert_media(self.vlcInstance.media_new(self.pathFiles[i]), i)
 
         self.listMediaPlayer.set_media_list(self.mediaList)
-        self.reproductionStatusThread = ReproductionStatusThread(self.mediaPlayer, self.notifyAudioController)
-        self.threadController.setReproductionStatusThread(self.reproductionStatusThread)
 
 
     def playAudio(self, path):
         self.path = path
         self.avoidNotify = True
         self.listMediaPlayer.play_item_at_index(self.db.getSelection())
-        self.reproductionStatusThread.start()
+        self.startUpdateStatusThread()
+
+    def startUpdateStatusThread(self):
+        self.reproductionStatusThread = ReproductionStatusThread(self.mediaPlayer, self.notifyAudioController)
+        self.threadController.setReproductionStatusThread(self.reproductionStatusThread)
+        self.threadController.getReproductionStatusThread().start()
 
     def pauseAudio(self):
         self.listMediaPlayer.pause()

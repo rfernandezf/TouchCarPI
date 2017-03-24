@@ -1,9 +1,26 @@
-from PyQt5.QtGui import *
+#*************************************************************************************************************
+#  ________  ________  ___  ___  ________  ___  ___  ________  ________  ________  ________  ___
+# |\___   ___\\   __  \|\  \|\  \|\   ____\|\  \|\  \|\   ____\|\   __  \|\   __  \|\   __  \|\  \
+# \|___ \  \_\ \  \|\  \ \  \\\  \ \  \___|\ \  \\\  \ \  \___|\ \  \|\  \ \  \|\  \ \  \|\  \ \  \
+#      \ \  \ \ \  \\\  \ \  \\\  \ \  \    \ \   __  \ \  \    \ \   __  \ \   _  _\ \   ____\ \  \
+#       \ \  \ \ \  \\\  \ \  \\\  \ \  \____\ \  \ \  \ \  \____\ \  \ \  \ \  \\  \\ \  \___|\ \  \
+#        \ \__\ \ \_______\ \_______\ \_______\ \__\ \__\ \_______\ \__\ \__\ \__\\ _\\ \__\    \ \__\
+#         \|__|  \|_______|\|_______|\|_______|\|__|\|__|\|_______|\|__|\|__|\|__|\|__|\|__|     \|__|
+#
+# *************************************************************************************************************
+#   Author: Rafael Fernández Flores (@Plata17 at GitHub)
+#   Class name: SelectAudioListWidget.py
+#   Description: Class that creates a customiced QListWidget used in the SelectAudioMenu that displays a list
+#   of songs and allows you to choose one to be reproduced.
+# *************************************************************************************************************
+
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from .CustomListWidget import CustomListItemWidget
 from model.AudioController import AudioController
 from DB.RAM_DB import RAM_DB
+from util.UtilityFunctions import getBandName
 
 class SelectAudioListWidget(QListWidget):
 
@@ -22,11 +39,7 @@ class SelectAudioListWidget(QListWidget):
 
             customListItemWidget = CustomListItemWidget()
             customListItemWidget.setTextUp(self.metaDataList[i][0])
-            if self.metaDataList[i][1] == None:
-                textDown = "Artista desconocido"
-            else:
-                textDown = self.metaDataList[i][1]
-            customListItemWidget.setTextDown(textDown)
+            customListItemWidget.setTextDown(getBandName(self.metaDataList[i][1]))
             customListItemWidget.setIcon("themes/default/img/headphones.png")
             customListItemWidget.setPath(pathFiles[i])
 

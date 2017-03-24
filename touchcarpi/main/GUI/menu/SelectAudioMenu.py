@@ -23,6 +23,8 @@ from DB.RAM_DB import RAM_DB
 from model.AudioStatus import AudioStatus
 from model.AudioController import AudioController
 from ..widgets.SelectAudioListWidget import SelectAudioListWidget
+from util.UtilityFunctions import getBandName
+
 from abc import ABCMeta, abstractmethod
 
 
@@ -65,11 +67,7 @@ class SelectAudioMenu(QWidget):
         if self.audioController.getStatus() == AudioStatus.NOFILE:
             self.resumeButton.hide()
         else:
-            if self.metaDataList[self.db.getSelection()][1] == None:
-                textDown = "Artista desconocido"
-            else:
-                textDown = self.metaDataList[self.db.getSelection()][1]
-            self.resumeButton.setText("Reproduciendo: " + textDown)
+            self.resumeButton.setText("Reproduciendo: " + getBandName(self.metaDataList[self.db.getSelection()][1]))
 
         vbox.addLayout(hbox)
 
@@ -81,8 +79,4 @@ class SelectAudioMenu(QWidget):
 
     def updateView(self, *args, arg1, arg2):
         if (args[0] == "NewMetaData"):
-            if self.metaDataList[self.db.getSelection()][1] == None:
-                textDown = "Artista desconocido"
-            else:
-                textDown = self.metaDataList[self.db.getSelection()][1]
-            self.resumeButton.setText("Reproduciendo: " + textDown)
+            self.resumeButton.setText("Reproduciendo: " + getBandName(self.metaDataList[self.db.getSelection()][1]))

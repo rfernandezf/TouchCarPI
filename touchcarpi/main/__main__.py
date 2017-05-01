@@ -17,12 +17,11 @@
 from GUI.GUIController import GUIController
 
 
-# *************************************************************************************************************
-# main()
-#
-# Main method of the program. It creates a GUIController object and initialize it.
-# *************************************************************************************************************
 def main():
+    """
+    Main method of the program. It creates a GUIController object and initialize it.
+    """
+
     global controller
     controller = GUIController()
     controller.initialize()

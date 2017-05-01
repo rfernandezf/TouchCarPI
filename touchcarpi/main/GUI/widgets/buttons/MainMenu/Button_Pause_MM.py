@@ -20,17 +20,37 @@ from model.AudioController import AudioController
 from model.AudioStatus import AudioStatus
 
 class Button_Pause_MM():
+    """
+    Concrete class of the "Pause" button from the Main Menu Audio Widget.
+    """
 
     def __init__(self):
+        """
+        Constructor of the Button_Pause_MM Class.
+        """
+
         self.audioController = AudioController()
         self.audioObject = self.audioController.getAudioObject()
 
     def onClick(self):
+        """
+        OnClick method. Describes the behaviour of the button when is pressed.
+        In this case, it pauses the reproduction.
+        """
+
         # TODO Añadir funcionalidad radio
         if (self.audioObject.getStatus() != AudioStatus.NOFILE):
             self.audioController.pause()
 
     def createButton(self, sizeX, sizeY):
+        """
+        This method is a factory of a PicButton object. Creates a button with the described size.
+
+        :param sizeX: X size of the button.
+        :param sizeY: Y size of the button.
+        :return: Created button object.
+        """
+
         #TODO Cambiar gráficos
         button = PicButton(QPixmap("themes/default/img/pause_pam.png"), QPixmap("themes/default/img/pause_pam_pressed.png"), sizeX, sizeY, "", self.onClick)
 

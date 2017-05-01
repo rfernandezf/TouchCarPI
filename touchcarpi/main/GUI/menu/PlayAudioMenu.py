@@ -32,9 +32,19 @@ from ..widgets.buttons.PlayAudioMenu.Button_Previous_PAM import Button_Previous_
 
 
 class PlayAudioMenu(QWidget):
+    """
+    This class creates a custom widget with the Play Audio Menu elements and layout.
+    """
+
     __metaclass__ = ABCMeta
-    #TODO Mal lo de pasarle la DB a las clases
+
     def __init__(self, controller, parent=None):
+        """
+        Constructor of the PlayAudioMenu class.
+
+        :param controller: GUIController object.
+        """
+
         super(PlayAudioMenu, self).__init__(parent)
 
         self.controller = controller
@@ -96,13 +106,32 @@ class PlayAudioMenu(QWidget):
         self.setLayout(verticalBoxLayout)
 
     def sliderValueChangedByUser(self):
+        """
+        Method when the slider notifies a change in his value made by the user.
+        """
+
         self.audioObject.changeAudioSecond(self.timeSlider.getValue())
 
     @abstractmethod
     def update(self, *args, **kwargs):
+        """
+        Update method of the observer pattern.
+
+        :param args: args
+        :param kwargs: kwargs
+        """
+
         self.updateView(*args, **kwargs)
 
     def updateView(self, *args, arg1, arg2):
+        """
+        Update view method of the observer pattern.
+
+        :param args: Name of the notification.
+        :param arg1: Other data.
+        :param arg2: Other data.
+        """
+
         if(args[0] == "NewMetaData"):
             minutes = round((arg2[16] // 1000.0) // 60.0)
             seconds = round((arg2[16] // 1000.0) %60.0)

@@ -19,15 +19,35 @@ from ..PicButton import PicButton
 from model.AudioController import AudioController
 
 class Button_Play_PAM():
+    """
+    Concrete class of the "Play" button from the Play Audio Menu.
+    """
 
     def __init__(self, controller):
+        """
+        Constructor of the Button_Play_PAM Class.
+        """
+
         self.controller = controller
 
     def onClick(self):
+        """
+        OnClick method. Describes the behaviour of the button when is pressed.
+        In this case, it resumes the reproduction.
+        """
+
         audioController = AudioController()
         audioController.resume()
 
     def createButton(self, sizeX, sizeY):
+        """
+        This method is a factory of a PicButton object. Creates a button with the described size.
+
+        :param sizeX: X size of the button.
+        :param sizeY: Y size of the button.
+        :return: Created button object.
+        """
+
         button = PicButton(QPixmap("themes/default/img/play_pam.png"), QPixmap("themes/default/img/play_pam_pressed.png"), sizeX, sizeY, "", self.onClick)
 
         return button

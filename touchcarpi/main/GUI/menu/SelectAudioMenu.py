@@ -27,10 +27,21 @@ from ..widgets.buttons.SelectAudioMenu.Button_Back_SAM import Button_Back_SAM
 
 
 class SelectAudioMenu(QWidget):
+    """
+    This class creates a custom widget with the Select Audio Menu elements and layout.
+    """
+
     __metaclass__ = ABCMeta
 
     def __init__(self, controller, parent=None):
+        """
+        Constructor of the SelectAudioMenu class.
+
+        :param controller: GUIController object.
+        """
+
         super(SelectAudioMenu, self).__init__(parent)
+
         self.controller = controller
         self.db = RAM_DB()
         (fileName, pathFiles, self.metaDataList) = self.db.getAudioDB()
@@ -91,9 +102,24 @@ class SelectAudioMenu(QWidget):
 
     @abstractmethod
     def update(self, *args, **kwargs):
+        """
+        Update method of the observer pattern.
+
+        :param args: args
+        :param kwargs: kwargs
+        """
+
         self.updateView(*args, **kwargs)
 
     def updateView(self, *args, arg1, arg2):
+        """
+        Update view method of the observer pattern.
+
+        :param args: Name of the notification.
+        :param arg1: Other data.
+        :param arg2: Other data.
+        """
+
         if (args[0] == "NewMetaData"):
             """
             self.resumeAudioWidget.setTextUp(self.metaDataList[self.db.getSelection()][0])

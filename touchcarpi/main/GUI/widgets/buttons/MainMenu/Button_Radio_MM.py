@@ -18,15 +18,37 @@ from PyQt5.QtGui import *
 from ..PicButton import PicButton
 
 class Button_Radio_MM():
+    """
+    Concrete class of the "Radio Menu" button from the Main Menu.
+    """
 
     def __init__(self, controller):
+        """
+        Constructor of the Button_Radio_MM Class.
+
+        :param controller: GUIController object.
+        """
+
         self.controller = controller
 
     def onClick(self):
+        """
+        OnClick method. Describes the behaviour of the button when is pressed.
+        In this case, it changes to another menu.
+        """
+
         self.controller.changeToMenu("PlayRadioMenu")
         pass
 
     def createButton(self, sizeX, sizeY):
+        """
+        This method is a factory of a PicButton object. Creates a button with the described size.
+
+        :param sizeX: X size of the button.
+        :param sizeY: Y size of the button.
+        :return: Created button object.
+        """
+
         button = PicButton(QPixmap("themes/default/img/music_mm.png"), QPixmap("themes/default/img/music_mm_pressed.png"), sizeX, sizeY, "", self.onClick)
 
         return button

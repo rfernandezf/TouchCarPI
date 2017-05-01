@@ -28,7 +28,16 @@ from ..widgets.MainMenuAudioWidget.MainMenuAudioWidget import MainMenuAudioWidge
 
 
 class MainMenu(QWidget):
+    """
+    This class creates a custom widget with the Main Menu elements and layout.
+    """
     def __init__(self, controller, parent=None):
+        """
+        Constructor of the MainMenu class.
+
+        :param controller: GUIController object.
+        """
+
         super(MainMenu, self).__init__(parent)
 
         audioController = AudioController()

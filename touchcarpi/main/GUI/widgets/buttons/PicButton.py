@@ -20,9 +20,24 @@ from PyQt5.QtWidgets import *
 
 
 class PicButton(QAbstractButton):
+    """
+    Class that creates a customised button using a pair of pics (normal button and pressed button).
+    """
 
     def __init__(self, pixmap, pixmap_pressed, sizeX, sizeY, text, onClick, parent=None):
+        """
+        Constructor of the PicButton class.
+
+        :param pixmap: Pic of the button in stand by.
+        :param pixmap_pressed: Pic of the button pressed.
+        :param sizeX: X size of the button.
+        :param sizeY: Y size of the button.
+        :param text: Text label of the button.
+        :param onClick: On click behaviour of the button.
+        """
+
         super(PicButton, self).__init__(parent)
+
         self.sizeX = sizeX
         self.sizeY = sizeY
         self.onClick = onClick
@@ -40,6 +55,12 @@ class PicButton(QAbstractButton):
 
 
     def paintEvent(self, event):
+        """
+        Paint event from the QT lib for draw the change of pics.
+
+        :param event: Event from the QT lib.
+        """
+
         pix = self.pixmap_hover if self.underMouse() else self.pixmap
         if self.isDown():
             pix = self.pixmap_pressed
@@ -50,10 +71,28 @@ class PicButton(QAbstractButton):
 
 
     def enterEvent(self, event):
+        """
+        Enter event from the QT lib.
+
+        :param event: Event from the QT lib.
+        """
+
         self.update()
+
 
     def leaveEvent(self, event):
+        """
+        Leave event from the QT lib.
+
+        :param event: Event from the QT lib.
+        """
+
         self.update()
 
+
     def sizeHint(self):
+        """
+        Size hint method override from the QT lib.
+        """
+
         return QSize(self.sizeX, self.sizeY)

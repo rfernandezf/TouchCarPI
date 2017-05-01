@@ -26,8 +26,17 @@ from model.AudioController import AudioController
 from model.AudioStatus import AudioStatus
 
 class MainMenuAudioWidget (QWidget):
+    """
+    This class provides a customized widget for control the music in the Main Menu.
+    """
+
     __metaclass__ = ABCMeta
+
     def __init__ (self, parent = None):
+        """
+        Constructor og the MainMenuAudioWidget class.
+        """
+
         super(MainMenuAudioWidget, self).__init__(parent)
 
         self.playButton = Button_Play_MM().createButton(50, 50)
@@ -64,9 +73,24 @@ class MainMenuAudioWidget (QWidget):
 
     @abstractmethod
     def update(self, *args, **kwargs):
+        """
+        Update method of the observer pattern.
+
+        :param args: args
+        :param kwargs: kwargs
+        """
+
         self.updateView(*args, **kwargs)
 
     def updateView(self, *args, arg1, arg2):
+        """
+        Update view method of the observer pattern.
+
+        :param args: Name of the notification.
+        :param arg1: Other data.
+        :param arg2: Other data.
+        """
+
         if (args[0] == "NewMetaData"):
 
             if arg2[1] == None:

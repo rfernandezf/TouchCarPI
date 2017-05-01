@@ -18,11 +18,27 @@ from PyQt5.QtGui import *
 from ..PicButton import PicButton
 
 class Button_POff_MM():
+    """
+    Concrete class of the "Power Off" button from the Main Menu.
+    """
 
-        def onClick(self):
-            exit(0)
+    def onClick(self):
+        """
+        OnClick method. Describes the behaviour of the button when is pressed.
+        In this case, it ends the application.
+        """
 
-        def createButton(self, sizeX, sizeY):
-            button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Apagar", self.onClick)
+        exit(0)
 
-            return button
+    def createButton(self, sizeX, sizeY):
+        """
+        This method is a factory of a PicButton object. Creates a button with the described size.
+
+        :param sizeX: X size of the button.
+        :param sizeY: Y size of the button.
+        :return: Created button object.
+        """
+
+        button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Apagar", self.onClick)
+
+        return button

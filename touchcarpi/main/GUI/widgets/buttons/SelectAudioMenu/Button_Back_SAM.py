@@ -18,14 +18,36 @@ from PyQt5.QtGui import *
 from ..PicButton import PicButton
 
 class Button_Back_SAM():
+    """
+    Concrete class of the "Back" button from the Select Audio Menu.
+    """
 
     def __init__(self, controller):
+        """
+        Constructor of the Button_Back_SAM Class.
+
+        :param controller: GUIController object.
+        """
+
         self.controller = controller
 
     def onClick(self):
+        """
+        OnClick method. Describes the behaviour of the button when is pressed.
+        In this case, it changes to the previous menu.
+        """
+
         self.controller.changeToMenu("MainMenu")
 
     def createButton(self, sizeX, sizeY):
+        """
+        This method is a factory of a PicButton object. Creates a button with the described size.
+
+        :param sizeX: X size of the button.
+        :param sizeY: Y size of the button.
+        :return: Created button object.
+        """
+
         button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Atrás", self.onClick)
 
         return button

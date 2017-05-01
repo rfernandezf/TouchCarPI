@@ -18,7 +18,15 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 class MainWindow(QMainWindow):
-    def __init__(self, parent=None, origPixmap=None):
+    """
+    This class creates the MainWindow object.
+    """
+
+    def __init__(self, parent=None):
+        """
+        Constructor of the Main Window class. Also loads the background.
+        """
+
         super(MainWindow, self).__init__(parent)
 
         palette = QPalette()

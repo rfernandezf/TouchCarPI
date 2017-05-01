@@ -51,16 +51,17 @@ class GUIController(object):
 
         sys.exit(app.exec_())
 
-    def run(self):
-        pass
-
-    def getMenu(self):
-        return self.actualMenu
-
     def changeToMenu(self, menuname):
+        """
+        Changes to the menu passed by parameter.
+
+        :param menuname: String with the name of the menu.
+        """
+
         if (menuname == "MainMenu"):
             self.db.setCurrentMenu("MainMenu")
             self.centralWidget.setCurrentWidget(self.mainMenuWidget)
+
         elif (menuname == "SelectAudioMenu"):
             self.db.setCurrentMenu("SelectAudioMenu")
             self.selectAudioMenuWidget = SelectAudioMenu(self)
@@ -68,6 +69,7 @@ class GUIController(object):
             self.audioController.register(self.selectAudioMenuWidget)
             self.centralWidget.addWidget(self.selectAudioMenuWidget)
             self.centralWidget.setCurrentWidget(self.selectAudioMenuWidget)
+
         elif (menuname == "PlayAudioMenu"):
             self.db.setCurrentMenu("PlayAudioMenu")
             self.playAudioMenuWidget = PlayAudioMenu(self)
@@ -75,6 +77,7 @@ class GUIController(object):
             self.audioController.register(self.playAudioMenuWidget)
             self.centralWidget.addWidget(self.playAudioMenuWidget)
             self.centralWidget.setCurrentWidget(self.playAudioMenuWidget)
+
         elif (menuname == "PlayRadioMenu"):
             self.db.setCurrentMenu("PlayRadioMenu")
             self.playRadioMenuWidget = PlayRadioMenu(self)

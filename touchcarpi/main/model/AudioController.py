@@ -114,6 +114,8 @@ class AudioController:
                 self.nextTrackEvent()
             elif (notify == "updateReproductionSecond"):
                 self.updateReproductionSecondEvent(var)
+            elif (notify == "endOfList"):
+                self.nextTrack()
 
 
         def __str__(self):

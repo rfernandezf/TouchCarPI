@@ -17,7 +17,7 @@ from DB.RAM_DB import RAM_DB
 from control.threads.ReproductionStatusThread import ReproductionStatusThread
 from control.threads.ThreadController import ThreadController
 
-from libs import vlc
+import libs.vlc as vlc
 
 
 class AudioFileVLC:
@@ -36,17 +36,21 @@ class AudioFileVLC:
 
         #This boolean avoid to notify of unnecesary changes to the AudioController, works as a flag
         self.avoidNotify = False
-
+        #This boolean avoid to stop the medialistplayer when is already stopped because have reached the end of the list.
         self.reproductionEnded = False
-
-        #For the VLC Event handler
-        self.vlc_events = self.listMediaPlayer.event_manager()
-        self.vlc_events.event_attach(vlc.EventType.MediaListPlayerNextItemSet, self.nextItem, 1)
 
         for i in range(0, len(self.pathFiles)):
             self.mediaList.insert_media(self.vlcInstance.media_new(self.pathFiles[i]), i)
 
         self.listMediaPlayer.set_media_list(self.mediaList)
+
+        #For the VLC Event handler
+        self.vlc_eventsMediaList = self.listMediaPlayer.event_manager()
+        self.vlc_eventsMediaPlayer = self.mediaPlayer.event_manager()
+        self.vlc_eventsMediaPlayer.event_attach(vlc.EventType.MediaPlayerEndReached, self.endOfList, 1)
+        self.vlc_eventsMediaList.event_attach(vlc.EventType.MediaListPlayerNextItemSet, self.nextItem, 1)
+
+
 
         self.reproductionStatusThread = None
 
@@ -76,7 +80,12 @@ class AudioFileVLC:
     def stopAudio(self):
         if (self.threadController.getReproductionStatusThread() != None):
             self.threadController.getReproductionStatusThread().stop()
-        self.listMediaPlayer.stop()
+        # At the end of the list, VLC Lib makes a stop() to the media player list by default.
+        # If we make a stop() two times, it hangs
+        if (self.reproductionEnded == False):
+            self.listMediaPlayer.stop()
+        else:
+            self.reproductionEnded = False
 
     def getPath(self):
         return self.path
@@ -86,5 +95,11 @@ class AudioFileVLC:
             self.notifyAudioController("nextTrack")
         else:
             self.avoidNotify = False
+
+    def endOfList(self, *args, **kwds):
+        # If the song ended & is the last of the list, must notify to the controller
+        if self.db.getSelection() == (len(self.pathFiles)-1):
+            self.reproductionEnded = True
+            self.notifyAudioController("endOfList")
 
 

@@ -17,7 +17,7 @@
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from .CustomListWidget import CustomListItemWidget
+from .CustomListItemWidget import CustomListItemWidget
 from model.AudioController import AudioController
 from DB.RAM_DB import RAM_DB
 from util.UtilityFunctions import getBandName

@@ -12,20 +12,20 @@
 #   Class name: SelectAudioMenu.py
 #   Description: This class creates a custom widget with the Select Audio Menu elements and layout.
 # *************************************************************************************************************
-import os
-
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-
-from ..widgets.buttons.Button_Back_SAM import Button_Back_SAM
-from ..widgets.buttons.Button_Resume_SAM import Button_Resume_SAM
-from DB.RAM_DB import RAM_DB
-from model.AudioStatus import AudioStatus
-from model.AudioController import AudioController
-from ..widgets.SelectAudioListWidget import SelectAudioListWidget
-from util.UtilityFunctions import getBandName
 
 from abc import ABCMeta, abstractmethod
+
+from DB.RAM_DB import RAM_DB
+from PyQt5.QtWidgets import *
+from model.AudioController import AudioController
+from model.AudioStatus import AudioStatus
+from util.UtilityFunctions import getBandName
+
+
+from ..widgets.buttons.SelectAudioMenu.Button_Resume_SAM import Button_Resume_SAM
+from ..widgets.ResumeAudioWidget_SAM import ResumeAudioWidget_SAM
+from ..widgets.SelectAudioListWidget import SelectAudioListWidget
+from ..widgets.buttons.SelectAudioMenu.Button_Back_SAM import Button_Back_SAM
 
 
 class SelectAudioMenu(QWidget):
@@ -41,6 +41,7 @@ class SelectAudioMenu(QWidget):
         self.resumeButton = Button_Resume_SAM(self.controller).createButton(344, 96)
 
         selectAudioListWidget = SelectAudioListWidget(self.controller)
+        self.resumeAudioWidget = ResumeAudioWidget_SAM(self.controller)
 
 
         vbox = QVBoxLayout()
@@ -53,7 +54,25 @@ class SelectAudioMenu(QWidget):
         hMenuBox.addStretch()
         hMenuBox.addWidget(selectAudioListWidget)
         hMenuBox.addStretch()
+
         vbox.addLayout(hMenuBox)
+
+        """
+        hMenuBox2 = QHBoxLayout()
+        hMenuBox2.addStretch()
+        hMenuBox2.addStretch()
+
+        hMenuBox2.addWidget(self.resumeAudioWidget)
+        if self.audioController.getStatus() == AudioStatus.NOFILE:
+            self.resumeAudioWidget.hide()
+        else:
+            self.resumeAudioWidget.setTextUp(self.metaDataList[self.db.getSelection()][0])
+            self.resumeAudioWidget.setTextDown(getBandName(self.metaDataList[self.db.getSelection()][1]))
+
+        hMenuBox2.addStretch()
+
+        vbox.addLayout(hMenuBox2)
+        """
 
         vbox.addStretch()
 
@@ -79,4 +98,8 @@ class SelectAudioMenu(QWidget):
 
     def updateView(self, *args, arg1, arg2):
         if (args[0] == "NewMetaData"):
+            """
+            self.resumeAudioWidget.setTextUp(self.metaDataList[self.db.getSelection()][0])
+            self.resumeAudioWidget.setTextDown(getBandName(self.metaDataList[self.db.getSelection()][1]))
+            """
             self.resumeButton.setText("Reproduciendo: " + getBandName(self.metaDataList[self.db.getSelection()][1]))

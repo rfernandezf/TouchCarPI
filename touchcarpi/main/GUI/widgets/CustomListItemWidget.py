@@ -9,7 +9,7 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: CustomListWidget.py
+#   Class name: CustomListItemWidget.py
 #   Description: This class provides custimized widgets for each element of a list, for customize the
 #   element representation of items in a ListWidget.
 # *************************************************************************************************************

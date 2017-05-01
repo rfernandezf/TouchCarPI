@@ -9,25 +9,20 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: Button_Previous_PAM.py
-#   Description: Concrete class of the "Previous Track" button from the Play Audio Menu. This class is a
+#   Class name: Button_POff_MM.py
+#   Description: Concrete class of the "Power Off" button from the Main Menu. This class is a
 #   factory method of a PicButton.
 # *************************************************************************************************************
 
 from PyQt5.QtGui import *
-from .PicButton import PicButton
-from model.AudioController import AudioController
+from ..PicButton import PicButton
 
-class Button_Previous_PAM():
+class Button_POff_MM():
 
-    def __init__(self, controller):
-        self.controller = controller
+        def onClick(self):
+            exit(0)
 
-    def onClick(self):
-        audioController = AudioController()
-        audioController.previousTrack()
+        def createButton(self, sizeX, sizeY):
+            button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Apagar", self.onClick)
 
-    def createButton(self, sizeX, sizeY):
-        button = PicButton(QPixmap("themes/default/img/previous_pam.png"), QPixmap("themes/default/img/previous_pam_pressed.png"), sizeX, sizeY, "", self.onClick)
-
-        return button
+            return button

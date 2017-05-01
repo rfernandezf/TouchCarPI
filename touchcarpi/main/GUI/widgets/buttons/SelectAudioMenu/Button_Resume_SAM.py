@@ -9,25 +9,26 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: Button_Pause_PAM.py
-#   Description: Concrete class of the "Pause" button from the Play Audio Menu. This class is a
+#   Class name: Button_Resume_SAM.py
+#   Description: Concrete class of the "Resume reproduction" button from the Select Audio Menu. This class is a
 #   factory method of a PicButton.
 # *************************************************************************************************************
 
 from PyQt5.QtGui import *
-from .PicButton import PicButton
+from ..PicButton import PicButton
 from model.AudioController import AudioController
 
-class Button_Pause_PAM():
 
+class Button_Resume_SAM():
     def __init__(self, controller):
         self.controller = controller
+        self.audioController = AudioController()
 
     def onClick(self):
-        audioController = AudioController()
-        audioController.pause()
+        self.controller.changeToMenu("PlayAudioMenu")
+        self.audioController.startUpdateStatusThread()
 
     def createButton(self, sizeX, sizeY):
-        button = PicButton(QPixmap("themes/default/img/pause_pam.png"), QPixmap("themes/default/img/pause_pam_pressed.png"), sizeX, sizeY, "", self.onClick)
+        button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Reprocccsión actual", self.onClick)
 
         return button

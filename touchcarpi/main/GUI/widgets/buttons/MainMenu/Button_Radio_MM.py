@@ -9,26 +9,24 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: Button_Resume_SAM.py
-#   Description: Concrete class of the "Resume reproduction" button from the Select Audio Menu. This class is a
+#   Class name: Button_Radio_MM.py
+#   Description: Concrete class of the "Radio Menu" button from the Main Menu. This class is a
 #   factory method of a PicButton.
 # *************************************************************************************************************
 
 from PyQt5.QtGui import *
-from .PicButton import PicButton
-from model.AudioController import AudioController
+from ..PicButton import PicButton
 
+class Button_Radio_MM():
 
-class Button_Resume_SAM():
     def __init__(self, controller):
         self.controller = controller
-        self.audioController = AudioController()
 
     def onClick(self):
-        self.controller.changeToMenu("PlayAudioMenu")
-        self.audioController.startUpdateStatusThread()
+        self.controller.changeToMenu("PlayRadioMenu")
+        pass
 
     def createButton(self, sizeX, sizeY):
-        button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Reprocccsión actual", self.onClick)
+        button = PicButton(QPixmap("themes/default/img/music_mm.png"), QPixmap("themes/default/img/music_mm_pressed.png"), sizeX, sizeY, "", self.onClick)
 
         return button

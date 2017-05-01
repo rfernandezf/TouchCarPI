@@ -48,12 +48,16 @@ class AudioFileVLC:
 
         self.listMediaPlayer.set_media_list(self.mediaList)
 
+        self.reproductionStatusThread = None
+
 
     def playAudio(self, path):
         self.path = path
         self.avoidNotify = True
         self.listMediaPlayer.play_item_at_index(self.db.getSelection())
-        self.startUpdateStatusThread()
+        # Solo iniciamos el hilo que hace polling para obtener el segundo de reproducción si el menú es el PlayAudioMenu
+        if(self.db.getActualMenu() == "PlayAudioMenu"):
+            self.startUpdateStatusThread()
 
     def startUpdateStatusThread(self):
         self.reproductionStatusThread = ReproductionStatusThread(self.mediaPlayer, self.notifyAudioController)
@@ -70,7 +74,8 @@ class AudioFileVLC:
         self.listMediaPlayer.play()
 
     def stopAudio(self):
-        self.reproductionStatusThread.stop()
+        if (self.threadController.getReproductionStatusThread() != None):
+            self.threadController.getReproductionStatusThread().stop()
         self.listMediaPlayer.stop()
 
     def getPath(self):
@@ -78,7 +83,6 @@ class AudioFileVLC:
 
     def nextItem(self, *args, **kwds):
         if (self.avoidNotify == False):
-            #self.reproductionStatusThread.stop()
             self.notifyAudioController("nextTrack")
         else:
             self.avoidNotify = False

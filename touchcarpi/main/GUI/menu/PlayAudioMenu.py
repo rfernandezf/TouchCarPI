@@ -13,25 +13,26 @@
 #   Description: This class creates a custom widget with the Play Audio Menu elements and layout.
 # *************************************************************************************************************
 
+from abc import ABCMeta, abstractmethod
+
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-
 from model.AudioController import AudioController
 from model.AudioStatus import AudioStatus
-from ..widgets.TimeSlider import TimeSlider
+
+from ..widgets.buttons.PlayAudioMenu.Button_Next_PAM import Button_Next_PAM
 from ..widgets.CustomLabel import CustomLabel
-from ..widgets.buttons.Button_Back_PAM import Button_Back_PAM
-from ..widgets.buttons.Button_Play_PAM import Button_Play_PAM
-from ..widgets.buttons.Button_Pause_PAM import Button_Pause_PAM
-from ..widgets.buttons.Button_Next_PAM import Button_Next_PAM
-from ..widgets.buttons.Button_Previous_PAM import Button_Previous_PAM
-from abc import ABCMeta, abstractmethod
+from ..widgets.TimeSlider import TimeSlider
+from ..widgets.buttons.PlayAudioMenu.Button_Back_PAM import Button_Back_PAM
+from ..widgets.buttons.PlayAudioMenu.Button_Pause_PAM import Button_Pause_PAM
+from ..widgets.buttons.PlayAudioMenu.Button_Play_PAM import Button_Play_PAM
+from ..widgets.buttons.PlayAudioMenu.Button_Previous_PAM import Button_Previous_PAM
 
 
 class PlayAudioMenu(QWidget):
     __metaclass__ = ABCMeta
-
+    #TODO Mal lo de pasarle la DB a las clases
     def __init__(self, controller, db, parent=None):
         super(PlayAudioMenu, self).__init__(parent)
         self.controller = controller
@@ -45,7 +46,7 @@ class PlayAudioMenu(QWidget):
         path = self.pathFiles[self.db.getSelection()]
         audioController = AudioController()
         self.audioObject = audioController.getAudioObject()
-        self.testLabel = CustomLabel().createLabel(path, Qt.AlignCenter)
+        self.textLabel = CustomLabel().createLabel(path, Qt.AlignCenter)
         self.actualTimeLabel = CustomLabel().createLabel("00:00", Qt.AlignCenter)
         self.totalTimeLabel = CustomLabel().createLabel("00:00", Qt.AlignCenter)
 
@@ -55,7 +56,7 @@ class PlayAudioMenu(QWidget):
 
         vbox.addStretch()
         vbox.addStretch()
-        vbox.addWidget(self.testLabel)
+        vbox.addWidget(self.textLabel)
         hbox2 = QHBoxLayout()
         hbox2.addWidget(self.actualTimeLabel)
         hbox2.addStretch()
@@ -116,7 +117,7 @@ class PlayAudioMenu(QWidget):
             else:
                 titleText = arg2[1] + " - " + arg2[0]
 
-            self.testLabel.setText(titleText)
+            self.textLabel.setText(titleText)
             self.totalTimeLabel.setText(strMinutes + ":" + strSeconds)
             self.timeSlider.setMaximum(arg2[16])
             self.playButton.hide()

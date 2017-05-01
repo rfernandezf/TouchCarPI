@@ -37,6 +37,8 @@ class RAM_DB:
             metaDataVLC = MetaDataVLC(self.pathFiles)
             self.metaDataList = metaDataVLC.getMetaData()
 
+            self.actualMenu = "MainMenu"
+
 
         def getAudioDB(self):
             return (self.filesInFolder, self.pathFiles, self.metaDataList)
@@ -52,6 +54,12 @@ class RAM_DB:
 
         def getIndexByFile(self, fileInFolder):
             return self.filesInFolder.index(fileInFolder)
+
+        def getActualMenu(self):
+            return self.actualMenu
+
+        def setActualMenu(self, menu):
+            self.actualMenu = menu
 
         def __str__(self):
             return repr(self) + self.val

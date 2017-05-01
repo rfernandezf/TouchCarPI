@@ -15,7 +15,7 @@
 # *************************************************************************************************************
 
 from PyQt5.QtGui import *
-from .PicButton import PicButton
+from ..PicButton import PicButton
 from control.threads.ThreadController import ThreadController
 
 class Button_Back_PAM():

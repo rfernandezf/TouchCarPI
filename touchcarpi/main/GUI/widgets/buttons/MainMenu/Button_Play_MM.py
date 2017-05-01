@@ -9,25 +9,29 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: Button_Play_PAM.py
-#   Description: Concrete class of the "Play" button from the Play Audio Menu. This class is a
+#   Class name: Button_Play_MM.py
+#   Description: Concrete class of the "Play" button from the Main Menu Audio Widget. This class is a
 #   factory method of a PicButton.
 # *************************************************************************************************************
 
 from PyQt5.QtGui import *
-from .PicButton import PicButton
+from ..PicButton import PicButton
 from model.AudioController import AudioController
+from model.AudioStatus import AudioStatus
 
-class Button_Play_PAM():
+class Button_Play_MM():
 
-    def __init__(self, controller):
-        self.controller = controller
+    def __init__(self):
+        self.audioController = AudioController()
+        self.audioObject = self.audioController.getAudioObject()
 
     def onClick(self):
-        audioController = AudioController()
-        audioController.resume()
+        # TODO Añadir funcionalidad radio
+        if (self.audioObject.getStatus() != AudioStatus.NOFILE):
+            self.audioController.resume()
 
     def createButton(self, sizeX, sizeY):
+        #TODO Cambiar gráfico
         button = PicButton(QPixmap("themes/default/img/play_pam.png"), QPixmap("themes/default/img/play_pam_pressed.png"), sizeX, sizeY, "", self.onClick)
 
         return button

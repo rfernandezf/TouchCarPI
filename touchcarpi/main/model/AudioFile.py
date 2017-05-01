@@ -10,8 +10,8 @@
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
 #   Class name: AudioFile.py
-#   Description: This class is a singleton facade for playing any kind of Audio file. It recives an audio file
-#   and calls to the appropiate concrete class according to what type of audio file is.
+#   Description: This class is a singleton facade for playing any kind of Audio file. It receives an audio file
+#   and calls to the appropriate concrete class according to what type of audio file is.
 # *************************************************************************************************************
 
 from .AudioFileVLC import AudioFileVLC
@@ -19,7 +19,7 @@ from .AudioStatus import AudioStatus
 from DB.RAM_DB import RAM_DB
 
 class AudioFile:
-
+    #Singleton pattern
     class __AudioFile:
         def __init__(self, notifyAudioController):
             self.path = ""
@@ -37,7 +37,6 @@ class AudioFile:
                 self.audioFileObject = self.__selectAudioType(self.path)
                 self.audioFileObject.playAudio(self.path)
                 self.status = AudioStatus.PLAYING
-
 
             elif (self.status == AudioStatus.PLAYING or self.status == AudioStatus.PAUSED):
                 self.audioFileObject.stopAudio()
@@ -73,10 +72,8 @@ class AudioFile:
 
             return audioType
 
-
         def getStatus(self):
             return self.status
-
 
         def __str__(self):
             return repr(self) + self.val

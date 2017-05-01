@@ -23,7 +23,7 @@ class RAM_DB:
 
     class __RAM_DB:
         def __init__(self):
-            #Obtengo los archivos de audio MP3
+            # List all the files in the desired format (MP3, WAV...)
             self.filesInFolder = []
             self.pathFiles = []
             self.selectionIndex = 0
@@ -37,7 +37,7 @@ class RAM_DB:
             metaDataVLC = MetaDataVLC(self.pathFiles)
             self.metaDataList = metaDataVLC.getMetaData()
 
-            self.actualMenu = "MainMenu"
+            self.currentMenu = "MainMenu"
 
 
         def getAudioDB(self):
@@ -55,11 +55,11 @@ class RAM_DB:
         def getIndexByFile(self, fileInFolder):
             return self.filesInFolder.index(fileInFolder)
 
-        def getActualMenu(self):
-            return self.actualMenu
+        def getCurrentMenu(self):
+            return self.currentMenu
 
-        def setActualMenu(self, menu):
-            self.actualMenu = menu
+        def setCurrentMenu(self, menu):
+            self.currentMenu = menu
 
         def __str__(self):
             return repr(self) + self.val

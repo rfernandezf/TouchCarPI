@@ -14,14 +14,12 @@
 # *************************************************************************************************************
 
 from abc import ABCMeta, abstractmethod
-
-from DB.RAM_DB import RAM_DB
 from PyQt5.QtWidgets import *
+
 from model.AudioController import AudioController
 from model.AudioStatus import AudioStatus
 from util.UtilityFunctions import getBandName
-
-
+from DB.RAM_DB import RAM_DB
 from ..widgets.buttons.SelectAudioMenu.Button_Resume_SAM import Button_Resume_SAM
 from ..widgets.ResumeAudioWidget_SAM import ResumeAudioWidget_SAM
 from ..widgets.SelectAudioListWidget import SelectAudioListWidget
@@ -31,31 +29,33 @@ from ..widgets.buttons.SelectAudioMenu.Button_Back_SAM import Button_Back_SAM
 class SelectAudioMenu(QWidget):
     __metaclass__ = ABCMeta
 
-    def __init__(self, controller, db, parent=None):
+    def __init__(self, controller, parent=None):
         super(SelectAudioMenu, self).__init__(parent)
         self.controller = controller
         self.db = RAM_DB()
         (fileName, pathFiles, self.metaDataList) = self.db.getAudioDB()
         self.audioController = AudioController()
+
         backButton = Button_Back_SAM(self.controller).createButton(344, 96)
         self.resumeButton = Button_Resume_SAM(self.controller).createButton(344, 96)
-
         selectAudioListWidget = SelectAudioListWidget(self.controller)
         self.resumeAudioWidget = ResumeAudioWidget_SAM(self.controller)
 
+        verticalBoxLayout = QVBoxLayout()
+        hSelectAudioListBox = QHBoxLayout()
+        hButtonsMenuBox = QHBoxLayout()
 
-        vbox = QVBoxLayout()
+        verticalBoxLayout.addStretch()
+        verticalBoxLayout.addStretch()
+        verticalBoxLayout.addStretch()
 
-        vbox.addStretch()
-        vbox.addStretch()
-        vbox.addStretch()
-        hMenuBox = QHBoxLayout()
-        hMenuBox.addStretch()
-        hMenuBox.addStretch()
-        hMenuBox.addWidget(selectAudioListWidget)
-        hMenuBox.addStretch()
+        hSelectAudioListBox.addStretch()
+        hSelectAudioListBox.addStretch()
+        hSelectAudioListBox.addWidget(selectAudioListWidget)
+        hSelectAudioListBox.addStretch()
 
-        vbox.addLayout(hMenuBox)
+        verticalBoxLayout.addLayout(hSelectAudioListBox)
+
 
         """
         hMenuBox2 = QHBoxLayout()
@@ -71,26 +71,23 @@ class SelectAudioMenu(QWidget):
 
         hMenuBox2.addStretch()
 
-        vbox.addLayout(hMenuBox2)
+        verticalBoxLayout.addLayout(hMenuBox2)
         """
 
-        vbox.addStretch()
+        verticalBoxLayout.addStretch()
 
-        hbox = QHBoxLayout()
+        hButtonsMenuBox.addWidget(backButton)
+        hButtonsMenuBox.addStretch()
+        hButtonsMenuBox.addWidget(self.resumeButton)
 
-        hbox.addWidget(backButton)
-
-        hbox.addStretch()
-
-        hbox.addWidget(self.resumeButton)
         if self.audioController.getStatus() == AudioStatus.NOFILE:
             self.resumeButton.hide()
         else:
             self.resumeButton.setText("Reproduciendo: " + getBandName(self.metaDataList[self.db.getSelection()][1]))
 
-        vbox.addLayout(hbox)
+        verticalBoxLayout.addLayout(hButtonsMenuBox)
 
-        self.setLayout(vbox)
+        self.setLayout(verticalBoxLayout)
 
     @abstractmethod
     def update(self, *args, **kwargs):

@@ -10,14 +10,14 @@
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
 #   Class name: AudioFileVLC.py
-#   Description: It plays MP3/WAV files using the VLC lib.
+#   Description: Plays MP3/WAV or other supported files using the VLC lib.
 # *************************************************************************************************************
 
 from DB.RAM_DB import RAM_DB
-from control.threads.ThreadController import ThreadController
 from control.threads.ReproductionStatusThread import ReproductionStatusThread
+from control.threads.ThreadController import ThreadController
 
-from . import vlc
+from libs import vlc
 
 
 class AudioFileVLC:
@@ -55,8 +55,8 @@ class AudioFileVLC:
         self.path = path
         self.avoidNotify = True
         self.listMediaPlayer.play_item_at_index(self.db.getSelection())
-        # Solo iniciamos el hilo que hace polling para obtener el segundo de reproducción si el menú es el PlayAudioMenu
-        if(self.db.getActualMenu() == "PlayAudioMenu"):
+        # We only starts the thread that make polling for gets the current reproduction second if the current menu is the PlayAudioMenu
+        if(self.db.getCurrentMenu() == "PlayAudioMenu"):
             self.startUpdateStatusThread()
 
     def startUpdateStatusThread(self):

@@ -1,3 +1,18 @@
+#*************************************************************************************************************
+#  ________  ________  ___  ___  ________  ___  ___  ________  ________  ________  ________  ___
+# |\___   ___\\   __  \|\  \|\  \|\   ____\|\  \|\  \|\   ____\|\   __  \|\   __  \|\   __  \|\  \
+# \|___ \  \_\ \  \|\  \ \  \\\  \ \  \___|\ \  \\\  \ \  \___|\ \  \|\  \ \  \|\  \ \  \|\  \ \  \
+#      \ \  \ \ \  \\\  \ \  \\\  \ \  \    \ \   __  \ \  \    \ \   __  \ \   _  _\ \   ____\ \  \
+#       \ \  \ \ \  \\\  \ \  \\\  \ \  \____\ \  \ \  \ \  \____\ \  \ \  \ \  \\  \\ \  \___|\ \  \
+#        \ \__\ \ \_______\ \_______\ \_______\ \__\ \__\ \_______\ \__\ \__\ \__\\ _\\ \__\    \ \__\
+#         \|__|  \|_______|\|_______|\|_______|\|__|\|__|\|_______|\|__|\|__|\|__|\|__|\|__|     \|__|
+#
+# *************************************************************************************************************
+#   Author: Rafael Fernández Flores (@Plata17 at GitHub)
+#   Class name: TimeSlider.py
+#   Description: Class that creates a custom slider for view the reproduction seconds.
+# *************************************************************************************************************
+
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -12,7 +27,8 @@ class TimeSlider(QWidget):
         self.sliderValueChangedByUser = sliderValueChangedByUser
         """
         False = Normal
-        True = The user is moving the slider
+        True = The user is moving the slider, the position of the slider
+        shouldn't be updated while the user is moving the slider
         """
         self.sliderTouched = False
 

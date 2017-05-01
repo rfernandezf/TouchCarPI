@@ -18,6 +18,7 @@ from abc import ABCMeta, abstractmethod
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+from DB.RAM_DB import RAM_DB
 from model.AudioController import AudioController
 from model.AudioStatus import AudioStatus
 
@@ -33,63 +34,66 @@ from ..widgets.buttons.PlayAudioMenu.Button_Previous_PAM import Button_Previous_
 class PlayAudioMenu(QWidget):
     __metaclass__ = ABCMeta
     #TODO Mal lo de pasarle la DB a las clases
-    def __init__(self, controller, db, parent=None):
+    def __init__(self, controller, parent=None):
         super(PlayAudioMenu, self).__init__(parent)
+
         self.controller = controller
-        self.db = db
+        self.db = RAM_DB()
+
         backButton = Button_Back_PAM(self.controller).createButton(344, 96)
         self.playButton = Button_Play_PAM(self.controller).createButton(50, 50)
         self.pauseButton = Button_Pause_PAM(self.controller).createButton(50, 50)
         nextButton = Button_Next_PAM(self.controller).createButton(50, 50)
         previousButton = Button_Previous_PAM(self.controller).createButton(50, 50)
+
         (self.fileName, self.pathFiles, self.metaDataList) = self.db.getAudioDB()
         path = self.pathFiles[self.db.getSelection()]
+
         audioController = AudioController()
         self.audioObject = audioController.getAudioObject()
+
         self.textLabel = CustomLabel().createLabel(path, Qt.AlignCenter)
         self.actualTimeLabel = CustomLabel().createLabel("00:00", Qt.AlignCenter)
         self.totalTimeLabel = CustomLabel().createLabel("00:00", Qt.AlignCenter)
-
         self.timeSlider = TimeSlider(0, 100, 0, self.sliderValueChangedByUser)
 
-        vbox = QVBoxLayout()
+        verticalBoxLayout = QVBoxLayout()
+        hRepTimeBox = QHBoxLayout()
+        hRepButtonsBox = QHBoxLayout()
+        hButtonsMenuBox = QHBoxLayout()
 
-        vbox.addStretch()
-        vbox.addStretch()
-        vbox.addWidget(self.textLabel)
-        hbox2 = QHBoxLayout()
-        hbox2.addWidget(self.actualTimeLabel)
-        hbox2.addStretch()
-        hbox2.addWidget(self.totalTimeLabel)
-        vbox.addLayout(hbox2)
-        vbox.addWidget(self.timeSlider)
-        vbox.addStretch()
-        hMenuBox = QHBoxLayout()
-        hMenuBox.addStretch()
+        verticalBoxLayout.addStretch()
+        verticalBoxLayout.addStretch()
+        verticalBoxLayout.addWidget(self.textLabel)
+
+        hRepTimeBox.addWidget(self.actualTimeLabel)
+        hRepTimeBox.addStretch()
+        hRepTimeBox.addWidget(self.totalTimeLabel)
+        verticalBoxLayout.addLayout(hRepTimeBox)
+        verticalBoxLayout.addWidget(self.timeSlider)
+        verticalBoxLayout.addStretch()
+
+        hRepButtonsBox.addStretch()
         if (self.audioObject.getStatus() == AudioStatus.PAUSED):
             self.pauseButton.hide()
         else:
             self.playButton.hide()
-        hMenuBox.addWidget(previousButton)
-        hMenuBox.addStretch()
-        hMenuBox.addWidget(self.playButton)
-        hMenuBox.addWidget(self.pauseButton)
-        hMenuBox.addStretch()
-        hMenuBox.addWidget(nextButton)
-        hMenuBox.addStretch()
-        vbox.addLayout(hMenuBox)
+        hRepButtonsBox.addWidget(previousButton)
+        hRepButtonsBox.addStretch()
+        hRepButtonsBox.addWidget(self.playButton)
+        hRepButtonsBox.addWidget(self.pauseButton)
+        hRepButtonsBox.addStretch()
+        hRepButtonsBox.addWidget(nextButton)
+        hRepButtonsBox.addStretch()
 
-        vbox.addStretch()
+        verticalBoxLayout.addLayout(hRepButtonsBox)
+        verticalBoxLayout.addStretch()
 
-        hbox = QHBoxLayout()
+        hButtonsMenuBox.addWidget(backButton)
+        hButtonsMenuBox.addStretch()
+        verticalBoxLayout.addLayout(hButtonsMenuBox)
 
-        hbox.addWidget(backButton)
-
-        hbox.addStretch()
-
-        vbox.addLayout(hbox)
-
-        self.setLayout(vbox)
+        self.setLayout(verticalBoxLayout)
 
     def sliderValueChangedByUser(self):
         self.audioObject.changeAudioSecond(self.timeSlider.getValue())

@@ -10,7 +10,7 @@
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
 #   Class name: MainMenuAudioWidget.py
-#   Description: This class provides a custimized widget for control the music in the Main Menu.
+#   Description: This class provides a customized widget for control the music in the Main Menu.
 # *************************************************************************************************************
 
 from abc import ABCMeta, abstractmethod
@@ -37,35 +37,30 @@ class MainMenuAudioWidget (QWidget):
         audioController = AudioController()
         self.audioObject = audioController.getAudioObject()
 
-        vBox1 = QVBoxLayout()
-        hBox1 = QHBoxLayout()
+        verticalBoxLayout = QVBoxLayout()
+        hRepButtonsBox = QHBoxLayout()
 
-        vBox1.addStretch()
-        #Aquí el texto con la canción que se reproduce
+        verticalBoxLayout.addStretch()
         self.textLabel = CustomLabel().createLabel("Sin medios de reproducción", Qt.AlignCenter)
-        vBox1.addWidget(self.textLabel)
+        verticalBoxLayout.addWidget(self.textLabel)
+        verticalBoxLayout.addStretch()
 
-        vBox1.addStretch()
-        #Aquí el contenido del otro layout con los botones
-
-
-        hBox1.addStretch()
+        hRepButtonsBox.addStretch()
         if (self.audioObject.getStatus() == AudioStatus.PAUSED):
             self.pauseButton.hide()
         else:
             self.playButton.hide()
-        hBox1.addWidget(previousButton)
-        hBox1.addStretch()
-        hBox1.addWidget(self.playButton)
-        hBox1.addWidget(self.pauseButton)
-        hBox1.addStretch()
-        hBox1.addWidget(nextButton)
-        hBox1.addStretch()
+        hRepButtonsBox.addWidget(previousButton)
+        hRepButtonsBox.addStretch()
+        hRepButtonsBox.addWidget(self.playButton)
+        hRepButtonsBox.addWidget(self.pauseButton)
+        hRepButtonsBox.addStretch()
+        hRepButtonsBox.addWidget(nextButton)
+        hRepButtonsBox.addStretch()
 
-        #Añadimos el layout al layout vertical
-        vBox1.addLayout(hBox1)
+        verticalBoxLayout.addLayout(hRepButtonsBox)
 
-        self.setLayout(vBox1)
+        self.setLayout(verticalBoxLayout)
 
     @abstractmethod
     def update(self, *args, **kwargs):

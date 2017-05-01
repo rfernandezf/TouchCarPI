@@ -10,7 +10,7 @@
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
 #   Class name: AudioController.py
-#   Description: This class has the responsibility of
+#   Description: This class has the responsibility of managing the audio files reproduction in any format.
 # *************************************************************************************************************
 
 
@@ -20,9 +20,8 @@ from DB.RAM_DB import RAM_DB
 
 
 class AudioController:
-
+    # Singleton pattern
     class __AudioController:
-
 
         def __init__(self):
             self.db = RAM_DB()
@@ -49,7 +48,6 @@ class AudioController:
         def update_observers(self, *args, **kwargs):
             for observer in self.observers:
                 observer.update(*args, **kwargs)
-
         ###############################################################################
 
         def getAudioObject(self):
@@ -103,7 +101,6 @@ class AudioController:
 
         def changeAudioSecond(self, second):
             self.audioObject.changeAudioSecond(second)
-
 
         def updateReproductionSecondEvent(self, second):
             self.update_observers("UpdateReproductionSecond", arg1=second, arg2=None)

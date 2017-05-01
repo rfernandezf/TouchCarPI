@@ -29,7 +29,6 @@ class SelectAudioListWidget(QListWidget):
         self.db = RAM_DB()
         self.controller = controller
 
-        # Pasar esto a una clase A PARTE
         self.itemClicked.connect(self.item_click)
         self.setMinimumSize(QSize(600, 300))
         (fileName, pathFiles, self.metaDataList) = self.db.getAudioDB()

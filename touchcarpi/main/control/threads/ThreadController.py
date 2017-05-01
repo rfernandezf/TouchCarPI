@@ -10,7 +10,7 @@
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
 #   Class name: ReproductionStatusThread.py
-#   Description: This class is a singleton that controlls al the application threads. Gives to the API global access
+#   Description: This class is a singleton that controls all the application threads. Gives to the API global access
 #   to the threads for stop them.
 # *************************************************************************************************************
 

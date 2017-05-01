@@ -10,8 +10,8 @@
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
 #   Class name: GUIController.py
-#   Description: This class has the responsibility of do the change between menus & initialize the GUI
-#   loading the main menu.
+#   Description: This class has the responsibility of do the change between menus & initialize the GUI,
+#   loading the Main Menu.
 # *************************************************************************************************************
 
 import sys
@@ -31,13 +31,12 @@ class GUIController(object):
 
     def initialize(self):
         app = QApplication(sys.argv)
-
         mainWindow = MainWindow()
         self.centralWidget = QStackedWidget()
         mainWindow.setCentralWidget(self.centralWidget)
-        self.db = RAM_DB()
-        self.mainMenuWidget = MainMenu(self, self.db)
 
+        self.db = RAM_DB()
+        self.mainMenuWidget = MainMenu(self)
         self.audioController = AudioController()
 
         self.centralWidget.addWidget(self.mainMenuWidget)
@@ -53,26 +52,24 @@ class GUIController(object):
 
     def changeToMenu(self, menuname):
         if (menuname == "MainMenu"):
-            self.db.setActualMenu("MainMenu")
+            self.db.setCurrentMenu("MainMenu")
             self.centralWidget.setCurrentWidget(self.mainMenuWidget)
         elif (menuname == "SelectAudioMenu"):
-            self.db.setActualMenu("SelectAudioMenu")
-            self.selectAudioMenuWidget = SelectAudioMenu(self, self.db)
+            self.db.setCurrentMenu("SelectAudioMenu")
+            self.selectAudioMenuWidget = SelectAudioMenu(self)
+            #Observer pattern register
             self.audioController.register(self.selectAudioMenuWidget)
             self.centralWidget.addWidget(self.selectAudioMenuWidget)
             self.centralWidget.setCurrentWidget(self.selectAudioMenuWidget)
         elif (menuname == "PlayAudioMenu"):
-            self.db.setActualMenu("PlayAudioMenu")
-            self.playAudioMenuWidget = PlayAudioMenu(self, self.db)
-            ###################################################################################
-            # APPLYING THE OBSERVER PATTERN :)
-            ###################################################################################
+            self.db.setCurrentMenu("PlayAudioMenu")
+            self.playAudioMenuWidget = PlayAudioMenu(self)
+            #Observer pattern register
             self.audioController.register(self.playAudioMenuWidget)
-            ###################################################################################
             self.centralWidget.addWidget(self.playAudioMenuWidget)
             self.centralWidget.setCurrentWidget(self.playAudioMenuWidget)
         elif (menuname == "PlayRadioMenu"):
-            self.db.setActualMenu("PlayRadioMenu")
-            self.playRadioMenuWidget = PlayRadioMenu(self, self.db)
+            self.db.setCurrentMenu("PlayRadioMenu")
+            self.playRadioMenuWidget = PlayRadioMenu(self)
             self.centralWidget.addWidget(self.playRadioMenuWidget)
             self.centralWidget.setCurrentWidget(self.playRadioMenuWidget)

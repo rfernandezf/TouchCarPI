@@ -17,7 +17,7 @@
 # *************************************************************************************************************
 # getBandName()
 #
-# Gets the metaData string of a band name and return a string without null values
+# Gets the metaData string of a band name and returns a string without null values
 #
 # @param metaData - Original band meta data string
 # *************************************************************************************************************

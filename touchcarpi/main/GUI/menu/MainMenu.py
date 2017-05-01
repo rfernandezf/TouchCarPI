@@ -28,7 +28,7 @@ from ..widgets.MainMenuAudioWidget.MainMenuAudioWidget import MainMenuAudioWidge
 
 
 class MainMenu(QWidget):
-    def __init__(self, controller, db, parent=None):
+    def __init__(self, controller, parent=None):
         super(MainMenu, self).__init__(parent)
 
         audioController = AudioController()
@@ -39,42 +39,44 @@ class MainMenu(QWidget):
         radioMenuLabel = CustomLabel().createLabel("Radio  ", Qt.AlignCenter)
         radioMenuButton = Button_Radio_MM(controller).createButton(97, 97)
         mainMenuAudioWidget = MainMenuAudioWidget()
+        # Observer
         audioController.register(mainMenuAudioWidget)
 
-        vBox1 = QVBoxLayout()
-        hBox1 = QHBoxLayout()
-        hBox2 = QHBoxLayout()
-
-        vBox1.addStretch()
-        vBox1.addStretch()
-
-        hBox1.addStretch()
-        hBox1.addWidget(mainMenuAudioWidget)
-        vBox1.addLayout(hBox1)
-        vBox1.addStretch()
-
-        hBox2.addStretch()
-        hBox2.addWidget(musicMenuButton)
-        hBox2.addStretch()
-        hBox2.addWidget(radioMenuButton)
-        hBox2.addStretch()
-        vBox1.addLayout(hBox2)
-
+        # Setting the layouts
+        verticalBoxLayout = QVBoxLayout()
+        hMainMenuTopWidgets = QHBoxLayout()
+        hAppsMenuBox = QHBoxLayout()
         hLabelMenuBox = QHBoxLayout()
+        hButtonsMenuBox = QHBoxLayout()
+
+        verticalBoxLayout.addStretch()
+        verticalBoxLayout.addStretch()
+
+        hMainMenuTopWidgets.addStretch()
+        hMainMenuTopWidgets.addWidget(mainMenuAudioWidget)
+        verticalBoxLayout.addLayout(hMainMenuTopWidgets)
+        verticalBoxLayout.addStretch()
+
+        hAppsMenuBox.addStretch()
+        hAppsMenuBox.addWidget(musicMenuButton)
+        hAppsMenuBox.addStretch()
+        hAppsMenuBox.addWidget(radioMenuButton)
+        hAppsMenuBox.addStretch()
+        verticalBoxLayout.addLayout(hAppsMenuBox)
+
         hLabelMenuBox.addStretch()
         hLabelMenuBox.addWidget(musicMenuLabel)
         hLabelMenuBox.addStretch()
         hLabelMenuBox.addWidget(radioMenuLabel)
         hLabelMenuBox.addStretch()
 
-        vBox1.addLayout(hLabelMenuBox)
-        vBox1.addStretch()
-        hbox = QHBoxLayout()
+        verticalBoxLayout.addLayout(hLabelMenuBox)
+        verticalBoxLayout.addStretch()
 
-        hbox.addWidget(optionsButton)
+        hButtonsMenuBox.addWidget(optionsButton)
 
-        hbox.addStretch()
-        hbox.addWidget(poffButton)
-        vBox1.addLayout(hbox)
+        hButtonsMenuBox.addStretch()
+        hButtonsMenuBox.addWidget(poffButton)
+        verticalBoxLayout.addLayout(hButtonsMenuBox)
 
-        self.setLayout(vBox1)
+        self.setLayout(verticalBoxLayout)

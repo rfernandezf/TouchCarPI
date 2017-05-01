@@ -17,16 +17,35 @@ import threading
 import time
 
 class ReproductionStatusThread (threading.Thread):
+    """
+    This class is a thread runnable class that polls the actual reproduction second.
+    """
+
     def __init__(self, mediaPlayer, notifyAudioController):
+        """
+        Constructor of the thread.
+
+        :param mediaPlayer: Media Player instance for poll the second.
+        :param notifyAudioController: Method to notify of the changes to the Audio Controller.
+        """
+
         threading.Thread.__init__(self)
         self.mediaPlayer = mediaPlayer
         self.notifyAudioController = notifyAudioController
         self._stop = threading.Event()
 
     def stop(self):
+        """
+        Stop method of the thread.
+        """
+
         self._stop.set()
 
     def run(self):
+        """
+        Run method of the thread.
+        """
+
         #print ("Starting " + self.name)
         while self._stop.isSet() == False:
             miliseconds = self.mediaPlayer.get_time()

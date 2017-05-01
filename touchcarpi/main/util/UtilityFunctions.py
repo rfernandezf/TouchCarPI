@@ -14,14 +14,13 @@
 # *************************************************************************************************************
 
 
-# *************************************************************************************************************
-# getBandName()
-#
-# Gets the metaData string of a band name and returns a string without null values
-#
-# @param metaData - Original band meta data string
-# *************************************************************************************************************
 def getBandName(metaData):
+    """
+    Gets the metaData string of a band name and returns a string without null values
+
+    :param metaData: Original band meta data string.
+    :return: String with the name of the band without null values.
+    """
 
     if metaData == None:
         value = "Artista desconocido"

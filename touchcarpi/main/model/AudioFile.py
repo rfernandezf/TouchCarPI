@@ -19,10 +19,19 @@ from .AudioStatus import AudioStatus
 from DB.RAM_DB import RAM_DB
 
 class AudioFile:
+    """
+    This class is a singleton facade for playing any kind of Audio file.
+    """
+
     #Singleton pattern
     class __AudioFile:
         def __init__(self, notifyAudioController):
-            self.path = ""
+            """
+            Constructor of the AudioFile class.
+
+            :param notifyAudioController: Method to notify of the changes to the Audio Controller.
+            """
+
             self.savedSecond = 0
             self.status = AudioStatus.NOFILE
             self.audioFileObject = None
@@ -31,48 +40,90 @@ class AudioFile:
             (self.fileName, self.pathFiles, self.metaDataList) = self.db.getAudioDB()
 
 
-        def playAudio(self, path):
-            self.path = path
+        def playAudio(self):
+            """
+            Plays the selected audio file, don't matter what kind of format.
+            """
+
             if (self.status == AudioStatus.NOFILE):
-                self.audioFileObject = self.__selectAudioType(self.path)
-                self.audioFileObject.playAudio(self.path)
+                self.audioFileObject = self.__selectAudioType(self.pathFiles[self.db.getSelection()])
+                self.audioFileObject.playAudio()
                 self.status = AudioStatus.PLAYING
 
             elif (self.status == AudioStatus.PLAYING or self.status == AudioStatus.PAUSED):
                 self.audioFileObject.stopAudio()
-                self.audioFileObject = self.__selectAudioType(self.path)
-                self.audioFileObject.playAudio(self.path)
+                self.audioFileObject = self.__selectAudioType(self.pathFiles[self.db.getSelection()])
+                self.audioFileObject.playAudio()
 
         def pauseAudio(self):
+            """
+            Pauses the current audio, managing it with the appropriate lib.
+            """
+
             self.audioFileObject.pauseAudio()
             self.status == AudioStatus.PAUSED
 
         def resumeAudio(self, savedSecond):
+            """
+            Resumes the current audio, managing it with the appropriate lib.
+
+            :param savedSecond: Second from where it resumes the reproduction.
+            """
+
             self.audioFileObject.resumeAudio(savedSecond)
 
         def resumeAudio(self):
+            """
+            Resumes the current audio, managing it with the appropriate lib.
+            """
+
             self.audioFileObject.resumeAudio()
 
         def changeAudioSecond(self, second):
+            """
+            Changes the current reproduction second to another second.
+
+            :param second: New current second.
+            """
+
             self.audioFileObject.changeAudioSecond(second)
 
         def stopAudio(self):
+            """
+            Stops the reproduction of the current audio, managing it with the appropriate lib.
+            """
+
             self.status = AudioStatus.NOFILE
             self.audioFileObject.stopAudio()
 
         def startUpdateStatusThread(self):
+            """
+            Starts a thread that updates the reproduction status by polling to the vlc lib.
+            """
+
             self.audioFileObject.startUpdateStatusThread()
 
-        def getPath(self):
-            return self.path
-
         def __selectAudioType(self, path):
-            if (self.path.endswith(".mp3")):
+            """
+            Private method that calls to the appropriate object depending on what kind of audio we want to reproduce.
+            (Polimorfism)
+
+            :param path: Path to the audio file.
+            :return: Audio object using the appropriate lib.
+            """
+
+            if (path.endswith(".mp3")):
                 audioType = AudioFileVLC(self.notifyAudioController)
 
             return audioType
 
         def getStatus(self):
+            """
+            Returns the current status of the reproduction. See AudioStatus class.
+
+            :return: Current status.
+            """
+
             return self.status
 
         def __str__(self):

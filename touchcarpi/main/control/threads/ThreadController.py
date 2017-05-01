@@ -15,15 +15,36 @@
 # *************************************************************************************************************
 
 class ThreadController:
+    """
+    This class is a singleton that controls all the application threads.
+    The idea is to have one set & get for each system thread.
+    """
 
+    #Singleton pattern
     class __ThreadController:
+
         def __init__(self):
+            """
+            Constructor of the thread controller.
+            """
+
             self.reproductionStatusThread = None
 
         def setReproductionStatusThread(self, reproductionStatusThread):
+            """
+            Sets the reproduction status thread current instance.
+            :param reproductionStatusThread: Current thread instance.
+            """
+
             self.reproductionStatusThread = reproductionStatusThread
 
         def getReproductionStatusThread(self):
+            """
+            Returns the current reproduction status thread instance.
+
+            :return: Instance of a thread.
+            """
+
             return self.reproductionStatusThread
 
 

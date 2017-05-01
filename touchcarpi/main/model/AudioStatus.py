@@ -16,6 +16,10 @@
 from enum import Enum
 
 class AudioStatus(Enum):
+    """
+    This class contains an enum type with the states of the AudioMenu object.
+    """
+
     NOFILE = 1
     PLAYING = 2
     PAUSED = 3

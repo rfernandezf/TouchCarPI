@@ -13,7 +13,7 @@
 #   Description: This class reads the meta data of the songs using the VLC lib.
 # *************************************************************************************************************
 
-import libs.vlc as vlc
+from libs import vlc
 
 
 class MetaDataVLC:

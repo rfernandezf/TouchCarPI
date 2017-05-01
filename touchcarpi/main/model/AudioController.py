@@ -26,7 +26,8 @@ class AudioController:
         def __init__(self):
             self.db = RAM_DB()
             (self.fileName, self.pathFiles, self.metaDataList) = self.db.getAudioDB()
-            self.path = self.pathFiles[self.db.getSelection()]
+            #self.path = self.pathFiles[self.db.getSelection()]
+            self.path = None
             self.audioObject = AudioFile(self.notifyController)
             self.observers = []
 

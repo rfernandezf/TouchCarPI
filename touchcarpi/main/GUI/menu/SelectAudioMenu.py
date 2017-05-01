@@ -39,7 +39,7 @@ class SelectAudioMenu(QWidget):
         backButton = Button_Back_SAM(self.controller).createButton(344, 96)
         self.resumeButton = Button_Resume_SAM(self.controller).createButton(344, 96)
         selectAudioListWidget = SelectAudioListWidget(self.controller)
-        self.resumeAudioWidget = ResumeAudioWidget_SAM(self.controller)
+        #self.resumeAudioWidget = ResumeAudioWidget_SAM(self.controller)
 
         verticalBoxLayout = QVBoxLayout()
         hSelectAudioListBox = QHBoxLayout()

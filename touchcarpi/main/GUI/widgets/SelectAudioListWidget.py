@@ -23,9 +23,19 @@ from DB.RAM_DB import RAM_DB
 from util.UtilityFunctions import getBandName
 
 class SelectAudioListWidget(QListWidget):
+    """
+    Class that creates a customiced QListWidget used in the SelectAudioMenu.
+    """
 
     def __init__(self, controller, parent = None):
+        """
+        Constructor of the SelectAudioListWidget class.
+
+        :param controller: GUIController object.
+        """
+
         super(SelectAudioListWidget, self).__init__(parent)
+
         self.db = RAM_DB()
         self.controller = controller
 
@@ -51,6 +61,12 @@ class SelectAudioListWidget(QListWidget):
 
 
     def item_click(self, item):
+        """
+        Changes to the Play Audio Menu when a item is clicked.
+
+        :param item: The clicked item.
+        """
+
         #Set the track selected for playing it
         self.db.setSelection(self.db.getIndexByPath(self.itemsDict[str(item)].getPath()))
         #Switch to PlayAudioMenu

@@ -19,8 +19,19 @@ from PyQt5.QtGui import *
 
 
 class CustomLabel():
+    """
+    This class creates a custom text label.
+    """
 
     def createLabel(self, text, align):
+        """
+        Factory method of the label.
+
+        :param text: Text of the label.
+        :param align: Align of the label.
+        :return: Label object.
+        """
+
         label = QLabel()
         label.setText(text)
         label.setAttribute(Qt.WA_TransparentForMouseEvents)

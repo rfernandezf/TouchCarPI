@@ -19,8 +19,17 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 class CustomListItemWidget (QWidget):
+    """
+    This class provides customized widgets for each element of a list.
+    """
+
     def __init__ (self, parent = None):
+        """
+        Constructor of the CustomListItemWidget class.
+        """
+
         super(CustomListItemWidget, self).__init__(parent)
+
         self.textQVBoxLayout = QVBoxLayout()
         self.textUpQLabel    = QLabel()
         self.textDownQLabel  = QLabel()
@@ -40,8 +49,10 @@ class CustomListItemWidget (QWidget):
         font1.setBold(True)
         font2 = QFont('Myriada', 9)
         font2.setBold(True)
+
         self.textUpQLabel.setFont(font1)
         self.textDownQLabel.setFont(font2)
+
         # setStyleSheet
         self.textUpQLabel.setStyleSheet('''
             color: rgb(10, 0, 0);
@@ -51,16 +62,46 @@ class CustomListItemWidget (QWidget):
         ''')
 
     def setTextUp (self, text):
+        """
+        Sets the text of the label on the top of the item.
+
+        :param text: Text of the label.
+        """
+
         self.textUpQLabel.setText(text)
 
-    def setPath (self, text):
-        self.path = text
+    def setPath (self, pathFile):
+        """
+        Sets the path to the song that is listed in the item.
+
+        :param pathFile: Path to the file.
+        """
+
+        self.path = pathFile
 
     def getPath (self):
+        """
+        Returns the path to the song that is listed in the item.
+
+        :return: Path to the song.
+        """
+
         return self.path
 
     def setTextDown (self, text):
+        """
+        Sets the text of the label on the bottom of the item.
+
+        :param text: Text of the label.
+        """
+
         self.textDownQLabel.setText(text)
 
     def setIcon (self, imagePath):
+        """
+        Sets the icon of the item.
+
+        :param imagePath: Full path to the icon.
+        """
+
         self.iconQLabel.setPixmap(QPixmap(imagePath))

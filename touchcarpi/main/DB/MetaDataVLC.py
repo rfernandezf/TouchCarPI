@@ -35,6 +35,8 @@ class MetaDataVLC:
         for i in range(0, len(self.pathFiles)):
             self.mediaList.append(self.vlcInstance.media_new(self.pathFiles[i]))
 
+
+    @property
     def getMetaData(self):
         """
         Method that returns the meta data for all the list.
@@ -67,7 +69,7 @@ class MetaDataVLC:
             libvlc_meta_DiscNumber
             libvlc_meta_DiscTotal
 
-        :return: List of strings with all the meta data.
+        :return List of strings with all the meta data:
         """
 
         metaDataList = []

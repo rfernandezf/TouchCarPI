@@ -28,8 +28,15 @@ from model.AudioController import AudioController
 
 
 class GUIController(object):
+    """
+    This class has the responsibility of do the change between menus & initialize the GUI.
+    """
 
     def initialize(self):
+        """
+        Initialize the GUI and load the Main Menu.
+        """
+
         app = QApplication(sys.argv)
         mainWindow = MainWindow()
         self.centralWidget = QStackedWidget()

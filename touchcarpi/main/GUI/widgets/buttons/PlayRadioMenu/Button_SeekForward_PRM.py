@@ -9,36 +9,23 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: Button_POff_MM.py
-#   Description: Concrete class of the "Power Off" button from the Main Menu. This class is a
+#   Class name: Button_SeekForward_PRM.py
+#   Description: Concrete class of the "Seek Forward" button from the Play Radio Menu. This class is a
 #   factory method of a PicButton.
 # *************************************************************************************************************
 
 from PyQt5.QtGui import *
 from ..PicButton import PicButton
 
-class Button_POff_MM():
-    """
-    Concrete class of the "Power Off" button from the Main Menu.
-    """
+class Button_SeekForward_PRM():
+
+    def __init__(self, controller):
+        self.controller = controller
 
     def onClick(self):
-        """
-        OnClick method. Describes the behaviour of the button when is pressed.
-        In this case, it ends the application.
-        """
-
-        exit(0)
+        print("BUSCA LA SIGUIENTE EMISORA")
 
     def createButton(self, sizeX, sizeY):
-        """
-        This method is a factory of a PicButton object. Creates a button with the described size.
-
-        :param sizeX: X size of the button.
-        :param sizeY: Y size of the button.
-        :return: Created button object.
-        """
-
-        button = PicButton(QPixmap("themes/default/img/MenuButton_R.png"), QPixmap("themes/default/img/MenuButton_R_Pressed.png"), sizeX, sizeY, "Apagar", self.onClick)
+        button = PicButton(QPixmap("themes/default/img/seekforward_prm.png"), QPixmap("themes/default/img/seekforward_prm_pressed.png"), sizeX, sizeY, "", self.onClick)
 
         return button

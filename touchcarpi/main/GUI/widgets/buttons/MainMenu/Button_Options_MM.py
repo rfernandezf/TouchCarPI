@@ -48,6 +48,6 @@ class Button_Options_MM():
         :return: Created button object.
         """
 
-        button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Opciones", self.onClick)
+        button = PicButton(QPixmap("themes/default/img/MenuButton_L.png"), QPixmap("themes/default/img/MenuButton_L_Pressed.png"), sizeX, sizeY, "Opciones", self.onClick)
 
         return button

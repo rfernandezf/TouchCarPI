@@ -23,7 +23,7 @@ class CustomLabel():
     This class creates a custom text label.
     """
 
-    def createLabel(self, text, align):
+    def createLabel(self, text, align, size = 13):
         """
         Factory method of the label.
 
@@ -36,7 +36,7 @@ class CustomLabel():
         label.setText(text)
         label.setAttribute(Qt.WA_TransparentForMouseEvents)
         label.setAlignment(align)
-        font = QFont('Myriada', 13)
+        font = QFont('Myriada', size)
         font.setBold(True)
         label.setStyleSheet("color: rgb(255, 255, 255);")
         label.setFont(font)

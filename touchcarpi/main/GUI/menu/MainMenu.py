@@ -41,8 +41,8 @@ class MainMenu(QWidget):
         super(MainMenu, self).__init__(parent)
 
         audioController = AudioController()
-        optionsButton = Button_Options_MM(controller).createButton(344, 96)
-        poffButton = Button_POff_MM().createButton(344, 96)
+        optionsButton = Button_Options_MM(controller).createButton(263, 100)
+        poffButton = Button_POff_MM().createButton(263, 100)
         musicMenuLabel = CustomLabel().createLabel("Música      ", Qt.AlignCenter)
         musicMenuButton = Button_Music_MM(controller).createButton(97, 97)
         radioMenuLabel = CustomLabel().createLabel("Radio  ", Qt.AlignCenter)

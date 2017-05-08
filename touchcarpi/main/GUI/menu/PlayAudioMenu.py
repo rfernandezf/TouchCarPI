@@ -50,7 +50,7 @@ class PlayAudioMenu(QWidget):
         self.controller = controller
         self.db = RAM_DB()
 
-        backButton = Button_Back_PAM(self.controller).createButton(344, 96)
+        backButton = Button_Back_PAM(self.controller).createButton(269, 100)
         self.playButton = Button_Play_PAM(self.controller).createButton(50, 50)
         self.pauseButton = Button_Pause_PAM(self.controller).createButton(50, 50)
         nextButton = Button_Next_PAM(self.controller).createButton(50, 50)
@@ -72,6 +72,7 @@ class PlayAudioMenu(QWidget):
         hRepButtonsBox = QHBoxLayout()
         hButtonsMenuBox = QHBoxLayout()
 
+        verticalBoxLayout.setContentsMargins(0, 0, 0, 0)
         verticalBoxLayout.addStretch()
         verticalBoxLayout.addStretch()
         verticalBoxLayout.addWidget(self.textLabel)

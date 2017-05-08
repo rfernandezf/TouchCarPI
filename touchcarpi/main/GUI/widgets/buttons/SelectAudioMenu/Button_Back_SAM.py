@@ -31,7 +31,7 @@ class Button_Back_SAM():
 
         self.controller = controller
 
-    def onClick(self):
+    def onClick(self, isLongClick = False):
         """
         OnClick method. Describes the behaviour of the button when is pressed.
         In this case, it changes to the previous menu.
@@ -48,6 +48,6 @@ class Button_Back_SAM():
         :return: Created button object.
         """
 
-        button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Atrás", self.onClick)
+        button = PicButton(QPixmap("themes/default/img/MenuButton_L.png"), QPixmap("themes/default/img/MenuButton_L_Pressed.png"), sizeX, sizeY, "Atrás", self.onClick)
 
         return button

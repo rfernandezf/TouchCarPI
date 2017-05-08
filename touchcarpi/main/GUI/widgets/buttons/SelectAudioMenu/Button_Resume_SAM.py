@@ -35,7 +35,7 @@ class Button_Resume_SAM():
         self.controller = controller
         self.audioController = AudioController()
 
-    def onClick(self):
+    def onClick(self, isLongClick = False):
         """
         OnClick method. Describes the behaviour of the button when is pressed.
         In this case, it switch to the Play Audio Menu with the current reproduction.
@@ -53,6 +53,6 @@ class Button_Resume_SAM():
         :return: Created button object.
         """
 
-        button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Reprocccsión actual", self.onClick)
+        button = PicButton(QPixmap("themes/default/img/MenuButton_R.png"), QPixmap("themes/default/img/MenuButton_R_Pressed.png"), sizeX, sizeY, "Reprocccsión actual", self.onClick)
 
         return button

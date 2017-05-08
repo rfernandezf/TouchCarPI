@@ -33,7 +33,7 @@ class Button_Back_PAM():
         self.controller = controller
         self.threadController = ThreadController()
 
-    def onClick(self):
+    def onClick(self, isLongClick = False):
         """
         OnClick method. Describes the behaviour of the button when is pressed.
         In this case, it changes to the previous menu and stops the reproduction status thread.
@@ -53,6 +53,6 @@ class Button_Back_PAM():
         :return: Created button object.
         """
 
-        button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Atrás", self.onClick)
+        button = PicButton(QPixmap("themes/default/img/MenuButton_L.png"), QPixmap("themes/default/img/MenuButton_L_Pressed.png"), sizeX, sizeY, "Atrás", self.onClick)
 
         return button

@@ -31,6 +31,7 @@ class MainMenu(QWidget):
     """
     This class creates a custom widget with the Main Menu elements and layout.
     """
+
     def __init__(self, controller, parent=None):
         """
         Constructor of the MainMenu class.
@@ -41,12 +42,12 @@ class MainMenu(QWidget):
         super(MainMenu, self).__init__(parent)
 
         audioController = AudioController()
-        optionsButton = Button_Options_MM(controller).createButton(263, 100)
-        poffButton = Button_POff_MM().createButton(263, 100)
+        optionsButton = Button_Options_MM(controller).createButton(269, 100)
+        poffButton = Button_POff_MM().createButton(269, 100)
         musicMenuLabel = CustomLabel().createLabel("Música      ", Qt.AlignCenter)
-        musicMenuButton = Button_Music_MM(controller).createButton(97, 97)
+        musicMenuButton = Button_Music_MM(controller).createButton(80, 80)
         radioMenuLabel = CustomLabel().createLabel("Radio  ", Qt.AlignCenter)
-        radioMenuButton = Button_Radio_MM(controller).createButton(97, 97)
+        radioMenuButton = Button_Radio_MM(controller).createButton(80, 80)
         mainMenuAudioWidget = MainMenuAudioWidget()
         # Observer
         audioController.register(mainMenuAudioWidget)
@@ -58,6 +59,7 @@ class MainMenu(QWidget):
         hLabelMenuBox = QHBoxLayout()
         hButtonsMenuBox = QHBoxLayout()
 
+        verticalBoxLayout.setContentsMargins(0, 0, 0, 0)
         verticalBoxLayout.addStretch()
         verticalBoxLayout.addStretch()
 

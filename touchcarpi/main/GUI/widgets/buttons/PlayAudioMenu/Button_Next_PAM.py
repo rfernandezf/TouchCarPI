@@ -32,7 +32,7 @@ class Button_Next_PAM():
 
         self.controller = controller
 
-    def onClick(self):
+    def onClick(self, isLongClick = False):
         """
         OnClick method. Describes the behaviour of the button when is pressed.
         In this case, it switch to the next song of the list.

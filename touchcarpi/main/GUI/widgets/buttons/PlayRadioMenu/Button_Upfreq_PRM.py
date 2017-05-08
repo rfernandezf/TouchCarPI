@@ -22,7 +22,7 @@ class Button_Upfreq_PRM():
     def __init__(self, controller):
         self.controller = controller
 
-    def onClick(self):
+    def onClick(self, isLongClick = False):
         print("SUBE LA FRECUENCIA")
 
     def createButton(self, sizeX, sizeY):

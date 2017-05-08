@@ -17,6 +17,7 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+import time
 
 
 class PicButton(QAbstractButton):
@@ -44,15 +45,32 @@ class PicButton(QAbstractButton):
         self.pixmap = pixmap
         self.pixmap_hover = pixmap
         self.pixmap_pressed = pixmap_pressed
-        self.pressed.connect(self.update)
-        self.released.connect(self.update)
-        self.clicked.connect(self.onClick)
+        self.pressed.connect(self.checkPressed)
+        self.released.connect(self.checkReleased)
+        self.clicked.connect(self.checkClick)
         self.setText(text)
         font = QFont('Myriada', 20)
         font.setBold(True)
         self.setStyleSheet("color: rgb(255, 255, 255);")
         self.setFont(font)
+        self.buttonTimer = 0
 
+
+    def checkPressed(self):
+        self.buttonTimer = time.time()
+        self.update()
+
+    def checkReleased(self):
+        self.buttonTimer = time.time() - self.buttonTimer
+        self.update()
+
+    def checkClick(self):
+        if(self.buttonTimer > 1):
+            isLongClick = True
+        else:
+            isLongClick = False
+
+        self.onClick(isLongClick)
 
     def paintEvent(self, event):
         """

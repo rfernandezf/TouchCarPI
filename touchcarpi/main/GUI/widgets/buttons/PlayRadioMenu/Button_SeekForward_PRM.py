@@ -22,7 +22,7 @@ class Button_SeekForward_PRM():
     def __init__(self, controller):
         self.controller = controller
 
-    def onClick(self):
+    def onClick(self, isLongClick = False):
         print("BUSCA LA SIGUIENTE EMISORA")
 
     def createButton(self, sizeX, sizeY):

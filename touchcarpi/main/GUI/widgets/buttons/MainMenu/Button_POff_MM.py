@@ -22,7 +22,7 @@ class Button_POff_MM():
     Concrete class of the "Power Off" button from the Main Menu.
     """
 
-    def onClick(self):
+    def onClick(self, isLongClick = False):
         """
         OnClick method. Describes the behaviour of the button when is pressed.
         In this case, it ends the application.

@@ -31,7 +31,7 @@ class Button_Options_MM():
 
         self.controller = controller
 
-    def onClick(self):
+    def onClick(self, isLongClick = False):
         """
         OnClick method. Describes the behaviour of the button when is pressed.
         No functionality jet.

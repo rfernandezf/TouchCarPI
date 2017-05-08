@@ -22,7 +22,7 @@ class Button_SeekBack_PRM():
     def __init__(self, controller):
         self.controller = controller
 
-    def onClick(self):
+    def onClick(self, isLongClick = False):
         print("BUSCA LA ANTERIOR EMISORA")
 
     def createButton(self, sizeX, sizeY):

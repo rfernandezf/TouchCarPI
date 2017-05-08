@@ -47,8 +47,8 @@ class SelectAudioMenu(QWidget):
         (fileName, pathFiles, self.metaDataList) = self.db.getAudioDB()
         self.audioController = AudioController()
 
-        backButton = Button_Back_SAM(self.controller).createButton(344, 96)
-        self.resumeButton = Button_Resume_SAM(self.controller).createButton(344, 96)
+        backButton = Button_Back_SAM(self.controller).createButton(269, 100)
+        self.resumeButton = Button_Resume_SAM(self.controller).createButton(269, 100)
         selectAudioListWidget = SelectAudioListWidget(self.controller)
         #self.resumeAudioWidget = ResumeAudioWidget_SAM(self.controller)
 
@@ -56,6 +56,7 @@ class SelectAudioMenu(QWidget):
         hSelectAudioListBox = QHBoxLayout()
         hButtonsMenuBox = QHBoxLayout()
 
+        verticalBoxLayout.setContentsMargins(0, 0, 0, 0)
         verticalBoxLayout.addStretch()
         verticalBoxLayout.addStretch()
         verticalBoxLayout.addStretch()

@@ -22,10 +22,10 @@ class Button_Back_PRM():
     def __init__(self, controller):
         self.controller = controller
 
-    def onClick(self):
+    def onClick(self, isLongClick = False):
         self.controller.changeToMenu("MainMenu")
 
     def createButton(self, sizeX, sizeY):
-        button = PicButton(QPixmap("themes/default/img/options_mm.png"), QPixmap("themes/default/img/options_mm_pressed.png"), sizeX, sizeY, "Atrás", self.onClick)
+        button = PicButton(QPixmap("themes/default/img/MenuButton_L.png"), QPixmap("themes/default/img/MenuButton_L_Pressed.png"), sizeX, sizeY, "Atrás", self.onClick)
 
         return button

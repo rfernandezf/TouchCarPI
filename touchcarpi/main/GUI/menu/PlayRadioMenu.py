@@ -20,6 +20,7 @@ from ..widgets.buttons.PlayRadioMenu.Button_Upfreq_PRM import Button_Upfreq_PRM
 from ..widgets.buttons.PlayRadioMenu.Button_Downfreq_PRM import Button_Downfreq_PRM
 from ..widgets.buttons.PlayRadioMenu.Button_SeekBack_PRM import Button_SeekBack_PRM
 from ..widgets.buttons.PlayRadioMenu.Button_SeekForward_PRM import Button_SeekForward_PRM
+from ..widgets.buttons.PlayRadioMenu.Button_Memory_PRM import Button_Memory_PRM
 from ..widgets.CustomLabel import CustomLabel
 
 
@@ -38,14 +39,18 @@ class PlayRadioMenu(QWidget):
         super(PlayRadioMenu, self).__init__(parent)
 
         self.controller = controller
-        backButton = Button_Back_PRM(self.controller).createButton(344, 96)
+        backButton = Button_Back_PRM(self.controller).createButton(269, 100)
         freqLabel = CustomLabel().createLabel("89.1", Qt.AlignCenter, 30)
         upFreqButton = Button_Upfreq_PRM(self.controller).createButton(60, 60)
         downFreqButton = Button_Downfreq_PRM(self.controller).createButton(60, 60)
         seekBackButton = Button_SeekBack_PRM(self.controller).createButton(60, 60)
         seekForwardButton = Button_SeekForward_PRM(self.controller).createButton(60, 60)
+        memoryButtons = []
+        for i in range(0, 9):
+            memoryButtons.append(Button_Memory_PRM(self.controller, i).createButton(60, 60))
 
         verticalBoxLayout = QVBoxLayout()
+        verticalBoxLayout.setContentsMargins(0, 0, 0, 0)
 
         verticalBoxLayout.addStretch()
         verticalBoxLayout.addStretch()
@@ -62,17 +67,25 @@ class PlayRadioMenu(QWidget):
         hMenuBox.addStretch()
         hMenuBox.addWidget(seekForwardButton)
         hMenuBox.addStretch()
-
         verticalBoxLayout.addLayout(hMenuBox)
 
         verticalBoxLayout.addStretch()
-        # TODO Aquí los botones para almacenar emisoras
+
+        hMemoryButtonsBox = QHBoxLayout()
+        hMemoryButtonsBox.addStretch()
+
+        for i in range (0, len(memoryButtons)):
+            hMemoryButtonsBox.addWidget(memoryButtons[i])
+            hMemoryButtonsBox.addStretch()
+
+        hMemoryButtonsBox.addStretch()
+        verticalBoxLayout.addLayout(hMemoryButtonsBox)
+
         verticalBoxLayout.addStretch()
 
         hbox = QHBoxLayout()
 
         hbox.addWidget(backButton)
-
         hbox.addStretch()
 
         verticalBoxLayout.addLayout(hbox)

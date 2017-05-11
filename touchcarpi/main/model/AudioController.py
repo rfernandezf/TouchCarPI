@@ -215,6 +215,7 @@ class AudioController:
         def setCurrentFMFrequency(self, frequency):
             self.currentFMStation = frequency
             self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+            self.SI4703.setChannel(self.currentFMStation)
 
         def getCurrentFMFrequency(self):
             #TODO Cambiar esto por una llamada a la librería

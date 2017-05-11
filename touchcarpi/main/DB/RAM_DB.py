@@ -124,7 +124,7 @@ class RAM_DB:
 
 
             for channelItem in xmlFile.findall('channel'):
-                result[int(channelItem.get("id"))] = ((channelItem.get('freq'), channelItem.text))
+                result[int(channelItem.get("id"))] = ((float(channelItem.get('freq')), channelItem.text))
 
             return result
 

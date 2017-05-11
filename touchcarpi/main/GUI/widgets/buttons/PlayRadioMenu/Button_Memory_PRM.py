@@ -17,6 +17,7 @@
 from PyQt5.QtGui import *
 from ..PicButton import PicButton
 from DB.RAM_DB import RAM_DB
+from model.AudioController import AudioController
 
 class Button_Memory_PRM():
 
@@ -25,12 +26,13 @@ class Button_Memory_PRM():
         self.buttonId = buttonId
         self.db = RAM_DB()
         self.radioChannels = self.db.getRadioChannels()
+        self.audioController = AudioController()
 
     def onClick(self, isLongClick = False):
         if(isLongClick == False):
             # If there's an entry in the XML with memorized channel, we assign it to this button/memory bank
             if(self.radioChannels[self.buttonId] != None):
-                pass
+                self.audioController.setCurrentFMFrequency(self.radioChannels[self.buttonId][0])
         else:
             # On long click, we memorize the currently radio channel to this memory bank :)
             pass

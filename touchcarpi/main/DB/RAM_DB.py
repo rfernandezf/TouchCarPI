@@ -17,6 +17,7 @@
 import os
 
 from .MetaDataVLC import MetaDataVLC
+from lxml import etree
 
 
 class RAM_DB:
@@ -108,6 +109,25 @@ class RAM_DB:
             :param menu: String with the name of the menu.
             """
             self.currentMenu = menu
+
+        def getRadioChannels(self):
+            """
+            Returns a list of tuples with the name and frequency of the memorized channels of radio.
+
+            :return: List with a tuple (frequency, name)
+            """
+
+            # Pre-allocating the size of the list, we have 9 items, one per memory button
+            result = [None]*9
+            # Opening the XML
+            xmlFile = etree.parse("RadioChannels.xml").getroot()
+
+
+            for channelItem in xmlFile.findall('channel'):
+                result[int(channelItem.get("id"))] = ((channelItem.get('freq'), channelItem.text))
+
+            return result
+
 
         def __str__(self):
             return repr(self) + self.val

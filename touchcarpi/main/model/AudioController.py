@@ -18,6 +18,8 @@ from model.AudioFile import AudioFile
 from model.AudioStatus import AudioStatus
 from DB.RAM_DB import RAM_DB
 
+from libs.SI4703 import SI4703
+
 
 class AudioController:
     """
@@ -37,6 +39,9 @@ class AudioController:
             #self.path = self.pathFiles[self.db.getSelection()]
             self.path = None
             self.audioObject = AudioFile(self.notifyController)
+            self.currentFMStation = 89.1
+            self.SI4703 = SI4703()
+            self.playingRadio = False
             self.observers = []
 
         ###############################################################################
@@ -94,6 +99,9 @@ class AudioController:
             """
             Loads an audio file. (Plays it).
             """
+
+            if (self.playingRadio == True):
+                self.stopRadio()
 
             if (self.audioObject.getStatus() == AudioStatus.NOFILE):
                 self.audioObject.playAudio()
@@ -178,6 +186,56 @@ class AudioController:
             """
 
             self.update_observers("UpdateReproductionSecond", arg1=second, arg2=None)
+
+        # TODO De aquí para abajo, todo con la librería
+        def initRadio(self):
+            if self.playingRadio == True:
+                self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+
+            else:
+                #STOP the reproduction of Audio
+                if self.audioObject.getStatus() != AudioStatus.NOFILE:
+                    self.audioObject.stopAudio()
+
+                #Init the radio
+                self.currentFMStation = 89.5
+                self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+                self.SI4703.initRadio()
+                self.SI4703.setVolume(1)
+                self.SI4703.setChannel(self.currentFMStation)
+                self.playingRadio = True
+                #TODO Llamada a la librería que enciende el módulo de radio
+
+        def stopRadio(self):
+            if self.playingRadio == True:
+                #TODO llamada a la librería que apaga el módulo de radio
+                self.SI4703.stopRadio()
+                self.playingRadio = False
+
+        def setCurrentFMFrequency(self, frequency):
+            self.currentFMStation = frequency
+            self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+
+        def getCurrentFMFrequency(self):
+            #TODO Cambiar esto por una llamada a la librería
+            return self.currentFMStation
+
+        def nextFrequency(self):
+            self.currentFMStation = round(self.currentFMStation + 0.1, 2)
+            self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+            self.SI4703.setChannel(self.currentFMStation)
+
+        def previousFrequency(self):
+            self.currentFMStation = round(self.currentFMStation - 0.1, 2)
+            self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+            self.SI4703.setChannel(self.currentFMStation)
+
+        def memorizeFMStation(self, frequency, buttonId):
+            pass
+
+        def getFMStationMemorized(self, buttonId):
+            pass
+
 
         def getStatus(self):
             """

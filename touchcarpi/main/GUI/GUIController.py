@@ -81,5 +81,7 @@ class GUIController(object):
         elif (menuname == "PlayRadioMenu"):
             self.db.setCurrentMenu("PlayRadioMenu")
             self.playRadioMenuWidget = PlayRadioMenu(self)
+            # Observer pattern register
+            self.audioController.register(self.playRadioMenuWidget)
             self.centralWidget.addWidget(self.playRadioMenuWidget)
             self.centralWidget.setCurrentWidget(self.playRadioMenuWidget)

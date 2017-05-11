@@ -16,14 +16,16 @@
 
 from PyQt5.QtGui import *
 from ..PicButton import PicButton
+from model.AudioController import AudioController
 
 class Button_Downfreq_PRM():
 
     def __init__(self, controller):
         self.controller = controller
+        self.audioController = AudioController()
 
     def onClick(self, isLongClick = False):
-        print("BAJA LA FRECUENCIA")
+        self.audioController.previousFrequency()
 
     def createButton(self, sizeX, sizeY):
         button = PicButton(QPixmap("themes/default/img/downfreq_prm.png"), QPixmap("themes/default/img/downfreq_prm_pressed.png"), sizeX, sizeY, "", self.onClick)

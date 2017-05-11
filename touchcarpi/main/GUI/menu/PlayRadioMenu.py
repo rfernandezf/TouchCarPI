@@ -12,8 +12,14 @@
 #   Class name: PlayRadioMenu.py
 #   Description: This class creates a custom widget with the Select Audio Menu elements and layout.
 # *************************************************************************************************************
+
+from abc import ABCMeta, abstractmethod
+
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
+
+from model.AudioController import AudioController
+from DB.RAM_DB import RAM_DB
 
 from ..widgets.buttons.PlayRadioMenu.Button_Back_PRM import Button_Back_PRM
 from ..widgets.buttons.PlayRadioMenu.Button_Upfreq_PRM import Button_Upfreq_PRM
@@ -29,6 +35,8 @@ class PlayRadioMenu(QWidget):
     This class creates a custom widget with the Select Audio Menu elements and layout.
     """
 
+    __metaclass__ = ABCMeta
+
     def __init__(self, controller, parent=None):
         """
         Constructor of the PlayRadioMenu class.
@@ -39,22 +47,36 @@ class PlayRadioMenu(QWidget):
         super(PlayRadioMenu, self).__init__(parent)
 
         self.controller = controller
+        audioController = AudioController()
+        audioController.initRadio()
+        self.db = RAM_DB()
+        radioChannels = self.db.getRadioChannels()
+
         backButton = Button_Back_PRM(self.controller).createButton(269, 100)
-        freqLabel = CustomLabel().createLabel("89.1", Qt.AlignCenter, 30)
+        self.freqLabel = CustomLabel().createLabel("89.5", Qt.AlignCenter, 30)
         upFreqButton = Button_Upfreq_PRM(self.controller).createButton(60, 60)
         downFreqButton = Button_Downfreq_PRM(self.controller).createButton(60, 60)
         seekBackButton = Button_SeekBack_PRM(self.controller).createButton(60, 60)
         seekForwardButton = Button_SeekForward_PRM(self.controller).createButton(60, 60)
         memoryButtons = []
+        labelsMemoryButtons = []
         for i in range(0, 9):
             memoryButtons.append(Button_Memory_PRM(self.controller, i).createButton(60, 60))
+
+        for i in range(0, 9):
+            if(radioChannels[i] == None):
+                memoryButtonLabel = "Vacío"
+            else:
+                memoryButtonLabel = radioChannels[i][1]
+
+            labelsMemoryButtons.append(CustomLabel().createLabel(memoryButtonLabel, Qt.AlignCenter))
 
         verticalBoxLayout = QVBoxLayout()
         verticalBoxLayout.setContentsMargins(0, 0, 0, 0)
 
         verticalBoxLayout.addStretch()
         verticalBoxLayout.addStretch()
-        verticalBoxLayout.addWidget(freqLabel)
+        verticalBoxLayout.addWidget(self.freqLabel)
         verticalBoxLayout.addStretch()
 
         hMenuBox = QHBoxLayout()
@@ -81,6 +103,16 @@ class PlayRadioMenu(QWidget):
         hMemoryButtonsBox.addStretch()
         verticalBoxLayout.addLayout(hMemoryButtonsBox)
 
+        hLabelsMemoryButtonsBox = QHBoxLayout()
+        hLabelsMemoryButtonsBox.addStretch()
+
+        for i in range (0, len(labelsMemoryButtons)):
+            hLabelsMemoryButtonsBox.addWidget(labelsMemoryButtons[i])
+            hLabelsMemoryButtonsBox.addStretch()
+
+        hLabelsMemoryButtonsBox.addStretch()
+        verticalBoxLayout.addLayout(hLabelsMemoryButtonsBox)
+
         verticalBoxLayout.addStretch()
 
         hbox = QHBoxLayout()
@@ -91,3 +123,28 @@ class PlayRadioMenu(QWidget):
         verticalBoxLayout.addLayout(hbox)
 
         self.setLayout(verticalBoxLayout)
+
+
+
+    @abstractmethod
+    def update(self, *args, **kwargs):
+        """
+        Update method of the observer pattern.
+
+        :param args: args
+        :param kwargs: kwargs
+        """
+
+        self.updateView(*args, **kwargs)
+
+    def updateView(self, *args, arg1, arg2):
+        """
+        Update view method of the observer pattern.
+
+        :param args: Name of the notification.
+        :param arg1: Other data.
+        :param arg2: Other data.
+        """
+
+        if (args[0] == "UpdateCurrentFMFrequency"):
+            self.freqLabel.setText(str(arg1))

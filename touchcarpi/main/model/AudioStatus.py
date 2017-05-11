@@ -23,3 +23,4 @@ class AudioStatus(Enum):
     NOFILE = 1
     PLAYING = 2
     PAUSED = 3
+    RADIO = 4

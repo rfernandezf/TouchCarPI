@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<radiosettings>
+	<channel id = "0" freq="85.5">Una radio random</channel>
+	<channel id = "1" freq="100.1">Una radio random 2</channel>
+	<channel id = "4" freq="102.3">Una radio random 3</channel>
+</radiosettings>

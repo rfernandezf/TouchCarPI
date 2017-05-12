@@ -59,10 +59,10 @@ class PlayRadioMenu(QWidget):
         seekBackButton = Button_SeekBack_PRM(self.controller).createButton(60, 60)
         seekForwardButton = Button_SeekForward_PRM(self.controller).createButton(60, 60)
         memoryButtons = []
-        labelsMemoryButtons = []
+        #labelsMemoryButtons = []
         for i in range(0, 9):
             memoryButtons.append(Button_Memory_PRM(self.controller, i).createButton(60, 60))
-
+        """
         for i in range(0, 9):
             if(radioChannels[i] == None):
                 memoryButtonLabel = "Vacío"
@@ -70,7 +70,7 @@ class PlayRadioMenu(QWidget):
                 memoryButtonLabel = radioChannels[i][1]
 
             labelsMemoryButtons.append(CustomLabel().createLabel(memoryButtonLabel, Qt.AlignCenter))
-
+        """
         verticalBoxLayout = QVBoxLayout()
         verticalBoxLayout.setContentsMargins(0, 0, 0, 0)
 
@@ -102,7 +102,7 @@ class PlayRadioMenu(QWidget):
 
         hMemoryButtonsBox.addStretch()
         verticalBoxLayout.addLayout(hMemoryButtonsBox)
-
+        """
         hLabelsMemoryButtonsBox = QHBoxLayout()
         hLabelsMemoryButtonsBox.addStretch()
 
@@ -112,7 +112,7 @@ class PlayRadioMenu(QWidget):
 
         hLabelsMemoryButtonsBox.addStretch()
         verticalBoxLayout.addLayout(hLabelsMemoryButtonsBox)
-
+        """
         verticalBoxLayout.addStretch()
 
         hbox = QHBoxLayout()

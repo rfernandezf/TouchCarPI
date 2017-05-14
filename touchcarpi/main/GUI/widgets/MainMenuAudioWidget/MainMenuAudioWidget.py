@@ -34,7 +34,7 @@ class MainMenuAudioWidget (QWidget):
 
     def __init__ (self, parent = None):
         """
-        Constructor og the MainMenuAudioWidget class.
+        Constructor of the MainMenuAudioWidget class.
         """
 
         super(MainMenuAudioWidget, self).__init__(parent)

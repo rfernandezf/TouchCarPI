@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='ASCII'?>
 <radiosettings>
 	<channel id="0" freq="95.50">Cadena 100</channel>
-	<channel id="1" freq="89.10">Los 40 principales</channel>
-	<channel id="2" freq="92.30">Europa FM</channel>
+	<channel id="1" freq="89.5">Test</channel>
+	<channel id="2" freq="92.0">Test</channel>
 	<channel id="3" freq="94.30">Cadena Dial</channel>
-	<channel id="4" freq="102.30">Una radio random 3</channel>
+	<channel id="4" freq="89.5">Test</channel>
 	<channel id="5" freq="95.90">M80 Radio</channel>
 	<channel id="6" freq="105.10">COPE</channel>
 	<channel id="7" freq="100.10">Onda Cero</channel>

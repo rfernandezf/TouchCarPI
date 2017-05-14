@@ -21,8 +21,7 @@ from model.AudioController import AudioController
 
 class Button_Memory_PRM():
 
-    def __init__(self, controller, buttonId):
-        self.controller = controller
+    def __init__(self, buttonId):
         self.buttonId = buttonId
         self.db = RAM_DB()
         self.radioChannels = self.db.getRadioChannels()

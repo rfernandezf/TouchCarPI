@@ -1,4 +1,4 @@
-#*************************************************************************************************************
+# *************************************************************************************************************
 #  ________  ________  ___  ___  ________  ___  ___  ________  ________  ________  ________  ___
 # |\___   ___\\   __  \|\  \|\  \|\   ____\|\  \|\  \|\   ____\|\   __  \|\   __  \|\   __  \|\  \
 # \|___ \  \_\ \  \|\  \ \  \\\  \ \  \___|\ \  \\\  \ \  \___|\ \  \|\  \ \  \|\  \ \  \|\  \ \  \
@@ -13,91 +13,143 @@
 #   Description: This class is my own library for handle the SI4703 radio IC.
 # *************************************************************************************************************
 
-import RPi.GPIO as GPIO 
-import smbus 
+import RPi.GPIO as GPIO
+import smbus
 import time
 
-class SI4703:
 
+class SI4703:
     def __init__(self):
-        self.i2c = smbus.SMBus(1) #use 0 for older RasPi
-        self.address = 0x10 #address of SI4703 from I2CDetect utility || i2cdetect -y 1
+        self.i2c = smbus.SMBus(1)  # Use 0 for older RasPi
+        self.address = 0x10  # Address of SI4703 from I2CDetect utility || i2cdetect -y 1
         self.status = 0
 
     def initRadio(self):
+        try:
+            print("---------------- INIT RADIO -------------------")
+            GPIO.setmode(GPIO.BCM)  # Board numbering
+            GPIO.setup(23, GPIO.OUT)
+            time.sleep(.2)
+            GPIO.setup(0, GPIO.OUT)  # SDA or SDIO
+            time.sleep(.2)
 
-        GPIO.setmode(GPIO.BCM) #board numbering
-        GPIO.setup(23, GPIO.OUT)
-        GPIO.setup(0, GPIO.OUT)  #SDA or SDIO
+            # Put SI4703 into 2 wire mode (I2C)
+            GPIO.output(0, GPIO.LOW)
+            time.sleep(.2)
+            GPIO.output(23, GPIO.LOW)
+            time.sleep(.2)
+            GPIO.output(23, GPIO.HIGH)
+            time.sleep(.2)
 
-        #put SI4703 into 2 wire mode (I2C)
-        GPIO.output(0,GPIO.LOW)
-        time.sleep(.1)
-        GPIO.output(23, GPIO.LOW)
-        time.sleep(.1)
-        GPIO.output(23, GPIO.HIGH)
-        time.sleep(.1)
+            reg = self.i2c.read_i2c_block_data(self.address, 0, 32)
+            time.sleep(.2)
+            # Write 8100h to 07h (Starts the crystal oscillator)
+            list1 = reg[17:28:]
+            list1[9] = 129
+            list1[10] = 0
+            w6 = self.i2c.write_i2c_block_data(self.address, 0, list1)
+            time.sleep(1)  # Wait for the crystar oscillator to stabilize.
 
-        print ("Initial Register Readings")
-        reg = self.i2c.read_i2c_block_data(self.address, 0, 32)
-        print ("Paso 1: " + str(reg))
+            # Write x4001 to 02h to turn off mute and activate IC
+            list1 = [1]
+            w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
+            time.sleep(.2)  # Wait for device power up
 
-        #write x8100 to reg 7 to activate oscellitor
-        list1 = [0,0,0,0,0,0,0,0,0,129,0]
-        w6 = self.i2c.write_i2c_block_data(self.address, 0, list1)
-        time.sleep(1)
-        reg = self.i2c.read_i2c_block_data(self.address, 0, 32)
+            self.status = 1
 
-        print ("Paso 2: " + str(reg))
-
-        #write x4001 to reg 2 to turn off mute and activate IC
-        list1 = [1]
-        #print list1
-        w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
-        time.sleep(.1)
-        reg = self.i2c.read_i2c_block_data(self.address, 64, 32)
-        print ("Paso 3: " + str(reg))
-        status = 1
+        except:
+            GPIO.cleanup()
 
     def setVolume(self, volume):
-        #write volume
-        print ("Doing Volume lowest setting")
-        list1 = [1,0,0,0,0,0,1]
-        w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
-        reg = self.i2c.read_i2c_block_data(self.address, 64, 32)
-        print ("Paso 4: " + str(reg))
+        try:
+            # Check if the volume passed to the method is in the range of correct values
+            if (volume >= 0 or volume <= 15):
+                volumeValue = volume
+            else:
+                volumeValue = 1
+
+            reg = self.i2c.read_i2c_block_data(self.address, 0, 32)
+            time.sleep(.2)
+
+            # Write the volume(D0:D3) to 05h
+            list1 = reg[17:24:]
+            list1[6] = volumeValue
+            print(list1)
+            w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
+            time.sleep(.2)
+
+            reg = self.i2c.read_i2c_block_data(self.address, 64, 32)
+            time.sleep(.2)
+            print("VOLUMEN: " + str(reg[17:28:]))
+
+        except:
+            GPIO.cleanup()
 
     def setChannel(self, channel):
-        #write channel
-        print ("Setting Channel, pick a strong one")
+        try:
+            # Math to calculate the correct frequency
+            nc = channel * 10
+            nc *= 10
+            nc -= 8750
+            nc /= 20
 
-        nc = channel*10 #this is 101.1 The Fox In Kansas City Classic Rock!!
-        nc *= 10  #this math is for USA FM only
-        nc -= 8750
-        nc /= 20
+            nc = int(nc)
 
-        nc = int(nc)
+            # Write tune bit and channel to 03h
+            list1 = [1, 128, nc]
+            w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
+            time.sleep(1)  # allow tuner to tune
 
-        list1 = [1,128, nc]
-        #set tune bit and set channel
-        w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
-        time.sleep(1) #allow tuner to tune
+            # Write tune bit to low to clean it to 03h
+            list1 = [1, 0, nc]
+            w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
+            time.sleep(.2)
 
-        # clear channel tune bit
-        list1 = [1,0,nc]
-        w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
-
-        reg2 = self.i2c.read_i2c_block_data(self.address,64, 32)
-        print (reg2)  #just to show final register settings
+        except:
+            GPIO.cleanup()
 
     def stopRadio(self):
-        #write x4000 to reg 2 to turn off mute and activate IC
-        list1 = [0]
-        #print list1
-        w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
-        time.sleep(.1)
-        reg = self.i2c.read_i2c_block_data(self.address, 0, 32)
+        try:
+            print("---------------- STOP RADIO -------------------")
+            # Initial reading to avoid overwrite with the wrong data other bits in other memory banks
+            reg = self.i2c.read_i2c_block_data(self.address, 0, 32)
+            time.sleep(.2)
 
+            # Write 7C04h to 07h (Sets AHIZEN)
+            list1 = reg[17:28:]
+            list1[9] = 124
+            list1[10] = 4
+            w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
+            time.sleep(.2)
 
-    #You should be hearing music now!
-    #Headphone Cord acts as antenna
+            # Write 002A to 04h (Sets GPIO1/2/3 to low to reduce the current consumption)
+            reg = self.i2c.read_i2c_block_data(self.address, 0, 32)
+            time.sleep(.2)
+            list1 = reg[17:22:]
+            list1[3] = 0
+            list1[4] = 42
+            w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
+            time.sleep(.2)
+
+            # Write 0041h to 02h
+            list1 = [65]
+            w6 = self.i2c.write_i2c_block_data(self.address, 0, list1)
+            time.sleep(0.5)  # Wait for powerdown
+
+            # Last reading of all values
+            reg = self.i2c.read_i2c_block_data(self.address, 0, 32)
+            time.sleep(.2)
+            print(reg[16:28:])
+
+            GPIO.cleanup()
+
+            self.status = 0
+
+        except:
+            GPIO.cleanup()
+
+    def getRDSName(self):
+        pass
+
+    def getGPIOStatus(self):
+        return self.status

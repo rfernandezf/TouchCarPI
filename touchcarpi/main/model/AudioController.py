@@ -221,6 +221,10 @@ class AudioController:
             #TODO Cambiar esto por una llamada a la librería
             return self.currentFMStation
 
+        def getCurrentFMStationName(self):
+            #TODO Cambiar esto por una llamada a la librería
+            return "Test"
+
         def nextFrequency(self):
             self.currentFMStation = round(self.currentFMStation + 0.1, 2)
             self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)

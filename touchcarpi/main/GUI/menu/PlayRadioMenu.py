@@ -52,6 +52,7 @@ class PlayRadioMenu(QWidget):
         self.db = RAM_DB()
         radioChannels = self.db.getRadioChannels()
 
+
         backButton = Button_Back_PRM(self.controller).createButton(269, 100)
         self.freqLabel = CustomLabel().createLabel("89.5", Qt.AlignCenter, 30)
         upFreqButton = Button_Upfreq_PRM(self.controller).createButton(60, 60)

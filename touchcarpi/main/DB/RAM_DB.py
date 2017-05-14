@@ -119,6 +119,7 @@ class RAM_DB:
 
             # Pre-allocating the size of the list, we have 9 items, one per memory button
             result = [None]*9
+
             # Opening the XML
             xmlFile = etree.parse("RadioChannels.xml").getroot()
 
@@ -127,6 +128,33 @@ class RAM_DB:
                 result[int(channelItem.get("id"))] = ((float(channelItem.get('freq')), channelItem.text))
 
             return result
+
+        def setRadioChannel(self, id, freq, name):
+            """
+            Sets the name and frequency into the memory bank of the radio menu.
+
+            :param id: Id of the bank.
+            :param freq: Frequency of the new channel.
+            :param name: Name of the new channel.
+            """
+
+            xmlFile = etree.parse("RadioChannels.xml").getroot()
+
+            for channelItem in xmlFile.findall('channel'):
+                if(int(channelItem.get("id")) == id):
+                    channelItem.set("freq", str(freq))
+                    channelItem.text = name
+
+            obj_xml = etree.tostring(xmlFile,
+                                     pretty_print=True,
+                                     xml_declaration=True)
+
+            try:
+                with open("RadioChannels.xml", "wb") as xml_writer:
+                    xml_writer.write(obj_xml)
+            except IOError:
+                print("IOError: Error trying to write into the XML file.")
+
 
 
         def __str__(self):

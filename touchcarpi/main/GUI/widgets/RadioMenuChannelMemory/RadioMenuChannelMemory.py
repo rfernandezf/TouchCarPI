@@ -40,7 +40,7 @@ class RadioMenuChannelMemory (QWidget):
         radioChannels = self.db.getRadioChannels()
 
         memoryButtons = []
-        labelsMemoryButtons = []
+        self.labelsMemoryButtons = []
         for i in range(0, 9):
             memoryButtons.append(Button_Memory_PRM(i).createButton(60, 60))
 
@@ -50,7 +50,7 @@ class RadioMenuChannelMemory (QWidget):
             else:
                 memoryButtonLabel = radioChannels[i][1]
 
-            labelsMemoryButtons.append(CustomLabel().createLabel(memoryButtonLabel, Qt.AlignCenter, 10))
+            self.labelsMemoryButtons.append(CustomLabel().createLabel(memoryButtonLabel, Qt.AlignCenter, 10))
 
 
         hButtonBarBox = QHBoxLayout()
@@ -68,7 +68,7 @@ class RadioMenuChannelMemory (QWidget):
 
             hMemoryLabelBox = QHBoxLayout()
             hMemoryLabelBox.addStretch()
-            hMemoryLabelBox.addWidget(labelsMemoryButtons[i])
+            hMemoryLabelBox.addWidget(self.labelsMemoryButtons[i])
             hMemoryLabelBox.addStretch()
             vButtonBox.addLayout(hMemoryLabelBox)
 
@@ -97,13 +97,7 @@ class RadioMenuChannelMemory (QWidget):
         :param arg2: Other data.
         """
 
-        if (args[0] == "NewMetaData"):
-
-            if arg2[1] == None:
-                titleText = "Artista desconocido" + " - " + arg2[0]
-            else:
-                titleText = arg2[1] + " - " + arg2[0]
-
-            self.textLabel.setText(titleText)
-            self.playButton.hide()
-            self.pauseButton.show()
+        if (args[0] == "UpdateRadioChannelData"):
+            radioChannels = self.db.getRadioChannels()
+            for i in range(0, len(self.labelsMemoryButtons)):
+                self.labelsMemoryButtons[i].setText(radioChannels[i][1])

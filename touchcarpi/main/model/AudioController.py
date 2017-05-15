@@ -204,11 +204,9 @@ class AudioController:
                 self.SI4703.setVolume(1)
                 self.SI4703.setChannel(self.currentFMStation)
                 self.playingRadio = True
-                #TODO Llamada a la librería que enciende el módulo de radio
 
         def stopRadio(self):
             if self.playingRadio == True:
-                #TODO llamada a la librería que apaga el módulo de radio
                 self.SI4703.stopRadio()
                 self.playingRadio = False
 
@@ -224,6 +222,9 @@ class AudioController:
         def getCurrentFMStationName(self):
             #TODO Cambiar esto por una llamada a la librería
             return "Test"
+
+        def updateRadioChannelData(self):
+            self.update_observers("UpdateRadioChannelData", arg1=None, arg2=None)
 
         def nextFrequency(self):
             self.currentFMStation = round(self.currentFMStation + 0.1, 2)

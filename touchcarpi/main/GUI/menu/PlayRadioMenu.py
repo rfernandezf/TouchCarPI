@@ -51,7 +51,8 @@ class PlayRadioMenu(QWidget):
         audioController.initRadio()
         self.db = RAM_DB()
         radioMenuChannelMemoryWidget = RadioMenuChannelMemory()
-
+        # Observer
+        audioController.register(radioMenuChannelMemoryWidget)
 
 
         backButton = Button_Back_PRM(self.controller).createButton(269, 100)

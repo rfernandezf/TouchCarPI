@@ -36,7 +36,7 @@ class Button_Memory_PRM():
             # On long click, we memorize the currently radio channel to this memory bank :)
             self.db.setRadioChannel(self.buttonId, self.audioController.getCurrentFMFrequency(), self.audioController.getCurrentFMStationName())
             self.radioChannels = self.db.getRadioChannels()
-            self.audioController.updateRadioChannelData()
+            self.audioController.updateRadioObservers()
 
 
 

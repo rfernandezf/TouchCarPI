@@ -17,17 +17,26 @@
 from PyQt5.QtGui import *
 from ..PicButton import PicButton
 
+from model.AudioController import AudioController
+
 class Button_POff_MM():
     """
     Concrete class of the "Power Off" button from the Main Menu.
     """
+
+    def __init__(self):
+        """
+        Constructor of the Button_POff_MM Class.
+        """
+
+        self.audioController = AudioController()
 
     def onClick(self, isLongClick = False):
         """
         OnClick method. Describes the behaviour of the button when is pressed.
         In this case, it ends the application.
         """
-
+        self.audioController.stopRadio()
         exit(0)
 
     def createButton(self, sizeX, sizeY):

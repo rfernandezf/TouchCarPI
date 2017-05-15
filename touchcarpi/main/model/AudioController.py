@@ -39,7 +39,7 @@ class AudioController:
             #self.path = self.pathFiles[self.db.getSelection()]
             self.path = None
             self.audioObject = AudioFile(self.notifyController)
-            self.currentFMStation = 89.1
+            self.currentFMStation = None
             self.SI4703 = SI4703()
             self.playingRadio = False
             self.observers = []
@@ -189,19 +189,17 @@ class AudioController:
 
         # TODO De aquí para abajo, todo con la librería
         def initRadio(self):
-            if self.playingRadio == True:
-                self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
-
-            else:
+            if self.playingRadio == False:
                 #STOP the reproduction of Audio
                 if self.audioObject.getStatus() != AudioStatus.NOFILE:
                     self.audioObject.stopAudio()
 
                 #Init the radio
-                self.currentFMStation = 89.5
+                if(self.currentFMStation == None):
+                    self.currentFMStation = 89.5
                 self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
                 self.SI4703.initRadio()
-                self.SI4703.setVolume(1)
+                self.SI4703.setVolume(15)
                 self.SI4703.setChannel(self.currentFMStation)
                 self.playingRadio = True
 
@@ -216,14 +214,14 @@ class AudioController:
             self.SI4703.setChannel(self.currentFMStation)
 
         def getCurrentFMFrequency(self):
-            #TODO Cambiar esto por una llamada a la librería
             return self.currentFMStation
 
         def getCurrentFMStationName(self):
             #TODO Cambiar esto por una llamada a la librería
             return "Test"
 
-        def updateRadioChannelData(self):
+        def updateRadioObservers(self):
+            self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
             self.update_observers("UpdateRadioChannelData", arg1=None, arg2=None)
 
         def nextFrequency(self):
@@ -235,12 +233,6 @@ class AudioController:
             self.currentFMStation = round(self.currentFMStation - 0.1, 2)
             self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
             self.SI4703.setChannel(self.currentFMStation)
-
-        def memorizeFMStation(self, frequency, buttonId):
-            pass
-
-        def getFMStationMemorized(self, buttonId):
-            pass
 
 
         def getStatus(self):

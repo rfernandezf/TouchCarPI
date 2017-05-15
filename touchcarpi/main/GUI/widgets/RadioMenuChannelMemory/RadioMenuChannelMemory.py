@@ -50,7 +50,7 @@ class RadioMenuChannelMemory (QWidget):
             else:
                 memoryButtonLabel = radioChannels[i][1]
 
-            self.labelsMemoryButtons.append(CustomLabel().createLabel(memoryButtonLabel, Qt.AlignCenter, 10))
+            self.labelsMemoryButtons.append(CustomLabel().createLabel(memoryButtonLabel, Qt.AlignCenter, 7))
 
 
         hButtonBarBox = QHBoxLayout()

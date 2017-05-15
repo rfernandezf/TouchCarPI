@@ -53,6 +53,9 @@ class SelectAudioMenu(QWidget):
         verticalBoxLayout.setContentsMargins(0, 0, 0, 0)
         verticalBoxLayout.addStretch()
 
+        #scrollArea = QScrollArea()
+        #scrollArea.setWidget(selectAudioListWidget)
+        QScroller.grabGesture(selectAudioListWidget, QScroller.LeftMouseButtonGesture)
         hSelectAudioListBox.addStretch()
         hSelectAudioListBox.addWidget(selectAudioListWidget)
         hSelectAudioListBox.addStretch()

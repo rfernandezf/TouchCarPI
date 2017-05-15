@@ -21,7 +21,7 @@ from PyQt5.QtCore import *
 from .CustomListItemWidget import CustomListItemWidget
 from model.AudioController import AudioController
 from DB.RAM_DB import RAM_DB
-from util.UtilityFunctions import getBandName
+from util.UtilityFunctions import getArtworkPath, getBandName
 
 class SelectAudioListWidget(QListWidget):
     """
@@ -50,17 +50,7 @@ class SelectAudioListWidget(QListWidget):
             customListItemWidget = CustomListItemWidget()
             customListItemWidget.setTextUp(self.metaDataList[i][0])
             customListItemWidget.setTextDown(getBandName(self.metaDataList[i][1]))
-
-            if (self.metaDataList[i][15] == None):
-                customListItemWidget.setIcon("themes/default/img/artworkNotFound.png")
-            else:
-                if platform.system() == "Windows":
-                    pathToImg = self.metaDataList[i][15][8::]
-                elif platform.system() == "Linux":
-                    pathToImg = self.metaDataList[i][15][7::]
-                pathToImg = pathToImg.replace("%20", " ")
-                print(pathToImg)
-                customListItemWidget.setIcon(pathToImg)
+            customListItemWidget.setIcon(getArtworkPath(self.metaDataList[i]))
 
             customListItemWidget.setPath(pathFiles[i])
 

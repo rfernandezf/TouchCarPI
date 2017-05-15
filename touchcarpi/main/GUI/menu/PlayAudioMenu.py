@@ -21,6 +21,7 @@ from PyQt5.QtWidgets import *
 from DB.RAM_DB import RAM_DB
 from model.AudioController import AudioController
 from model.AudioStatus import AudioStatus
+from util.UtilityFunctions import getArtworkPath
 
 from ..widgets.buttons.PlayAudioMenu.Button_Next_PAM import Button_Next_PAM
 from ..widgets.CustomLabel import CustomLabel
@@ -70,12 +71,26 @@ class PlayAudioMenu(QWidget):
         verticalBoxLayout = QVBoxLayout()
         hRepTimeBox = QHBoxLayout()
         hRepButtonsBox = QHBoxLayout()
+        hImageBox = QHBoxLayout()
         hButtonsMenuBox = QHBoxLayout()
 
         verticalBoxLayout.setContentsMargins(0, 0, 0, 0)
         verticalBoxLayout.addStretch()
+
         verticalBoxLayout.addStretch()
         verticalBoxLayout.addWidget(self.textLabel)
+        verticalBoxLayout.addStretch()
+
+        hImageBox.addStretch()
+        self.imgQLabel = QLabel()
+        self.imgQLabel.setMaximumHeight(150)
+        self.imgQLabel.setMaximumWidth(150)
+        self.imgQLabel.setPixmap(QPixmap(getArtworkPath(self.metaDataList[self.db.getSelection()])).scaled(150, 150))
+        hImageBox.addWidget(self.imgQLabel)
+        hImageBox.addStretch()
+        verticalBoxLayout.addLayout(hImageBox)
+
+        verticalBoxLayout.addStretch()
 
         hRepTimeBox.addWidget(self.actualTimeLabel)
         hRepTimeBox.addStretch()
@@ -154,6 +169,7 @@ class PlayAudioMenu(QWidget):
             self.textLabel.setText(titleText)
             self.totalTimeLabel.setText(strMinutes + ":" + strSeconds)
             self.timeSlider.setMaximum(arg2[16])
+            self.imgQLabel.setPixmap(QPixmap(getArtworkPath(self.metaDataList[self.db.getSelection()])).scaled(150, 150))
             self.playButton.hide()
             self.pauseButton.show()
 

@@ -13,6 +13,7 @@
 #   Description: A tiny library with utility functions used by some classes
 # *************************************************************************************************************
 
+import platform
 
 def getBandName(metaData):
     """
@@ -28,3 +29,17 @@ def getBandName(metaData):
         value = metaData
 
     return value
+
+def getArtworkPath(metaData):
+    path = []
+
+    if (metaData[15] == None):
+        path = "themes/default/img/artworkNotFound.png"
+    else:
+        if platform.system() == "Windows":
+            path = metaData[15][8::]
+        elif platform.system() == "Linux":
+            path = metaData[15][7::]
+        path = path.replace("%20", " ")
+
+    return path

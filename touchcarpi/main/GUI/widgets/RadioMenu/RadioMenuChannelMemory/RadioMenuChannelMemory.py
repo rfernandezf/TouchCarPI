@@ -19,8 +19,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from DB.RAM_DB import RAM_DB
-from ..CustomLabel import CustomLabel
-from ..buttons.PlayRadioMenu.Button_Memory_PRM import Button_Memory_PRM
+from ....widgets.CustomLabel import CustomLabel
+from ....widgets.buttons.PlayRadioMenu.Button_Memory_PRM import Button_Memory_PRM
 
 class RadioMenuChannelMemory (QWidget):
     """

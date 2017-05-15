@@ -51,10 +51,10 @@ class PlayAudioMenu(QWidget):
         self.db = RAM_DB()
 
         backButton = Button_Back_PAM(self.controller).createButton(269, 100)
-        self.playButton = Button_Play_PAM(self.controller).createButton(50, 50)
-        self.pauseButton = Button_Pause_PAM(self.controller).createButton(50, 50)
-        nextButton = Button_Next_PAM(self.controller).createButton(50, 50)
-        previousButton = Button_Previous_PAM(self.controller).createButton(50, 50)
+        self.playButton = Button_Play_PAM(self.controller).createButton(60, 60)
+        self.pauseButton = Button_Pause_PAM(self.controller).createButton(60, 60)
+        nextButton = Button_Next_PAM(self.controller).createButton(60, 60)
+        previousButton = Button_Previous_PAM(self.controller).createButton(60, 60)
 
         (self.fileName, self.pathFiles, self.metaDataList) = self.db.getAudioDB()
         path = self.pathFiles[self.db.getSelection()]

@@ -49,6 +49,6 @@ class Button_Radio_MM():
         :return: Created button object.
         """
 
-        button = PicButton(QPixmap("themes/default/img/music_mm.png"), QPixmap("themes/default/img/music_mm_pressed.png"), sizeX, sizeY, "", self.onClick)
+        button = PicButton(QPixmap("themes/default/img/radio_mm.png"), QPixmap("themes/default/img/radio_mm_pressed.png"), sizeX, sizeY, "", self.onClick)
 
         return button

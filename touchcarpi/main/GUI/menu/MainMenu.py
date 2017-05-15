@@ -18,14 +18,11 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from model.AudioController import AudioController
 
+from ..widgets.MainMenu.MainMenuAudioWidget.MainMenuAudioWidget import MainMenuAudioWidget
+from ..widgets.MainMenu.MainMenuButtonsWidget.MainMenuButtonsWidget import MainMenuButtonsWidget
 
-from ..widgets.CustomLabel import CustomLabel
-from ..widgets.buttons.MainMenu.Button_Music_MM import Button_Music_MM
-from ..widgets.buttons.MainMenu.Button_Options_MM import Button_Options_MM
-from ..widgets.buttons.MainMenu.Button_Radio_MM import Button_Radio_MM
 from ..widgets.buttons.MainMenu.Button_POff_MM import Button_POff_MM
-from ..widgets.MainMenuAudioWidget.MainMenuAudioWidget import MainMenuAudioWidget
-
+from ..widgets.buttons.MainMenu.Button_Options_MM import Button_Options_MM
 
 class MainMenu(QWidget):
     """
@@ -44,19 +41,16 @@ class MainMenu(QWidget):
         audioController = AudioController()
         optionsButton = Button_Options_MM(controller).createButton(269, 100)
         poffButton = Button_POff_MM().createButton(269, 100)
-        musicMenuLabel = CustomLabel().createLabel("Música      ", Qt.AlignCenter)
-        musicMenuButton = Button_Music_MM(controller).createButton(80, 80)
-        radioMenuLabel = CustomLabel().createLabel("Radio  ", Qt.AlignCenter)
-        radioMenuButton = Button_Radio_MM(controller).createButton(80, 80)
+
         mainMenuAudioWidget = MainMenuAudioWidget()
+        mainMenuButtonsWidget = MainMenuButtonsWidget(controller)
+
         # Observer
         audioController.register(mainMenuAudioWidget)
 
         # Setting the layouts
         verticalBoxLayout = QVBoxLayout()
         hMainMenuTopWidgets = QHBoxLayout()
-        hAppsMenuBox = QHBoxLayout()
-        hLabelMenuBox = QHBoxLayout()
         hButtonsMenuBox = QHBoxLayout()
 
         verticalBoxLayout.setContentsMargins(0, 0, 0, 0)
@@ -68,20 +62,7 @@ class MainMenu(QWidget):
         verticalBoxLayout.addLayout(hMainMenuTopWidgets)
         verticalBoxLayout.addStretch()
 
-        hAppsMenuBox.addStretch()
-        hAppsMenuBox.addWidget(musicMenuButton)
-        hAppsMenuBox.addStretch()
-        hAppsMenuBox.addWidget(radioMenuButton)
-        hAppsMenuBox.addStretch()
-        verticalBoxLayout.addLayout(hAppsMenuBox)
-
-        hLabelMenuBox.addStretch()
-        hLabelMenuBox.addWidget(musicMenuLabel)
-        hLabelMenuBox.addStretch()
-        hLabelMenuBox.addWidget(radioMenuLabel)
-        hLabelMenuBox.addStretch()
-
-        verticalBoxLayout.addLayout(hLabelMenuBox)
+        verticalBoxLayout.addWidget(mainMenuButtonsWidget)
         verticalBoxLayout.addStretch()
 
         hButtonsMenuBox.addWidget(optionsButton)

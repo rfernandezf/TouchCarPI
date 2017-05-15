@@ -17,11 +17,12 @@ from abc import ABCMeta, abstractmethod
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from ..CustomLabel import CustomLabel
-from ..buttons.MainMenu.Button_Play_MM import Button_Play_MM
-from ..buttons.MainMenu.Button_Pause_MM import Button_Pause_MM
-from ..buttons.MainMenu.Button_Previous_MM import Button_Previous_MM
-from ..buttons.MainMenu.Button_Next_MM import Button_Next_MM
+
+from ....widgets.CustomLabel import CustomLabel
+from ....widgets.buttons.MainMenu.Button_Play_MM import Button_Play_MM
+from ....widgets.buttons.MainMenu.Button_Pause_MM import Button_Pause_MM
+from ....widgets.buttons.MainMenu.Button_Previous_MM import Button_Previous_MM
+from ....widgets.buttons.MainMenu.Button_Next_MM import Button_Next_MM
 from model.AudioController import AudioController
 from model.AudioStatus import AudioStatus
 
@@ -39,10 +40,10 @@ class MainMenuAudioWidget (QWidget):
 
         super(MainMenuAudioWidget, self).__init__(parent)
 
-        self.playButton = Button_Play_MM().createButton(50, 50)
-        self.pauseButton = Button_Pause_MM().createButton(50, 50)
-        nextButton = Button_Next_MM().createButton(50, 50)
-        previousButton = Button_Previous_MM().createButton(50, 50)
+        self.playButton = Button_Play_MM().createButton(60, 60)
+        self.pauseButton = Button_Pause_MM().createButton(60, 60)
+        nextButton = Button_Next_MM().createButton(60, 60)
+        previousButton = Button_Previous_MM().createButton(60, 60)
         audioController = AudioController()
         self.audioObject = audioController.getAudioObject()
 

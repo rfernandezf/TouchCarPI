@@ -15,19 +15,18 @@
 
 from abc import ABCMeta, abstractmethod
 
+from DB.RAM_DB import RAM_DB
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
-
 from model.AudioController import AudioController
-from DB.RAM_DB import RAM_DB
 
+from ..widgets.RadioMenu.RadioMenuChannelMemory.RadioMenuChannelMemory import RadioMenuChannelMemory
+from ..widgets.CustomLabel import CustomLabel
 from ..widgets.buttons.PlayRadioMenu.Button_Back_PRM import Button_Back_PRM
-from ..widgets.buttons.PlayRadioMenu.Button_Upfreq_PRM import Button_Upfreq_PRM
 from ..widgets.buttons.PlayRadioMenu.Button_Downfreq_PRM import Button_Downfreq_PRM
 from ..widgets.buttons.PlayRadioMenu.Button_SeekBack_PRM import Button_SeekBack_PRM
 from ..widgets.buttons.PlayRadioMenu.Button_SeekForward_PRM import Button_SeekForward_PRM
-from ..widgets.CustomLabel import CustomLabel
-from ..widgets.RadioMenuChannelMemory.RadioMenuChannelMemory import RadioMenuChannelMemory
+from ..widgets.buttons.PlayRadioMenu.Button_Upfreq_PRM import Button_Upfreq_PRM
 
 
 class PlayRadioMenu(QWidget):

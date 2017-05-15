@@ -37,8 +37,8 @@ class MainMenuButtonsWidget (QWidget):
 
         menuButtons.append(Button_Music_MM(controller).createButton(90, 90))
         menuButtons.append(Button_Radio_MM(controller).createButton(90, 90))
-        labelsMenuButtons.append(CustomLabel().createLabel("Música", Qt.AlignCenter))
-        labelsMenuButtons.append(CustomLabel().createLabel("Radio", Qt.AlignCenter))
+        labelsMenuButtons.append(CustomLabel().createLabel("Música", Qt.AlignCenter, 13))
+        labelsMenuButtons.append(CustomLabel().createLabel("Radio", Qt.AlignCenter, 13))
 
         hButtonBarBox = QHBoxLayout()
 

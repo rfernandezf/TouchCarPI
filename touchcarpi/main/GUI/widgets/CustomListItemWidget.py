@@ -15,8 +15,9 @@
 # *************************************************************************************************************
 
 
-from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 
 class CustomListItemWidget (QWidget):
     """
@@ -104,4 +105,4 @@ class CustomListItemWidget (QWidget):
         :param imagePath: Full path to the icon.
         """
 
-        self.iconQLabel.setPixmap(QPixmap(imagePath))
+        self.iconQLabel.setPixmap(QPixmap(imagePath).scaled(70, 70))

@@ -51,7 +51,7 @@ class MainMenuAudioWidget (QWidget):
         hRepButtonsBox = QHBoxLayout()
 
         verticalBoxLayout.addStretch()
-        self.textLabel = CustomLabel().createLabel("Sin medios de reproducción", Qt.AlignCenter)
+        self.textLabel = CustomLabel().createLabel("Sin medios de reproducción", Qt.AlignCenter, 13)
         verticalBoxLayout.addWidget(self.textLabel)
         verticalBoxLayout.addStretch()
 

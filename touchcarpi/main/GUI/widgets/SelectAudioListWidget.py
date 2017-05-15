@@ -14,6 +14,7 @@
 #   of songs and allows you to choose one to be reproduced.
 # *************************************************************************************************************
 
+import platform
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -49,7 +50,18 @@ class SelectAudioListWidget(QListWidget):
             customListItemWidget = CustomListItemWidget()
             customListItemWidget.setTextUp(self.metaDataList[i][0])
             customListItemWidget.setTextDown(getBandName(self.metaDataList[i][1]))
-            customListItemWidget.setIcon("themes/default/img/headphones.png")
+
+            if (self.metaDataList[i][15] == None):
+                customListItemWidget.setIcon("themes/default/img/artworkNotFound.png")
+            else:
+                if platform.system() == "Windows":
+                    pathToImg = self.metaDataList[i][15][8::]
+                elif platform.system() == "Linux":
+                    pathToImg = self.metaDataList[i][15][7::]
+                pathToImg = pathToImg.replace("%20", " ")
+                print(pathToImg)
+                customListItemWidget.setIcon(pathToImg)
+
             customListItemWidget.setPath(pathFiles[i])
 
             item = QListWidgetItem()

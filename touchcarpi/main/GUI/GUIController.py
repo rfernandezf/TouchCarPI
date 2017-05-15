@@ -65,8 +65,6 @@ class GUIController(object):
         elif (menuname == "SelectAudioMenu"):
             self.db.setCurrentMenu("SelectAudioMenu")
             self.selectAudioMenuWidget = SelectAudioMenu(self)
-            #Observer pattern register
-            self.audioController.register(self.selectAudioMenuWidget)
             self.centralWidget.addWidget(self.selectAudioMenuWidget)
             self.centralWidget.setCurrentWidget(self.selectAudioMenuWidget)
 

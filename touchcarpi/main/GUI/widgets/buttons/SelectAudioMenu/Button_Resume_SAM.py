@@ -53,6 +53,6 @@ class Button_Resume_SAM():
         :return: Created button object.
         """
 
-        button = PicButton(QPixmap("themes/default/img/MenuButton_R.png"), QPixmap("themes/default/img/MenuButton_R_Pressed.png"), sizeX, sizeY, "Reprocccsión actual", self.onClick)
+        button = PicButton(QPixmap("themes/default/img/MenuButton_R.png"), QPixmap("themes/default/img/MenuButton_R_Pressed.png"), sizeX, sizeY, "Reanudar", self.onClick)
 
         return button

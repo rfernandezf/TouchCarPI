@@ -287,17 +287,14 @@ class SI4703:
 
     def __stopRadioThread(self):
         ticket = self.__getTicket()
-        print("NUEVO TICKET STOP: " + str(ticket) + " CURRENT: " + str(self.currentTicket))
 
         while not (self.lock == 0 and ticket == self.currentTicket):
             time.sleep(0.2)
 
         if (self.lock == 0 and ticket == self.currentTicket):
-            print("ENTRO EN STOP")
             self.lock = 1
             try:
                 if (self.status == 1):
-                    print("---------------- STOP RADIO -------------------")
                     # Initial reading to avoid overwrite with the wrong data other bits in other memory banks
                     reg = self.i2c.read_i2c_block_data(self.address, 0, 32)
                     time.sleep(.2)
@@ -306,7 +303,7 @@ class SI4703:
                     list1 = reg[17:28:]
                     list1[9] = 124
                     list1[10] = 4
-                    w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
+                    w6 = self.i2c.write_i2c_block_data(self.address, 0, list1)
                     time.sleep(.2)
 
                     # Write 002A to 04h (Sets GPIO1/2/3 to low to reduce the current consumption)
@@ -315,7 +312,7 @@ class SI4703:
                     list1 = reg[17:22:]
                     list1[3] = 0
                     list1[4] = 42
-                    w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
+                    w6 = self.i2c.write_i2c_block_data(self.address, 0, list1)
                     time.sleep(.2)
 
                     # Write 0041h to 02h
@@ -333,10 +330,7 @@ class SI4703:
                     self.status = 0
 
             except:
-                GPIO.cleanup()
-                # TODO No se modifican los valores del finally. Modificar aquí un flag y volver a llamar a stopRadio
-                # al final del finally en caso de problemas
-                #self.stopRadio()
+                pass
 
             finally:
                 self.currentTicket += 1
@@ -344,6 +338,8 @@ class SI4703:
                 if (self.currentTicket == self.nTickets):
                     self.currentTicket = 0
                     self.nTickets = 0
+                if(self.status == 1):
+                    self.stopRadio()
 
     def getRDSName(self):
         pass

@@ -210,30 +210,33 @@ class AudioController:
                 self.playingRadio = False
 
         def setCurrentFMFrequency(self, frequency):
-            self.currentFMStation = frequency
-            self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
-            self.SI4703.setChannel(self.currentFMStation)
+            if (frequency >= 87.5 and frequency <= 108):
+                self.currentFMStation = frequency
+                self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+                self.SI4703.setChannel(self.currentFMStation)
 
         def getCurrentFMFrequency(self):
             return self.currentFMStation
 
         def getCurrentFMStationName(self):
-            #TODO Cambiar esto por una llamada a la librería
-            return "Test"
+            # TODO We can change this with a call to the library to get the RDS name
+            return str(self.currentFMStation)
 
         def updateRadioObservers(self):
             self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
             self.update_observers("UpdateRadioChannelData", arg1=None, arg2=None)
 
         def nextFrequency(self):
-            self.currentFMStation = round(self.currentFMStation + 0.1, 2)
-            self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
-            self.SI4703.setChannel(self.currentFMStation)
+            if(self.currentFMStation >= 87.5 and self.currentFMStation < 108):
+                self.currentFMStation = round(self.currentFMStation + 0.1, 2)
+                self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+                self.SI4703.setChannel(self.currentFMStation)
 
         def previousFrequency(self):
-            self.currentFMStation = round(self.currentFMStation - 0.1, 2)
-            self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
-            self.SI4703.setChannel(self.currentFMStation)
+            if (self.currentFMStation > 87.5 and self.currentFMStation <= 108):
+                self.currentFMStation = round(self.currentFMStation - 0.1, 2)
+                self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+                self.SI4703.setChannel(self.currentFMStation)
 
         def seekUp(self):
             result = self.SI4703.seekUp()

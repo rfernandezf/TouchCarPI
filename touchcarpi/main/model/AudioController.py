@@ -235,6 +235,16 @@ class AudioController:
             self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
             self.SI4703.setChannel(self.currentFMStation)
 
+        def seekUp(self):
+            result = self.SI4703.seekUp()
+            self.currentFMStation = result
+            self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+
+        def seekDown(self):
+            result = self.SI4703.seekDown()
+            self.currentFMStation = result
+            self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+
 
         def getStatus(self):
             """

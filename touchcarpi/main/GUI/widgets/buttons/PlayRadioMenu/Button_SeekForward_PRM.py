@@ -16,14 +16,16 @@
 
 from PyQt5.QtGui import *
 from ..PicButton import PicButton
+from model.AudioController import AudioController
 
 class Button_SeekForward_PRM():
 
     def __init__(self, controller):
         self.controller = controller
+        self.audioController = AudioController()
 
     def onClick(self, isLongClick = False):
-        print("BUSCA LA SIGUIENTE EMISORA")
+        self.audioController.seekUp()
 
     def createButton(self, sizeX, sizeY):
         button = PicButton(QPixmap("themes/default/img/seekforward_prm.png"), QPixmap("themes/default/img/seekforward_prm_pressed.png"), sizeX, sizeY, "", self.onClick)

@@ -24,6 +24,7 @@ class SI4703:
         self.i2c = smbus.SMBus(1)  # Use 0 for older RasPi
         self.address = 0x10  # Address of SI4703 from I2CDetect utility || i2cdetect -y 1
         self.status = 0
+        self.seekFreq = 0
         # Lock for concurrency
         self.lock = 0
         # Current ticket
@@ -42,17 +43,14 @@ class SI4703:
 
     def __initRadioThread(self):
         ticket = self.__getTicket()
-        print("NUEVO TICKET INIT RADIO: " + str(ticket) + " CURRENT: " + str(self.currentTicket))
 
         while not (self.lock == 0 and ticket == self.currentTicket):
             time.sleep(0.2)
 
         if(self.lock == 0 and ticket == self.currentTicket):
-            print("ENTRO EN INIT")
             self.lock = 1
             try:
                 if(self.status == 0):
-                    print("---------------- INIT RADIO -------------------")
                     GPIO.setmode(GPIO.BCM)  # Board numbering
                     GPIO.setup(23, GPIO.OUT)
                     time.sleep(.2)
@@ -99,13 +97,11 @@ class SI4703:
 
     def __setVolumeThread(self, volume):
         ticket = self.__getTicket()
-        print("NUEVO TICKET VOLUME: " + str(ticket) + " CURRENT: " + str(self.currentTicket))
 
         while not (self.lock == 0 and ticket == self.currentTicket):
             time.sleep(0.2)
 
         if(self.lock == 0 and ticket == self.currentTicket):
-            print("ENTRO EN VOLUME")
             self.lock = 1
             try:
                 if (self.status == 1):
@@ -127,7 +123,6 @@ class SI4703:
 
                     reg = self.i2c.read_i2c_block_data(self.address, 64, 32)
                     time.sleep(.2)
-                    print("VOLUMEN: " + str(reg[17:28:]))
 
             except:
                 GPIO.cleanup()
@@ -145,13 +140,11 @@ class SI4703:
 
     def __setChannelThread(self, channel):
         ticket = self.__getTicket()
-        print("NUEVO TICKET CHANNEL: " + str(ticket) + " CURRENT: " + str(self.currentTicket))
 
         while not (self.lock == 0 and ticket == self.currentTicket):
             time.sleep(0.2)
 
         if (self.lock == 0 and ticket == self.currentTicket):
-            print("ENTRO EN CHANNEL")
             self.lock = 1
             try:
                 if (self.status == 1):
@@ -166,13 +159,117 @@ class SI4703:
                     # Write tune bit and channel to 03h
                     list1 = [1, 128, nc]
                     w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
-                    # TODO LEE EL BIT QUE INDICA QUE YA HA SINTONIZADO PARA NO TENER UNA ESPERA TAN GRANDE
                     time.sleep(1)  # allow tuner to tune
 
                     # Write tune bit to low to clean it to 03h
                     list1 = [1, 0, nc]
                     w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
                     time.sleep(.2)
+
+            except:
+                GPIO.cleanup()
+
+            finally:
+                self.currentTicket += 1
+                self.lock = 0
+                if (self.currentTicket == self.nTickets):
+                    self.currentTicket = 0
+                    self.nTickets = 0
+
+    def __setSeekFrequency(self, freq):
+        self.seekFreq = freq
+
+    def seekUp(self):
+        seekUpThread = threading.Thread(target=self.__seekUpThread)
+        seekUpThread.start()
+        seekUpThread.join()
+        return self.seekFreq
+
+    def __seekUpThread(self):
+        ticket = self.__getTicket()
+
+        while not (self.lock == 0 and ticket == self.currentTicket):
+            time.sleep(0.2)
+
+        if (self.lock == 0 and ticket == self.currentTicket):
+            self.lock = 1
+            try:
+                # Write 4701h to 02h
+                list1 = [1]
+                w6 = self.i2c.write_i2c_block_data(self.address, 71, list1)
+                time.sleep(0.5)
+
+                # Read 0Ah
+                reg = self.i2c.read_i2c_block_data(self.address, 0, 32)
+                time.sleep(.2)
+
+                list1 = reg[:4:]
+                print(list1)
+
+                # Math for re-calculate the tunned channel:
+                freq = list1[3]
+                freq = freq * 20
+                freq = freq + 8750
+                freq = freq / 100
+
+                self.__setSeekFrequency(freq)
+
+                # Write 4001h to 02h
+                list1 = [1]
+                w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
+                time.sleep(.2)
+
+
+            except:
+                GPIO.cleanup()
+
+            finally:
+                self.currentTicket += 1
+                self.lock = 0
+                if (self.currentTicket == self.nTickets):
+                    self.currentTicket = 0
+                    self.nTickets = 0
+
+    def seekDown(self):
+        seekDownThread = threading.Thread(target=self.__seekDownThread)
+        seekDownThread.start()
+        seekDownThread.join()
+        return self.seekFreq
+
+    def __seekDownThread(self):
+        ticket = self.__getTicket()
+
+        while not (self.lock == 0 and ticket == self.currentTicket):
+            time.sleep(0.2)
+
+        if (self.lock == 0 and ticket == self.currentTicket):
+            self.lock = 1
+            try:
+                # Write 4501h to 02h
+                list1 = [1]
+                w6 = self.i2c.write_i2c_block_data(self.address, 69, list1)
+                time.sleep(0.5)
+
+                # Read 0Ah
+                reg = self.i2c.read_i2c_block_data(self.address, 0, 32)
+                time.sleep(.2)
+
+                list1 = reg[:4:]
+                print(list1)
+
+                # Math for re-calculate the tunned channel:
+                freq = list1[3]
+                freq = freq * 20
+                freq = freq + 8750
+                freq = freq / 100
+
+                self.__setSeekFrequency(freq)
+
+                # Write 4001h to 02h
+                list1 = [1]
+                w6 = self.i2c.write_i2c_block_data(self.address, 64, list1)
+                time.sleep(.2)
+
 
             except:
                 GPIO.cleanup()

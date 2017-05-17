@@ -47,6 +47,7 @@ class PlayRadioMenu(QWidget):
 
         self.controller = controller
         audioController = AudioController()
+        audioController.startGUICoolDown(3)
         audioController.initRadio()
         self.db = RAM_DB()
         radioMenuChannelMemoryWidget = RadioMenuChannelMemory()

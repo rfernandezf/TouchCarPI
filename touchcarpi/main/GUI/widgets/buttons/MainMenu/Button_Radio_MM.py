@@ -38,7 +38,6 @@ class Button_Radio_MM():
         """
 
         self.controller.changeToMenu("PlayRadioMenu")
-        pass
 
     def createButton(self, sizeX, sizeY):
         """

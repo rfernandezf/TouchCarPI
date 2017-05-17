@@ -25,7 +25,9 @@ class Button_SeekBack_PRM():
         self.audioController = AudioController()
 
     def onClick(self, isLongClick = False):
-        self.audioController.seekDown()
+        if (self.audioController.getGUICoolDown() == False):
+            self.audioController.startGUICoolDown(1.1)
+            self.audioController.seekDown()
 
     def createButton(self, sizeX, sizeY):
         button = PicButton(QPixmap("themes/default/img/seekback_prm.png"), QPixmap("themes/default/img/seekback_prm_pressed.png"), sizeX, sizeY, "", self.onClick)

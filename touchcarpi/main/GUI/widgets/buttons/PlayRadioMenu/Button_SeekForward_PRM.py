@@ -25,7 +25,9 @@ class Button_SeekForward_PRM():
         self.audioController = AudioController()
 
     def onClick(self, isLongClick = False):
-        self.audioController.seekUp()
+        if (self.audioController.getGUICoolDown() == False):
+            self.audioController.startGUICoolDown(1.1)
+            self.audioController.seekUp()
 
     def createButton(self, sizeX, sizeY):
         button = PicButton(QPixmap("themes/default/img/seekforward_prm.png"), QPixmap("themes/default/img/seekforward_prm_pressed.png"), sizeX, sizeY, "", self.onClick)

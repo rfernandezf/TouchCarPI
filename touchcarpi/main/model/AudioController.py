@@ -20,6 +20,7 @@ from model.AudioStatus import AudioStatus
 from DB.RAM_DB import RAM_DB
 
 from libs.SI4703 import SI4703
+from control.threads.ButtonCoolDownThread import ButtonCoolDownThread
 
 
 class AudioController:
@@ -44,6 +45,7 @@ class AudioController:
             self.SI4703 = SI4703()
             self.playingRadio = False
             self.observers = []
+            self.GUICoolDown = False
 
         ###############################################################################
         #OBSERVER PATTERN
@@ -197,7 +199,7 @@ class AudioController:
 
                 #Init the radio
                 if(self.currentFMStation == None):
-                    self.currentFMStation = 89.5
+                    self.currentFMStation = 92.3
                 self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
                 self.SI4703.initRadio()
                 self.SI4703.setVolume(15)
@@ -247,6 +249,16 @@ class AudioController:
             result = self.SI4703.seekDown()
             self.currentFMStation = result
             self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+
+        def setGUICoolDown(self, state):
+            self.GUICoolDown = state
+
+        def getGUICoolDown(self):
+            return self.GUICoolDown
+
+        def startGUICoolDown(self, ms = 0.5):
+            buttonCoolDownThread = ButtonCoolDownThread(ms, self.setGUICoolDown)
+            buttonCoolDownThread.start()
 
 
         def getStatus(self):

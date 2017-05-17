@@ -24,7 +24,8 @@ class SI4703:
         self.i2c = smbus.SMBus(1)  # Use 0 for older RasPi
         self.address = 0x10  # Address of SI4703 from I2CDetect utility || i2cdetect -y 1
         self.status = 0
-        self.seekFreq = 0
+        self.seekFreq = None
+        self.notifyController = None
         # Lock for concurrency
         self.lock = 0
         # Current ticket
@@ -178,12 +179,13 @@ class SI4703:
 
     def __setSeekFrequency(self, freq):
         self.seekFreq = freq
+        self.notifyController("seekFrequencyChanged", freq)
 
-    def seekUp(self):
+
+    def seekUp(self, notifyController):
+        self.notifyController = notifyController
         seekUpThread = threading.Thread(target=self.__seekUpThread)
         seekUpThread.start()
-        seekUpThread.join()
-        return self.seekFreq
 
     def __seekUpThread(self):
         ticket = self.__getTicket()
@@ -230,11 +232,10 @@ class SI4703:
                     self.currentTicket = 0
                     self.nTickets = 0
 
-    def seekDown(self):
+    def seekDown(self, notifyController):
+        self.notifyController = notifyController
         seekDownThread = threading.Thread(target=self.__seekDownThread)
         seekDownThread.start()
-        seekDownThread.join()
-        return self.seekFreq
 
     def __seekDownThread(self):
         ticket = self.__getTicket()

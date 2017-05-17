@@ -240,15 +240,12 @@ class AudioController:
                 self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
                 self.SI4703.setChannel(self.currentFMStation)
 
+
         def seekUp(self):
-            result = self.SI4703.seekUp()
-            self.currentFMStation = result
-            self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+            self.SI4703.seekUp(self.notifyController)
 
         def seekDown(self):
-            result = self.SI4703.seekDown()
-            self.currentFMStation = result
-            self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+            self.SI4703.seekDown(self.notifyController)
 
         def setGUICoolDown(self, state):
             self.GUICoolDown = state
@@ -284,6 +281,9 @@ class AudioController:
                 self.updateReproductionSecondEvent(var)
             elif (notify == "endOfList"):
                 self.nextTrack()
+            elif (notify == "seekFrequencyChanged"):
+                self.currentFMStation = var
+                self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
 
 
         def __str__(self):

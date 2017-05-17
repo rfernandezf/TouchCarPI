@@ -21,7 +21,8 @@ from DB.RAM_DB import RAM_DB
 
 from libs.SI4703 import SI4703
 from control.threads.ButtonCoolDownThread import ButtonCoolDownThread
-
+from control.threads.ChangeFrequencyThread import ChangeFrequencyThread
+from control.threads.ThreadController import ThreadController
 
 class AudioController:
     """
@@ -46,6 +47,7 @@ class AudioController:
             self.playingRadio = False
             self.observers = []
             self.GUICoolDown = False
+            self.threadController = ThreadController()
 
         ###############################################################################
         #OBSERVER PATTERN
@@ -232,14 +234,20 @@ class AudioController:
             if(self.currentFMStation >= 87.5 and self.currentFMStation < 108):
                 self.currentFMStation = round(self.currentFMStation + 0.1, 2)
                 self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
-                self.SI4703.setChannel(self.currentFMStation)
 
         def previousFrequency(self):
             if (self.currentFMStation > 87.5 and self.currentFMStation <= 108):
                 self.currentFMStation = round(self.currentFMStation - 0.1, 2)
                 self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
-                self.SI4703.setChannel(self.currentFMStation)
 
+        def startChangeFrequencyThread(self):
+            if(self.threadController.getChangeFrequencyThread() != None):
+                self.threadController.getChangeFrequencyThread().stop()
+                self.threadController.setChangeFrequencyThread(None)
+
+            self.changeFrequencyThread = ChangeFrequencyThread(0.5, self.currentFMStation, self.setCurrentFMFrequency, self.startGUICoolDown)
+            self.threadController.setChangeFrequencyThread(self.changeFrequencyThread)
+            self.threadController.getChangeFrequencyThread().start()
 
         def seekUp(self):
             self.SI4703.seekUp(self.notifyController)

@@ -26,8 +26,8 @@ class Button_Upfreq_PRM():
 
     def onClick(self, isLongClick = False):
         if (self.audioController.getGUICoolDown() == False):
-            self.audioController.startGUICoolDown(1.3)
             self.audioController.nextFrequency()
+            self.audioController.startChangeFrequencyThread()
 
     def createButton(self, sizeX, sizeY):
         button = PicButton(QPixmap("themes/default/img/upfreq_prm.png"), QPixmap("themes/default/img/upfreq_prm_pressed.png"), sizeX, sizeY, "", self.onClick)

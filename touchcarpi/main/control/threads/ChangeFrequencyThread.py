@@ -9,24 +9,28 @@
 #
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
-#   Class name: ButtonCoolDownThread.py
-#   Description: This class is a thread runnable class that do a delay for cooldown some buttons of the GUI.
+#   Class name: ChangeFrequencyThread.py
+#   Description: This class is a thread runnable class that allows to switch between frequencies quickly and only tune
+#   the last selected instead of tune all the frequencies between the start and the end.
 # *************************************************************************************************************
 
 import threading
 import time
 
-class ButtonCoolDownThread (threading.Thread):
+class ChangeFrequencyThread (threading.Thread):
     """
-    This class is a thread runnable class that do a delay for cool down some buttons of the GUI.
+    This class is a thread runnable class that allows to switch between frequencies quickly.
     """
 
-    def __init__(self, ms, setGUICoolDown):
+    def __init__(self, ms, freq, setCurrentFMFrequency, startGUICoolDown):
         """
         Constructor of the thread.
         """
+
         self.ms = ms
-        self.setGUICoolDown = setGUICoolDown
+        self.currentFrequency = freq
+        self.setCurrentFMFrequency = setCurrentFMFrequency
+        self.startGUICoolDown = startGUICoolDown
         threading.Thread.__init__(self)
         self._stop = threading.Event()
 
@@ -38,11 +42,13 @@ class ButtonCoolDownThread (threading.Thread):
 
         self._stop.set()
 
+
     def run(self):
         """
         Run method of the thread.
         """
 
-        self.setGUICoolDown(True)
         time.sleep(self.ms)
-        self.setGUICoolDown(False)
+        if(self._stop.isSet() == False):
+            self.startGUICoolDown(1.3)
+            self.setCurrentFMFrequency(self.currentFrequency)

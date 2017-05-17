@@ -29,6 +29,7 @@ class ThreadController:
             """
 
             self.reproductionStatusThread = None
+            self.changeFrequencyThread = None
 
         def setReproductionStatusThread(self, reproductionStatusThread):
             """
@@ -46,6 +47,23 @@ class ThreadController:
             """
 
             return self.reproductionStatusThread
+
+        def setChangeFrequencyThread(self, changeFrequencyThread):
+            """
+            Sets the change frequency thread current instance.
+            :param changeFrequencyThread: Current thread instance.
+            """
+
+            self.changeFrequencyThread = changeFrequencyThread
+
+        def getChangeFrequencyThread(self):
+            """
+            Returns the current change frequency thread instance.
+
+            :return: Instance of a thread.
+            """
+
+            return self.changeFrequencyThread
 
 
         def __str__(self):

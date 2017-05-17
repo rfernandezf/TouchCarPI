@@ -56,12 +56,11 @@ class PlayRadioMenu(QWidget):
 
 
         backButton = Button_Back_PRM(self.controller).createButton(269, 100)
-        self.freqLabel = CustomLabel().createLabel(str(audioController.getCurrentFMFrequency()), Qt.AlignCenter, 30)
+        self.freqLabel = CustomLabel().createLabel(str(audioController.getCurrentFMFrequency()) + " FM", Qt.AlignCenter, 30)
         upFreqButton = Button_Upfreq_PRM(self.controller).createButton(60, 60)
         downFreqButton = Button_Downfreq_PRM(self.controller).createButton(60, 60)
         seekBackButton = Button_SeekBack_PRM(self.controller).createButton(60, 60)
         seekForwardButton = Button_SeekForward_PRM(self.controller).createButton(60, 60)
-
 
         verticalBoxLayout = QVBoxLayout()
         verticalBoxLayout.setContentsMargins(0, 0, 0, 0)
@@ -121,4 +120,4 @@ class PlayRadioMenu(QWidget):
         """
 
         if (args[0] == "UpdateCurrentFMFrequency"):
-            self.freqLabel.setText(str(arg1))
+            self.freqLabel.setText(str(arg1) + " FM")

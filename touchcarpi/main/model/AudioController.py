@@ -265,6 +265,9 @@ class AudioController:
             buttonCoolDownThread = ButtonCoolDownThread(ms, self.setGUICoolDown)
             buttonCoolDownThread.start()
 
+        def getPlayingRadio(self):
+            return self.playingRadio
+
 
         def getStatus(self):
             """

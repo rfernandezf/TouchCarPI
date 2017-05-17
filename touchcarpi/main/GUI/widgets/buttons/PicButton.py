@@ -25,7 +25,7 @@ class PicButton(QAbstractButton):
     Class that creates a customised button using a pair of pics (normal button and pressed button).
     """
 
-    def __init__(self, pixmap, pixmap_pressed, sizeX, sizeY, text, onClick, parent=None):
+    def __init__(self, pixmap, pixmap_pressed, sizeX, sizeY, text, onClick, oppacity = 1.0, parent=None):
         """
         Constructor of the PicButton class.
 
@@ -54,6 +54,7 @@ class PicButton(QAbstractButton):
         self.setStyleSheet("color: rgb(255, 255, 255);")
         self.setFont(font)
         self.buttonTimer = 0
+        self.oppacityLevel = oppacity
 
 
     def checkPressed(self):
@@ -72,6 +73,12 @@ class PicButton(QAbstractButton):
 
         self.onClick(isLongClick)
 
+    def setOppacity(self, oppacity):
+        self.oppacityLevel = oppacity
+
+    def getOppacity(self):
+        return self.oppacityLevel
+
     def paintEvent(self, event):
         """
         Paint event from the QT lib for draw the change of pics.
@@ -84,6 +91,7 @@ class PicButton(QAbstractButton):
             pix = self.pixmap_pressed
 
         painter = QPainter(self)
+        painter.setOpacity(self.oppacityLevel)
         painter.drawPixmap(event.rect(), pix)
         painter.drawText(event.rect(), Qt.AlignCenter, self.text())
 

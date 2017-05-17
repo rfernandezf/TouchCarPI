@@ -38,9 +38,13 @@ class Button_Previous_MM():
         In this case, it switch to the previous song of the list.
         """
 
-        # TODO Añadir funcionalidad radio
-        if (self.audioObject.getStatus() != AudioStatus.NOFILE):
+        if (self.audioObject.getStatus() != AudioStatus.NOFILE and self.audioController.getPlayingRadio() == False):
             self.audioController.previousTrack()
+
+        if(self.audioObject.getStatus() == AudioStatus.NOFILE and self.audioController.getPlayingRadio() == True):
+            if (self.audioController.getGUICoolDown() == False):
+                self.audioController.startGUICoolDown(1.1)
+                self.audioController.seekDown()
 
     def createButton(self, sizeX, sizeY):
         """

@@ -42,6 +42,7 @@ class MainMenuAudioWidget (QWidget):
 
         self.playButton = Button_Play_MM().createButton(60, 60)
         self.pauseButton = Button_Pause_MM().createButton(60, 60)
+
         nextButton = Button_Next_MM().createButton(60, 60)
         previousButton = Button_Previous_MM().createButton(60, 60)
         audioController = AudioController()
@@ -102,6 +103,7 @@ class MainMenuAudioWidget (QWidget):
             self.textLabel.setText(titleText)
             self.playButton.hide()
             self.pauseButton.show()
+            self.pauseButton.setOppacity(1)
 
         elif (args[0] == "AudioPaused"):
             self.playButton.show()
@@ -110,3 +112,7 @@ class MainMenuAudioWidget (QWidget):
         elif (args[0] == "AudioResumed"):
             self.playButton.hide()
             self.pauseButton.show()
+
+        elif (args[0] == "UpdateCurrentFMFrequency"):
+            self.pauseButton.setOppacity(0.5)
+            self.textLabel.setText("Radio: " + str(arg1) + " FM")

@@ -32,13 +32,13 @@ class Button_Pause_MM():
         self.audioController = AudioController()
         self.audioObject = self.audioController.getAudioObject()
 
+
     def onClick(self, isLongClick = False):
         """
         OnClick method. Describes the behaviour of the button when is pressed.
         In this case, it pauses the reproduction.
         """
 
-        # TODO Añadir funcionalidad radio
         if (self.audioObject.getStatus() != AudioStatus.NOFILE):
             self.audioController.pause()
 
@@ -51,7 +51,6 @@ class Button_Pause_MM():
         :return: Created button object.
         """
 
-        #TODO Cambiar gráficos
         button = PicButton(QPixmap("themes/default/img/pause_pam.png"), QPixmap("themes/default/img/pause_pam_pressed.png"), sizeX, sizeY, "", self.onClick)
 
         return button

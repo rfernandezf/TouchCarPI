@@ -38,9 +38,13 @@ class Button_Next_MM():
         In this case, it switch to the next song of the list.
         """
 
-        # TODO Añadir funcionalidad radio
-        if (self.audioObject.getStatus() != AudioStatus.NOFILE):
+        if (self.audioObject.getStatus() != AudioStatus.NOFILE and self.audioController.getPlayingRadio() == False):
             self.audioController.nextTrack()
+
+        if(self.audioObject.getStatus() == AudioStatus.NOFILE and self.audioController.getPlayingRadio() == True):
+            if (self.audioController.getGUICoolDown() == False):
+                self.audioController.startGUICoolDown(1.1)
+                self.audioController.seekUp()
 
     def createButton(self, sizeX, sizeY):
         """

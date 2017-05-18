@@ -101,11 +101,9 @@ class PlayAudioMenu(QWidget):
 
         hRepButtonsBox.addStretch()
         if (self.audioObject.getStatus() == AudioStatus.PAUSED):
-            self.playButton.show()
             self.pauseButton.hide()
         else:
             self.playButton.hide()
-            self.pauseButton.show()
         hRepButtonsBox.addWidget(previousButton)
         hRepButtonsBox.addStretch()
         hRepButtonsBox.addWidget(self.playButton)
@@ -172,20 +170,21 @@ class PlayAudioMenu(QWidget):
             self.totalTimeLabel.setText(strMinutes + ":" + strSeconds)
             self.timeSlider.setMaximum(arg2[16])
             self.imgQLabel.setPixmap(QPixmap(getArtworkPath(self.metaDataList[self.db.getSelection()])).scaled(150, 150))
-            self.playButton.hide()
-            self.pauseButton.show()
+
+            if (self.audioObject.getStatus() == AudioStatus.PAUSED):
+                self.pauseButton.hide()
+                self.playButton.show()
+            else:
+                self.playButton.hide()
+                self.pauseButton.show()
 
         elif (args[0] == "AudioPaused"):
             self.playButton.show()
             self.pauseButton.hide()
 
         elif (args[0] == "AudioResumed"):
-            if(self.audioObject.getStatus() == AudioStatus.PAUSED):
-                self.playButton.show()
-                self.pauseButton.hide()
-            else:
-                self.playButton.hide()
-                self.pauseButton.show()
+            self.playButton.hide()
+            self.pauseButton.show()
 
         elif (args[0] == "UpdateReproductionSecond"):
             minutes = round((arg1 // 1000) // 60)

@@ -61,7 +61,7 @@ class AudioFile:
             """
 
             self.audioFileObject.pauseAudio()
-            self.status == AudioStatus.PAUSED
+            self.status = AudioStatus.PAUSED
 
         def resumeAudio(self, savedSecond):
             """

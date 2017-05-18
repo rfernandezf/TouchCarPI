@@ -106,6 +106,8 @@ class MainMenuAudioWidget (QWidget):
             self.playButton.hide()
             self.pauseButton.show()
             self.pauseButton.setOppacity(1)
+            self.nextButton.setOppacity(1)
+            self.previousButton.setOppacity(1)
 
         elif (args[0] == "AudioPaused"):
             self.playButton.show()

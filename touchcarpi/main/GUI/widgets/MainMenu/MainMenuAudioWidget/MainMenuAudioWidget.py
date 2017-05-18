@@ -39,14 +39,16 @@ class MainMenuAudioWidget (QWidget):
         """
 
         super(MainMenuAudioWidget, self).__init__(parent)
-
         self.playButton = Button_Play_MM().createButton(60, 60)
         self.pauseButton = Button_Pause_MM().createButton(60, 60)
+        self.pauseButton.setOppacity(0.3)
 
-        nextButton = Button_Next_MM().createButton(60, 60)
-        previousButton = Button_Previous_MM().createButton(60, 60)
-        audioController = AudioController()
-        self.audioObject = audioController.getAudioObject()
+        self.nextButton = Button_Next_MM().createButton(60, 60)
+        self.nextButton.setOppacity(0.3)
+        self.previousButton = Button_Previous_MM().createButton(60, 60)
+        self.previousButton.setOppacity(0.3)
+        self.audioController = AudioController()
+        self.audioObject = self.audioController.getAudioObject()
 
         verticalBoxLayout = QVBoxLayout()
         hRepButtonsBox = QHBoxLayout()
@@ -61,12 +63,12 @@ class MainMenuAudioWidget (QWidget):
             self.pauseButton.hide()
         else:
             self.playButton.hide()
-        hRepButtonsBox.addWidget(previousButton)
+        hRepButtonsBox.addWidget(self.previousButton)
         hRepButtonsBox.addStretch()
         hRepButtonsBox.addWidget(self.playButton)
         hRepButtonsBox.addWidget(self.pauseButton)
         hRepButtonsBox.addStretch()
-        hRepButtonsBox.addWidget(nextButton)
+        hRepButtonsBox.addWidget(self.nextButton)
         hRepButtonsBox.addStretch()
 
         verticalBoxLayout.addLayout(hRepButtonsBox)
@@ -114,5 +116,16 @@ class MainMenuAudioWidget (QWidget):
             self.pauseButton.show()
 
         elif (args[0] == "UpdateCurrentFMFrequency"):
-            self.pauseButton.setOppacity(0.5)
+            self.playButton.hide()
+            self.pauseButton.show()
+            self.pauseButton.setOppacity(0.3)
             self.textLabel.setText("Radio: " + str(arg1) + " FM")
+
+        elif (args[0] == "CoolDownStarted"):
+            self.nextButton.setOppacity(0.3)
+            self.previousButton.setOppacity(0.3)
+
+
+        elif (args[0] == "CoolDownEnded"):
+            self.nextButton.setOppacity(1)
+            self.previousButton.setOppacity(1)

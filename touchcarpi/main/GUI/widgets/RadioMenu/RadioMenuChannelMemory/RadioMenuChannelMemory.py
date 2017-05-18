@@ -19,6 +19,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from DB.RAM_DB import RAM_DB
+from model.AudioController import AudioController
 from ....widgets.CustomLabel import CustomLabel
 from ....widgets.buttons.PlayRadioMenu.Button_Memory_PRM import Button_Memory_PRM
 
@@ -37,12 +38,15 @@ class RadioMenuChannelMemory (QWidget):
         super(RadioMenuChannelMemory, self).__init__(parent)
 
         self.db = RAM_DB()
+        audioController = AudioController()
         radioChannels = self.db.getRadioChannels()
 
-        memoryButtons = []
+        self.memoryButtons = []
         self.labelsMemoryButtons = []
         for i in range(0, 9):
-            memoryButtons.append(Button_Memory_PRM(i).createButton(60, 60))
+            self.memoryButtons.append(Button_Memory_PRM(i).createButton(60, 60))
+            if (audioController.getPlayingRadio() == False or audioController.getGUICoolDown() == True):
+                self.memoryButtons[i].setOppacity(0.3)
 
         for i in range(0, 9):
             if (radioChannels[i] == None):
@@ -57,12 +61,12 @@ class RadioMenuChannelMemory (QWidget):
 
         hButtonBarBox.addStretch()
 
-        for i in range(0, len(memoryButtons)):
+        for i in range(0, len(self.memoryButtons)):
             vButtonBox = QVBoxLayout()
             hMemoryButtonBox = QHBoxLayout()
 
             hMemoryButtonBox.addStretch()
-            hMemoryButtonBox.addWidget(memoryButtons[i])
+            hMemoryButtonBox.addWidget(self.memoryButtons[i])
             hMemoryButtonBox.addStretch()
             vButtonBox.addLayout(hMemoryButtonBox)
 
@@ -101,3 +105,11 @@ class RadioMenuChannelMemory (QWidget):
             radioChannels = self.db.getRadioChannels()
             for i in range(0, len(self.labelsMemoryButtons)):
                 self.labelsMemoryButtons[i].setText(radioChannels[i][1])
+
+        elif (args[0] == "CoolDownStarted"):
+            for i in range(0, len(self.memoryButtons)):
+                self.memoryButtons[i].setOppacity(0.3)
+
+        elif (args[0] == "CoolDownEnded"):
+            for i in range(0, len(self.memoryButtons)):
+                self.memoryButtons[i].setOppacity(1)

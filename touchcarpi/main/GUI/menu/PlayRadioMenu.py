@@ -47,20 +47,26 @@ class PlayRadioMenu(QWidget):
 
         self.controller = controller
         audioController = AudioController()
-        audioController.startGUICoolDown(3)
-        audioController.initRadio()
         self.db = RAM_DB()
         radioMenuChannelMemoryWidget = RadioMenuChannelMemory()
         # Observer
         audioController.register(radioMenuChannelMemoryWidget)
 
+        self.backButton = Button_Back_PRM(self.controller).createButton(269, 100)
+        self.upFreqButton = Button_Upfreq_PRM(self.controller).createButton(60, 60)
+        self.downFreqButton = Button_Downfreq_PRM(self.controller).createButton(60, 60)
+        self.seekBackButton = Button_SeekBack_PRM(self.controller).createButton(60, 60)
+        self.seekForwardButton = Button_SeekForward_PRM(self.controller).createButton(60, 60)
 
-        backButton = Button_Back_PRM(self.controller).createButton(269, 100)
+        if(audioController.getPlayingRadio() == False or audioController.getGUICoolDown() == True):
+            self.upFreqButton.setOppacity(0.3)
+            self.downFreqButton.setOppacity(0.3)
+            self.seekBackButton.setOppacity(0.3)
+            self.seekForwardButton.setOppacity(0.3)
+
+        audioController.initRadio()
+
         self.freqLabel = CustomLabel().createLabel(str(audioController.getCurrentFMFrequency()) + " FM", Qt.AlignCenter, 30)
-        upFreqButton = Button_Upfreq_PRM(self.controller).createButton(60, 60)
-        downFreqButton = Button_Downfreq_PRM(self.controller).createButton(60, 60)
-        seekBackButton = Button_SeekBack_PRM(self.controller).createButton(60, 60)
-        seekForwardButton = Button_SeekForward_PRM(self.controller).createButton(60, 60)
 
         verticalBoxLayout = QVBoxLayout()
         verticalBoxLayout.setContentsMargins(0, 0, 0, 0)
@@ -72,13 +78,13 @@ class PlayRadioMenu(QWidget):
 
         hMenuBox = QHBoxLayout()
         hMenuBox.addStretch()
-        hMenuBox.addWidget(seekBackButton)
+        hMenuBox.addWidget(self.seekBackButton)
         hMenuBox.addStretch()
-        hMenuBox.addWidget(downFreqButton)
+        hMenuBox.addWidget(self.downFreqButton)
         hMenuBox.addStretch()
-        hMenuBox.addWidget(upFreqButton)
+        hMenuBox.addWidget(self.upFreqButton)
         hMenuBox.addStretch()
-        hMenuBox.addWidget(seekForwardButton)
+        hMenuBox.addWidget(self.seekForwardButton)
         hMenuBox.addStretch()
         verticalBoxLayout.addLayout(hMenuBox)
 
@@ -90,7 +96,7 @@ class PlayRadioMenu(QWidget):
 
         hbox = QHBoxLayout()
 
-        hbox.addWidget(backButton)
+        hbox.addWidget(self.backButton)
         hbox.addStretch()
 
         verticalBoxLayout.addLayout(hbox)
@@ -121,3 +127,15 @@ class PlayRadioMenu(QWidget):
 
         if (args[0] == "UpdateCurrentFMFrequency"):
             self.freqLabel.setText(str(arg1) + " FM")
+
+        elif (args[0] == "CoolDownStarted"):
+            self.upFreqButton.setOppacity(0.3)
+            self.downFreqButton.setOppacity(0.3)
+            self.seekBackButton.setOppacity(0.3)
+            self.seekForwardButton.setOppacity(0.3)
+
+        elif (args[0] == "CoolDownEnded"):
+            self.upFreqButton.setOppacity(1)
+            self.downFreqButton.setOppacity(1)
+            self.seekBackButton.setOppacity(1)
+            self.seekForwardButton.setOppacity(1)

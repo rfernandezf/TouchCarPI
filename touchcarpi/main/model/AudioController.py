@@ -192,7 +192,6 @@ class AudioController:
 
             self.update_observers("UpdateReproductionSecond", arg1=second, arg2=None)
 
-        # TODO De aquí para abajo, todo con la librería
         def initRadio(self):
             if self.playingRadio == False:
                 #STOP the reproduction of Audio
@@ -203,6 +202,7 @@ class AudioController:
                 if(self.currentFMStation == None):
                     self.currentFMStation = 92.3
                 self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
+                self.startGUICoolDown(3)
                 self.SI4703.initRadio()
                 self.SI4703.setVolume(15)
                 self.SI4703.setChannel(self.currentFMStation)
@@ -256,12 +256,16 @@ class AudioController:
             self.SI4703.seekDown(self.notifyController)
 
         def setGUICoolDown(self, state):
+            if(state == False):
+                self.update_observers("CoolDownEnded", arg1=None, arg2=None)
             self.GUICoolDown = state
 
         def getGUICoolDown(self):
             return self.GUICoolDown
 
         def startGUICoolDown(self, ms = 0.5):
+            self.update_observers("CoolDownStarted", arg1=None, arg2=None)
+            print("PENE")
             buttonCoolDownThread = ButtonCoolDownThread(ms, self.setGUICoolDown)
             buttonCoolDownThread.start()
 

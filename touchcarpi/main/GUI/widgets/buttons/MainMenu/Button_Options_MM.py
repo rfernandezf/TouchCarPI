@@ -37,7 +37,7 @@ class Button_Options_MM():
         No functionality jet.
         """
 
-        print("Testing on click")
+        pass
 
     def createButton(self, sizeX, sizeY):
         """

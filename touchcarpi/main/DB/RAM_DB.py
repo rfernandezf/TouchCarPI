@@ -51,7 +51,7 @@ class RAM_DB:
 
             for (dirpath, dirnames, filenames) in os.walk(musicDir):
                 for x in filenames:
-                    if x.endswith(".mp3"):
+                    if x.endswith(".mp3") or x.endswith(".wav"):
                         self.filesInFolder.append(x)
                         self.pathFiles.append(os.path.join(dirpath, x))
 

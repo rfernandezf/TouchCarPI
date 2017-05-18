@@ -112,7 +112,7 @@ class AudioFile:
             :return: Audio object using the appropriate lib.
             """
 
-            if (path.endswith(".mp3")):
+            if (path.endswith(".mp3") or path.endswith(".wav")):
                 audioType = AudioFileVLC(self.notifyAudioController)
 
             return audioType

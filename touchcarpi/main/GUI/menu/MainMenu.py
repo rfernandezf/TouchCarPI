@@ -40,6 +40,7 @@ class MainMenu(QWidget):
 
         audioController = AudioController()
         optionsButton = Button_Options_MM(controller).createButton(269, 100)
+        optionsButton.setOppacity(0.3)
         poffButton = Button_POff_MM().createButton(269, 100)
 
         mainMenuAudioWidget = MainMenuAudioWidget()

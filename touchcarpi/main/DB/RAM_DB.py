@@ -15,6 +15,7 @@
 # *************************************************************************************************************
 
 import os
+import platform
 
 from .MetaDataVLC import MetaDataVLC
 from lxml import etree
@@ -40,7 +41,15 @@ class RAM_DB:
             # Selected song of the list (the number is the index)
             self.selectionIndex = 0
 
-            for (dirpath, dirnames, filenames) in os.walk("Music"):
+            if platform.system() == "Windows":
+                musicDir = str(os.path.expanduser("~\Music"))
+            elif platform.system() == "Linux":
+                print(str(os.path.expanduser("~/Music")))
+                musicDir = str(os.path.expanduser("~/Music"))
+            else:
+                musicDir = "Music"
+
+            for (dirpath, dirnames, filenames) in os.walk(musicDir):
                 for x in filenames:
                     if x.endswith(".mp3"):
                         self.filesInFolder.append(x)
@@ -121,7 +130,7 @@ class RAM_DB:
             result = [None]*9
 
             # Opening the XML
-            xmlFile = etree.parse("RadioChannels.xml").getroot()
+            xmlFile = etree.parse("config/RadioChannels.xml").getroot()
 
 
             for channelItem in xmlFile.findall('channel'):
@@ -138,7 +147,7 @@ class RAM_DB:
             :param name: Name of the new channel.
             """
 
-            xmlFile = etree.parse("RadioChannels.xml").getroot()
+            xmlFile = etree.parse("config/RadioChannels.xml").getroot()
 
             for channelItem in xmlFile.findall('channel'):
                 if(int(channelItem.get("id")) == id):
@@ -150,7 +159,7 @@ class RAM_DB:
                                      xml_declaration=True)
 
             try:
-                with open("RadioChannels.xml", "wb") as xml_writer:
+                with open("config/RadioChannels.xml", "wb") as xml_writer:
                     xml_writer.write(obj_xml)
             except IOError:
                 print("IOError: Error trying to write into the XML file.")

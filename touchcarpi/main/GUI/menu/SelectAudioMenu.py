@@ -53,7 +53,6 @@ class SelectAudioMenu(QWidget):
         verticalBoxLayout.setContentsMargins(0, 0, 0, 0)
         verticalBoxLayout.addStretch()
 
-        QScroller.grabGesture(selectAudioListWidget, QScroller.LeftMouseButtonGesture)
         hSelectAudioListBox.addStretch()
         hSelectAudioListBox.addWidget(selectAudioListWidget)
         hSelectAudioListBox.addStretch()

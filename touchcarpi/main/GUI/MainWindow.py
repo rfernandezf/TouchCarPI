@@ -31,17 +31,15 @@ class MainWindow(QMainWindow):
         """
 
         super(MainWindow, self).__init__(parent)
-
-        #palette = QPalette()
-        #palette.setBrush(QPalette.Background, QBrush(QPixmap('themes/default/img/background_mm.gif')))
-
-
+        """
+        palette = QPalette()
+        palette.setBrush(QPalette.Background, QBrush(QPixmap('themes/default/img/background_mm.gif')))
+        self.setPalette(palette)
+        """
 
         self.movie = QMovie("themes/default/img/background_mm.gif")
         self.movie.frameChanged.connect(self.repaint)
         self.movie.start()
-
-        #self.setPalette(palette)
 
         self.setWindowTitle("TouchCarPi")
         self.showFullScreen()

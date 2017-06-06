@@ -10,7 +10,7 @@
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
 #   Class name: MainMenuAudioWidget.py
-#   Description: This class provides a customized widget for control the music in the Main Menu.
+#   Description: This class provides a customized widget for control the music & the radio in the Main Menu.
 # *************************************************************************************************************
 
 from abc import ABCMeta, abstractmethod
@@ -28,7 +28,7 @@ from model.AudioStatus import AudioStatus
 
 class MainMenuAudioWidget (QWidget):
     """
-    This class provides a customized widget for control the music in the Main Menu.
+    This class provides a customized widget for control the music & the radio in the Main Menu.
     """
 
     __metaclass__ = ABCMeta

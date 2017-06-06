@@ -58,14 +58,29 @@ class PicButton(QAbstractButton):
 
 
     def checkPressed(self):
+        """
+        Method triggered when the button is pressed. Store the current time (initial time) to check the long click.
+        """
+
         self.buttonTimer = time.time()
         self.update()
 
+
     def checkReleased(self):
+        """
+        Method triggered when the button is released. Store the current time (final time) to check the long click.
+        """
+
         self.buttonTimer = time.time() - self.buttonTimer
         self.update()
 
+
     def checkClick(self):
+        """
+        Method triggered when the button end the click sequence (press-hold-release).
+        Checks if the user have done a long or a short click.
+        """
+
         if(self.buttonTimer > 1):
             isLongClick = True
         else:
@@ -73,11 +88,26 @@ class PicButton(QAbstractButton):
 
         self.onClick(isLongClick)
 
+
     def setOppacity(self, oppacity):
+        """
+        Sets the oppacity (transparency) of the button.
+
+        :param oppacity: Oppacity level in range 0-1.
+        """
+
         self.oppacityLevel = oppacity
 
+
     def getOppacity(self):
+        """
+        Returns the oppacity level of the button.
+
+        :return: Oppacity level of the button in range 0-1.
+        """
+
         return self.oppacityLevel
+
 
     def paintEvent(self, event):
         """

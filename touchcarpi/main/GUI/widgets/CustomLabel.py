@@ -29,6 +29,10 @@ class CustomLabel():
 
         :param text: Text of the label.
         :param align: Align of the label.
+        :param size: Size of the font.
+        :param rcolor: R color of the text in RGB.
+        :param gcolor: G color of the text in RGB.
+        :param bcolor: B color of the text in RGB.
         :return: Label object.
         """
 

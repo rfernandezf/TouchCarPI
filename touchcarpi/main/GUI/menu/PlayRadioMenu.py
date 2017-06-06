@@ -10,7 +10,7 @@
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
 #   Class name: PlayRadioMenu.py
-#   Description: This class creates a custom widget with the Select Audio Menu elements and layout.
+#   Description: This class creates a custom widget with the Play Radio Menu elements and layout.
 # *************************************************************************************************************
 
 from abc import ABCMeta, abstractmethod
@@ -31,7 +31,7 @@ from ..widgets.buttons.PlayRadioMenu.Button_Upfreq_PRM import Button_Upfreq_PRM
 
 class PlayRadioMenu(QWidget):
     """
-    This class creates a custom widget with the Select Audio Menu elements and layout.
+    This class creates a custom widget with the Play Radio Menu elements and layout.
     """
 
     __metaclass__ = ABCMeta

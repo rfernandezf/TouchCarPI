@@ -39,7 +39,6 @@ class AudioController:
 
             self.db = RAM_DB()
             (self.fileName, self.pathFiles, self.metaDataList) = self.db.getAudioDB()
-            #self.path = self.pathFiles[self.db.getSelection()]
             self.path = None
             self.audioObject = AudioFile(self.notifyController)
             self.currentFMStation = None
@@ -193,6 +192,10 @@ class AudioController:
             self.update_observers("UpdateReproductionSecond", arg1=second, arg2=None)
 
         def initRadio(self):
+            """
+            Initialize the radio module if it's stopped.
+            """
+
             if self.playingRadio == False:
                 #STOP the reproduction of Audio
                 if self.audioObject.getStatus() != AudioStatus.NOFILE:
@@ -209,38 +212,75 @@ class AudioController:
                 self.playingRadio = True
 
         def stopRadio(self):
+            """
+            Stops the radio module if it's working.
+            """
+
             if self.playingRadio == True:
                 self.SI4703.stopRadio()
                 self.playingRadio = False
 
         def setCurrentFMFrequency(self, frequency):
+            """
+            Changes the tuned frequency of the radio module.
+
+            :param frequency: New frequency to tune.
+            """
+
             if (frequency >= 87.5 and frequency <= 108):
                 self.currentFMStation = frequency
                 self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
                 self.SI4703.setChannel(self.currentFMStation)
 
         def getCurrentFMFrequency(self):
+            """
+            Returns the current tuned frequency.
+
+            :return currentFMStation: Current tuned frequency.
+            """
+
             return self.currentFMStation
 
         def getCurrentFMStationName(self):
-            # TODO We can change this with a call to the library to get the RDS name
+            """
+            Returns the name of the FM station (actually the frequency as string)
+
+            :return currentFMStation: Current tuned frequency as string.
+            """
+
             return str(self.currentFMStation)
 
         def updateRadioObservers(self):
+            """
+            Update all the observers related to the radio module.
+            """
+
             self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
             self.update_observers("UpdateRadioChannelData", arg1=None, arg2=None)
 
         def nextFrequency(self):
+            """
+            Changes to the next frequency.
+            """
+
             if(self.currentFMStation >= 87.5 and self.currentFMStation < 108):
                 self.currentFMStation = round(self.currentFMStation + 0.1, 2)
                 self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
 
         def previousFrequency(self):
+            """
+            Changes to the previous frequency.
+            """
+
             if (self.currentFMStation > 87.5 and self.currentFMStation <= 108):
                 self.currentFMStation = round(self.currentFMStation - 0.1, 2)
                 self.update_observers("UpdateCurrentFMFrequency", arg1=self.currentFMStation, arg2=None)
 
         def startChangeFrequencyThread(self):
+            """
+            Starts the thread launched when we change between frequencies manually.
+            """
+
             if(self.threadController.getChangeFrequencyThread() != None):
                 self.threadController.getChangeFrequencyThread().stop()
                 self.threadController.setChangeFrequencyThread(None)
@@ -250,26 +290,57 @@ class AudioController:
             self.threadController.getChangeFrequencyThread().start()
 
         def seekUp(self):
+            """
+            Seek up a new FM station.
+            """
+
             self.SI4703.seekUp(self.notifyController)
 
         def seekDown(self):
+            """
+            Seek down a new FM station.
+            """
+
             self.SI4703.seekDown(self.notifyController)
 
         def setGUICoolDown(self, state):
+            """
+            Sets the status of the cooldown of the GUI.
+
+            :param state: State of the cooldown.
+            """
+
             if(state == False):
                 self.update_observers("CoolDownEnded", arg1=None, arg2=None)
             self.GUICoolDown = state
 
         def getGUICoolDown(self):
+            """
+            Returns the state of the cooldown of the GUI.
+
+            :return GUICoolDown: Status of the cooldown of the GUI.
+            """
+
             return self.GUICoolDown
 
         def startGUICoolDown(self, ms = 0.5):
+            """
+            Starts the cooldown of the GUI when the radio module is busy.
+
+            :param ms:  Duration of the cooldown.
+            """
+
             self.update_observers("CoolDownStarted", arg1=None, arg2=None)
-            print("PENE")
             buttonCoolDownThread = ButtonCoolDownThread(ms, self.setGUICoolDown)
             buttonCoolDownThread.start()
 
         def getPlayingRadio(self):
+            """
+            Returns if the radio is being played or not.
+
+            :return playingRadio: Status of the radio.
+            """
+
             return self.playingRadio
 
 

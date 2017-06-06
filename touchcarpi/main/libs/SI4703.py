@@ -34,15 +34,29 @@ class SI4703:
         self.nTickets = 0
 
     def __getTicket(self):
+        """
+        Returns a ticket for the concurrency system.
+
+        :return result: Number of the ticket.
+        """
+
         result = self.nTickets
         self.nTickets += 1
         return result
 
     def initRadio(self):
+        """
+        Method that launch the thread that initialize the radio module.
+        """
+
         initRadioThread = threading.Thread(target=self.__initRadioThread)
         initRadioThread.start()
 
     def __initRadioThread(self):
+        """
+        Method that initialize the GPIO pins and starts the communication through I2C.
+        """
+
         ticket = self.__getTicket()
 
         while not (self.lock == 0 and ticket == self.currentTicket):
@@ -93,10 +107,22 @@ class SI4703:
                     self.nTickets = 0
 
     def setVolume(self, volume):
+        """
+        Method that launch the thread that sets the volume of the radio module.
+
+        :param volume: Volume level (0-15).
+        """
+
         setVolumeThread = threading.Thread(target=self.__setVolumeThread, args=(volume,))
         setVolumeThread.start()
 
     def __setVolumeThread(self, volume):
+        """
+        Method that sets the volume of the radio module.
+
+        :param volume: Volume level (0-15).
+        """
+
         ticket = self.__getTicket()
 
         while not (self.lock == 0 and ticket == self.currentTicket):
@@ -136,10 +162,22 @@ class SI4703:
                     self.nTickets = 0
 
     def setChannel(self, channel):
+        """
+        Method that launch the thread that tune a channel on the radio module.
+
+        :param channel: Channel to tune.
+        """
+
         setChannelThread = threading.Thread(target=self.__setChannelThread, args=(channel,))
         setChannelThread.start()
 
     def __setChannelThread(self, channel):
+        """
+        Method that tune a channel on the radio module.
+
+        :param channel: Channel to tune.
+        """
+
         ticket = self.__getTicket()
 
         while not (self.lock == 0 and ticket == self.currentTicket):
@@ -178,16 +216,32 @@ class SI4703:
                     self.nTickets = 0
 
     def __setSeekFrequency(self, freq):
+        """
+        Private method used to notify to the AudioController of the sought frequency.
+
+        :param freq: Frequency sought.
+        """
+
         self.seekFreq = freq
         self.notifyController("seekFrequencyChanged", freq)
 
 
     def seekUp(self, notifyController):
+        """
+        Method that launch the thread that seek up on the radio module.
+
+        :param notifyController: Method for notify to AudioController.
+        """
+
         self.notifyController = notifyController
         seekUpThread = threading.Thread(target=self.__seekUpThread)
         seekUpThread.start()
 
     def __seekUpThread(self):
+        """
+        Method that seek up on the radio module.
+        """
+
         ticket = self.__getTicket()
 
         while not (self.lock == 0 and ticket == self.currentTicket):
@@ -233,11 +287,21 @@ class SI4703:
                     self.nTickets = 0
 
     def seekDown(self, notifyController):
+        """
+        Method that launch the thread that seek down on the radio module.
+
+        :param notifyController: Method for notify to AudioController.
+        """
+
         self.notifyController = notifyController
         seekDownThread = threading.Thread(target=self.__seekDownThread)
         seekDownThread.start()
 
     def __seekDownThread(self):
+        """
+        Method that seek down on the radio module.
+        """
+
         ticket = self.__getTicket()
 
         while not (self.lock == 0 and ticket == self.currentTicket):
@@ -283,10 +347,18 @@ class SI4703:
                     self.nTickets = 0
 
     def stopRadio(self):
+        """
+        Method that launch the thread that stops the radio module.
+        """
+
         stopRadioThread = threading.Thread(target=self.__stopRadioThread)
         stopRadioThread.start()
 
     def __stopRadioThread(self):
+        """
+        Method that stops the radio module.
+        """
+
         ticket = self.__getTicket()
 
         while not (self.lock == 0 and ticket == self.currentTicket):
@@ -342,8 +414,12 @@ class SI4703:
                 if(self.status == 1):
                     self.stopRadio()
 
-    def getRDSName(self):
-        pass
 
     def getGPIOStatus(self):
+        """
+        Method that returns the GPIO status (activated or not activated)
+
+        :return status: Status of the GPIO communication.
+        """
+
         return self.status

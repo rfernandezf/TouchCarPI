@@ -31,6 +31,14 @@ def getBandName(metaData):
     return value
 
 def getArtworkPath(metaData):
+    """
+    Gets the metaData string of the artwork path and returns a string
+    with the full path depending if the OS is Windows or Linux.
+
+    :param metaData: Original artwork path meta data string.
+    :return: String with the full path depending on the OS.
+    """
+
     path = []
 
     if (metaData[15] == None):

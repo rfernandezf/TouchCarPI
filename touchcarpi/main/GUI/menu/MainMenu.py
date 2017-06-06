@@ -13,8 +13,6 @@
 #   Description: This class creates a custom widget with the Main Menu elements and layout.
 # *************************************************************************************************************
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from model.AudioController import AudioController
 

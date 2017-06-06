@@ -38,7 +38,6 @@ class Button_Play_MM():
         In this case, it resumes the reproduction.
         """
 
-        # TODO Añadir funcionalidad radio
         if (self.audioObject.getStatus() != AudioStatus.NOFILE):
             self.audioController.resume()
 
@@ -51,7 +50,6 @@ class Button_Play_MM():
         :return: Created button object.
         """
 
-        #TODO Cambiar gráfico
         button = PicButton(QPixmap("themes/default/img/play_pam.png"), QPixmap("themes/default/img/play_pam_pressed.png"), sizeX, sizeY, "", self.onClick)
 
         return button

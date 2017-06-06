@@ -14,8 +14,6 @@
 #   of songs and allows you to choose one to be reproduced.
 # *************************************************************************************************************
 
-import platform
-
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from .CustomListItemWidget import CustomListItemWidget

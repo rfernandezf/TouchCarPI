@@ -10,7 +10,7 @@
 # *************************************************************************************************************
 #   Author: Rafael Fernández Flores (@Plata17 at GitHub)
 #   Class name: Button_Next_MM.py
-#   Description: Concrete class of the "Next Track" button from the Main Menu Audio Widget. This class is a
+#   Description: Concrete class of the "Next" button from the Main Menu Audio Widget. This class is a
 #   factory method of a PicButton.
 # *************************************************************************************************************
 
@@ -21,7 +21,7 @@ from model.AudioStatus import AudioStatus
 
 class Button_Next_MM():
     """
-    Concrete class of the "Next Track" button from the Main Menu Audio Widget.
+    Concrete class of the "Next" button from the Main Menu Audio Widget.
     """
 
     def __init__(self):

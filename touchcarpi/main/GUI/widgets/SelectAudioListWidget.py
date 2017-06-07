@@ -40,9 +40,16 @@ class SelectAudioListWidget(QListWidget):
 
         self.itemClicked.connect(self.item_click)
         self.setMinimumSize(QSize(600, 300))
+
         # Those lines are for the kinetic scrolling in the list
         QScroller.grabGesture(self, QScroller.LeftMouseButtonGesture)
+
+        self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
+        self.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel);
+        self.setAutoScroll(False)
+
         self.setStyleSheet("background-color: rgb(255,255,255)")
 
         self.setSelectionMode(QAbstractItemView.NoSelection)

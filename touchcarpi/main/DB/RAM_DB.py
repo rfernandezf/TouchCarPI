@@ -63,12 +63,12 @@ class RAM_DB:
 
             self.currentMenu = "MainMenu"
 
+
         def __sortAudioDBByNames(self):
             """
             Sort all the songs alphabetically by the name of the songs
             """
 
-            #Cambiar el metadato que tenga extension .mp3 para no escribir la extensión
             metaDataNames= []
 
             for i in range(0, len(self.metaDataList)):
@@ -78,6 +78,7 @@ class RAM_DB:
             metaDataNames, self.pathFiles, self.filesInFolder = zip(*sorted(zip(metaDataNames, self.pathFiles, self.filesInFolder)))
             self.metaDataList = sorted(self.metaDataList, key=itemgetter(0))
             print(self.metaDataList)
+
 
         def getArtworkNotFoundPath(self):
             """

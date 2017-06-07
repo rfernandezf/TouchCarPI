@@ -61,6 +61,15 @@ class RAM_DB:
             self.currentMenu = "MainMenu"
 
 
+        def getArtworkNotFoundPath(self):
+            """
+            Returns a string with the path of the artwork not found image.
+            :return: String with the path.
+            """
+
+            return "themes/default/img/artworkNotFound.png"
+
+
         def getAudioDB(self):
             """
             Returns the AudioDB

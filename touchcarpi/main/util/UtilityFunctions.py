@@ -49,5 +49,6 @@ def getArtworkPath(metaData):
         elif platform.system() == "Linux":
             path = metaData[15][7::]
         path = path.replace("%20", " ")
+        path = path.replace("%21", "!")
 
     return path

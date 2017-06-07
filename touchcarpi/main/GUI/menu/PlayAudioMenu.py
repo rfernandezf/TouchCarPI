@@ -85,7 +85,14 @@ class PlayAudioMenu(QWidget):
         self.imgQLabel = QLabel()
         self.imgQLabel.setMaximumHeight(150)
         self.imgQLabel.setMaximumWidth(150)
-        self.imgQLabel.setPixmap(QPixmap(getArtworkPath(self.metaDataList[self.db.getSelection()])).scaled(150, 150))
+
+        self.pixmapCover = QPixmap()
+        loaded = self.pixmapCover.load(getArtworkPath(self.metaDataList[self.db.getSelection()]))
+
+        if (loaded == False):
+            self.pixmapCover.load(self.db.getArtworkNotFoundPath())
+        self.imgQLabel.setPixmap(self.pixmapCover.scaled(150, 150))
+
         hImageBox.addWidget(self.imgQLabel)
         hImageBox.addStretch()
         verticalBoxLayout.addLayout(hImageBox)
@@ -169,7 +176,11 @@ class PlayAudioMenu(QWidget):
             self.textLabel.setText(titleText)
             self.totalTimeLabel.setText(strMinutes + ":" + strSeconds)
             self.timeSlider.setMaximum(arg2[16])
-            self.imgQLabel.setPixmap(QPixmap(getArtworkPath(self.metaDataList[self.db.getSelection()])).scaled(150, 150))
+            loaded = self.pixmapCover.load(getArtworkPath(self.metaDataList[self.db.getSelection()]))
+
+            if (loaded == False):
+                self.pixmapCover.load(self.db.getArtworkNotFoundPath())
+            self.imgQLabel.setPixmap(self.pixmapCover.scaled(150, 150))
 
             if (self.audioObject.getStatus() == AudioStatus.PAUSED):
                 self.pauseButton.hide()

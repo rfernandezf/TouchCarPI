@@ -17,6 +17,8 @@
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+from DB.RAM_DB import RAM_DB
+
 class CustomListItemWidget (QWidget):
     """
     This class provides customized widgets for each element of a list.
@@ -29,6 +31,7 @@ class CustomListItemWidget (QWidget):
 
         super(CustomListItemWidget, self).__init__(parent)
 
+        self.db = RAM_DB()
         self.textQVBoxLayout = QVBoxLayout()
         self.textUpQLabel    = QLabel()
         self.textDownQLabel  = QLabel()
@@ -103,4 +106,13 @@ class CustomListItemWidget (QWidget):
         :param imagePath: Full path to the icon.
         """
 
-        self.iconQLabel.setPixmap(QPixmap(imagePath).scaled(70, 70))
+        pixmapIcon = QPixmap()
+
+        loaded = pixmapIcon.load(imagePath)
+
+        if(loaded == False):
+            pixmapIcon.load(self.db.getArtworkNotFoundPath())
+
+        self.iconQLabel.setPixmap(pixmapIcon.scaled(70,70))
+
+        return loaded

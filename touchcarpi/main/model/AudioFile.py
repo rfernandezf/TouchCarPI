@@ -62,15 +62,17 @@ class AudioFile:
 
             self.audioFileObject.pauseAudio()
             self.status = AudioStatus.PAUSED
-
+        """
         def resumeAudio(self, savedSecond):
-            """
+
             Resumes the current audio, managing it with the appropriate lib.
 
             :param savedSecond: Second from where it resumes the reproduction.
-            """
+
 
             self.audioFileObject.resumeAudio(savedSecond)
+            self.status = AudioStatus.PLAYING
+        """
 
         def resumeAudio(self):
             """
@@ -78,6 +80,7 @@ class AudioFile:
             """
 
             self.audioFileObject.resumeAudio()
+            self.status = AudioStatus.PLAYING
 
         def changeAudioSecond(self, second):
             """

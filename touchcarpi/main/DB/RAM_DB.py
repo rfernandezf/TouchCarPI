@@ -67,6 +67,7 @@ class RAM_DB:
 
             :return: Three lists of strings with all the data:
             """
+
             return (self.filesInFolder, self.pathFiles, self.metaDataList)
 
         def setSelection(self, selectionIndex):
@@ -75,6 +76,7 @@ class RAM_DB:
 
             :param selectionIndex: Index of the song in the list
             """
+
             self.selectionIndex = selectionIndex
 
         def getSelection(self):
@@ -83,6 +85,7 @@ class RAM_DB:
 
             :return: Index of the current song.
             """
+
             return self.selectionIndex
 
         def getIndexByPath(self, pathFile):
@@ -92,6 +95,7 @@ class RAM_DB:
             :param pathFile: Full path of the song.
             :return: Index of the song.
             """
+
             return self.pathFiles.index(pathFile)
 
         def getIndexByFile(self, fileInFolder):
@@ -101,6 +105,7 @@ class RAM_DB:
             :param fileInFolder: File name of the song.
             :return: Index of the song.
             """
+
             return self.filesInFolder.index(fileInFolder)
 
         def getCurrentMenu(self):
@@ -109,6 +114,7 @@ class RAM_DB:
 
             :return: String whith the name of the current menu.
             """
+
             return self.currentMenu
 
         def setCurrentMenu(self, menu):
@@ -117,6 +123,7 @@ class RAM_DB:
 
             :param menu: String with the name of the menu.
             """
+
             self.currentMenu = menu
 
         def getRadioChannels(self):

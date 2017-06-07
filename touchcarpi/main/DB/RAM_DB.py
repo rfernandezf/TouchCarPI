@@ -74,10 +74,8 @@ class RAM_DB:
             for i in range(0, len(self.metaDataList)):
                 metaDataNames.append(self.metaDataList[i][0])
 
-            print(metaDataNames)
             metaDataNames, self.pathFiles, self.filesInFolder = zip(*sorted(zip(metaDataNames, self.pathFiles, self.filesInFolder)))
             self.metaDataList = sorted(self.metaDataList, key=itemgetter(0))
-            print(self.metaDataList)
 
 
         def getArtworkNotFoundPath(self):

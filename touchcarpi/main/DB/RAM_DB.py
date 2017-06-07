@@ -45,7 +45,6 @@ class RAM_DB:
             if platform.system() == "Windows":
                 musicDir = str(os.path.expanduser("~\Music"))
             elif platform.system() == "Linux":
-                print(str(os.path.expanduser("~/Music")))
                 musicDir = str(os.path.expanduser("~/Music"))
             else:
                 musicDir = "Music"

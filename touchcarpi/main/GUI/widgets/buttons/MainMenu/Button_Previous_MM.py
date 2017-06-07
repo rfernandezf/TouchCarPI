@@ -55,7 +55,6 @@ class Button_Previous_MM():
         :return: Created button object.
         """
 
-        #TODO Cambiar gráfico
         button = PicButton(QPixmap("themes/default/img/previous_pam.png"), QPixmap("themes/default/img/previous_pam_pressed.png"), sizeX, sizeY, "", self.onClick)
 
         return button

@@ -52,7 +52,64 @@ class TimeSlider(QWidget):
         self.slider.setMinimum(self.minSize)
         self.slider.setMaximum(self.maxSize)
         self.slider.setValue(self.slideValue)
+        self.slider.setStyleSheet("""
+        QSlider::groove:horizontal {
+        border: 1px solid #bbb;
+        background: white;
+        height: 15px;
+        border-radius: 4px;
+        }
 
+        QSlider::sub-page:horizontal {
+        background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,
+            stop: 0 #FF7A33, stop: 1 #FFAF33);
+        background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,
+            stop: 0 #FF7A33, stop: 1 #FFAF33);
+        border: 1px solid #777;
+        height: 15px;
+        border-radius: 4px;
+        }
+
+        QSlider::add-page:horizontal {
+        background: #fff;
+        border: 1px solid #777;
+        height: 15px;
+        border-radius: 4px;
+        }
+
+        QSlider::handle:horizontal {
+        background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+            stop:0 #FF7A33, stop:1 #FFAF33);
+        border: 1px solid #777;
+        width: 18px;
+        margin-top: -2px;
+        margin-bottom: -2px;
+        border-radius: 4px;
+        }
+
+        QSlider::handle:horizontal:hover {
+        background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+            stop:0 #FF6133, stop:1 #FF8D33);
+        border: 1px solid #444;
+        border-radius: 4px;
+        }
+
+        QSlider::sub-page:horizontal:disabled {
+        background: #bbb;
+        border-color: #999;
+        }
+
+        QSlider::add-page:horizontal:disabled {
+        background: #eee;
+        border-color: #999;
+        }
+
+        QSlider::handle:horizontal:disabled {
+        background: #eee;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        }
+        """)
 
         layout.addWidget(self.slider)
         self.slider.sliderPressed.connect(self.sliderPressed)

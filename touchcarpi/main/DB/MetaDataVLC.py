@@ -79,7 +79,13 @@ class MetaDataVLC:
 
             metaData = []
             for i in range(0, 16):
-                metaData.append(self.media.get_meta(i))
+                if i == 0:
+                    songName = self.media.get_meta(i)
+                    songName = songName.replace(".mp3", "")
+                    songName = songName.replace(".wav", "")
+                    metaData.append(songName)
+                else:
+                    metaData.append(self.media.get_meta(i))
             metaData.append(self.media.get_duration())
             metaDataList.append(metaData)
 

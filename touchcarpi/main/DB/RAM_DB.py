@@ -19,6 +19,7 @@ import platform
 
 from .MetaDataVLC import MetaDataVLC
 from lxml import etree
+from operator import itemgetter
 
 
 class RAM_DB:
@@ -58,8 +59,25 @@ class RAM_DB:
             metaDataVLC = MetaDataVLC(self.pathFiles)
             self.metaDataList = metaDataVLC.getMetaData
 
+            self.__sortAudioDBByNames()
+
             self.currentMenu = "MainMenu"
 
+        def __sortAudioDBByNames(self):
+            """
+            Sort all the songs alphabetically by the name of the songs
+            """
+
+            #Cambiar el metadato que tenga extension .mp3 para no escribir la extensión
+            metaDataNames= []
+
+            for i in range(0, len(self.metaDataList)):
+                metaDataNames.append(self.metaDataList[i][0])
+
+            print(metaDataNames)
+            metaDataNames, self.pathFiles, self.filesInFolder = zip(*sorted(zip(metaDataNames, self.pathFiles, self.filesInFolder)))
+            self.metaDataList = sorted(self.metaDataList, key=itemgetter(0))
+            print(self.metaDataList)
 
         def getArtworkNotFoundPath(self):
             """

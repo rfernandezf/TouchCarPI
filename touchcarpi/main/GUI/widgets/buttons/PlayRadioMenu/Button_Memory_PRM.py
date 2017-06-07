@@ -28,17 +28,16 @@ class Button_Memory_PRM():
         self.audioController = AudioController()
 
     def onClick(self, isLongClick = False):
-        if(self.audioController.getGUICoolDown() == False):
+        if(self.audioController.getGUICoolDown() == False and isLongClick == False):
             self.audioController.startGUICoolDown(1)
-            if(isLongClick == False):
-                # If there's an entry in the XML with memorized channel, we assign it to this button/memory bank
-                if(self.radioChannels[self.buttonId] != None):
-                    self.audioController.setCurrentFMFrequency(self.radioChannels[self.buttonId][0])
-            else:
-                # On long click, we memorize the currently radio channel to this memory bank :)
-                self.db.setRadioChannel(self.buttonId, self.audioController.getCurrentFMFrequency(), self.audioController.getCurrentFMStationName())
-                self.radioChannels = self.db.getRadioChannels()
-                self.audioController.updateRadioObservers()
+            # If there's an entry in the XML with memorized channel, we assign it to this button/memory bank
+            if(self.radioChannels[self.buttonId] != None):
+                self.audioController.setCurrentFMFrequency(self.radioChannels[self.buttonId][0])
+        elif ((self.audioController.getGUICoolDown() == False and isLongClick == True)):
+            # On long click, we memorize the current radio channel to this memory bank :)
+            self.db.setRadioChannel(self.buttonId, self.audioController.getCurrentFMFrequency(), self.audioController.getCurrentFMStationName())
+            self.radioChannels = self.db.getRadioChannels()
+            self.audioController.updateRadioObservers()
 
 
 
